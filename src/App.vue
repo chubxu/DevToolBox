@@ -2,31 +2,35 @@
   <div>
     <el-container style="height: 600px">
       <el-aside width="250px">
-        <el-row>
+        <el-row class="search-input">
           <!-- 搜索框 -->
-          <el-input size="small" placeholder="Type to Search Tools">
+          <el-input placeholder="Type to Search Tools">
             <template #suffix>
               <el-icon><icon-search /></el-icon>
             </template>
           </el-input>
         </el-row>
 
+        <el-divider style="margin: 0"/>
+
         <el-row>
           <!-- all tools button -->
-          <el-button text style="width: 250px; justify-content: left;">
+          <el-button text style="height: 40px; width: 250px; justify-content: left;">
             <template #icon>
               <el-icon><icon-home-filled /></el-icon>
             </template>
-            All Tools
+            <span style="margin-left:5px">
+              All Tools
+            </span>
           </el-button>
         </el-row>
 
-        <el-divider style="margin: 0"/>
+        
 
         <el-menu>
           <el-sub-menu index="1">
             <template #title>
-              <el-icon><icon-refresh /></el-icon>
+              <el-icon :size="14"><icon-refresh /></el-icon>
               <span>Converters</span>
             </template>
             <el-menu-item index="1-1">
@@ -60,8 +64,10 @@
           </el-sub-menu>
         </el-menu>
       </el-aside>
-      <el-main style="overflow-y: hidden;">
-        <el-card shadow="never" style="height: 100%;">
+
+
+      <el-main style="overflow-y: hidden; padding: 0 20px 20px 20px;">
+        <el-card shadow="never" style="height: 100%; background-color: #fffffc ;">
         </el-card>
       </el-main>
     </el-container>
@@ -100,7 +106,12 @@ export default {
   border-right: 0 !important;
 }
 
-.el-row {
+.search-input {
   margin-bottom: 10px;
+}
+
+.el-sub-menu__title {
+  padding-left: 10px !important;
+  height: 40px !important;
 }
 </style>
