@@ -1,11 +1,62 @@
 <template>
-  
+  <div>
+    <el-container style="height: 600px">
+      <el-aside width="250px">
+        <el-menu>
+          <el-sub-menu index="1">
+            <template #title>
+              <el-icon><icon-refresh /></el-icon>
+              <span>Converters</span>
+            </template>
+            <el-menu-item index="1-1">
+              <template #title>
+                <el-icon><icon-refresh /></el-icon>
+                <span>Converters1</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="1-2">
+              <template #title>
+                <el-icon><icon-refresh /></el-icon>
+                <span>Converters2</span>
+              </template>
+            </el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="2">
+            <template #title>
+              <el-icon><icon-menu /></el-icon>
+              <span>Encoders / Decoders</span>
+            </template>
+            <el-menu-item index="2-1">Encoder</el-menu-item>
+            <el-menu-item index="2-2">Decoder</el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="3">
+            <template #title>
+              <el-icon><icon-menu /></el-icon>
+              <span>Formatter</span>
+            </template>
+            <el-menu-item index="3-1">Formatter1</el-menu-item>
+            <el-menu-item index="3-2">Formatter2</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
+      </el-aside>
+      <el-main style="overflow-y: hidden;">
+        <el-card shadow="never" style="height: 100%;">
+        </el-card>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script>
+import {
+  Refresh as IconRefresh,
+  Menu as IconMenu,
+} from '@element-plus/icons-vue'
 export default {
   name: 'App',
   components: {
+    IconMenu,
+    IconRefresh
   }
 }
 </script>
@@ -17,6 +68,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 20px;
+  /* margin-top: 40px; */
+}
+
+.el-menu {
+  border-right: 0 !important;
 }
 </style>
