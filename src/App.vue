@@ -2,6 +2,27 @@
   <div>
     <el-container style="height: 600px">
       <el-aside width="250px">
+        <el-row>
+          <!-- 搜索框 -->
+          <el-input size="small" placeholder="Type to Search Tools">
+            <template #suffix>
+              <el-icon><icon-search /></el-icon>
+            </template>
+          </el-input>
+        </el-row>
+
+        <el-row>
+          <!-- all tools button -->
+          <el-button text style="width: 250px; justify-content: left;">
+            <template #icon>
+              <el-icon><icon-home-filled /></el-icon>
+            </template>
+            All Tools
+          </el-button>
+        </el-row>
+
+        <el-divider style="margin: 0"/>
+
         <el-menu>
           <el-sub-menu index="1">
             <template #title>
@@ -51,12 +72,16 @@
 import {
   Refresh as IconRefresh,
   Menu as IconMenu,
+  Search as IconSearch,
+  HomeFilled as IconHomeFilled,
 } from '@element-plus/icons-vue'
 export default {
   name: 'App',
   components: {
     IconMenu,
-    IconRefresh
+    IconRefresh,
+    IconSearch,
+    IconHomeFilled
   }
 }
 </script>
@@ -73,5 +98,9 @@ export default {
 
 .el-menu {
   border-right: 0 !important;
+}
+
+.el-row {
+  margin-bottom: 10px;
 }
 </style>
