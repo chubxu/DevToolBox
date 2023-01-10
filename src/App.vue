@@ -81,6 +81,7 @@ import {
   Search as IconSearch,
   HomeFilled as IconHomeFilled,
 } from '@element-plus/icons-vue'
+import { menu } from './constants'
 export default {
   name: 'App',
   components: {
@@ -88,7 +89,11 @@ export default {
     IconRefresh,
     IconSearch,
     IconHomeFilled
-  }
+  },
+
+  created() {
+    console.log(menu.sideBarMenu)
+  },
 }
 </script>
 
