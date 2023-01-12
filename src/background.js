@@ -11,7 +11,7 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 // 隐藏菜单栏
-Menu.setApplicationMenu(null)
+// Menu.setApplicationMenu(null)
 
 async function createWindow() {
   // Create the browser window.

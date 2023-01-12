@@ -2,8 +2,8 @@
   <div>
     <el-container style="height: 600px">
       <el-aside width="250px">
+        <!-- 搜索框 -->
         <el-row class="search-input">
-          <!-- 搜索框 -->
           <el-input placeholder="Type to Search Tools">
             <template #suffix>
               <el-icon><icon-search /></el-icon>
@@ -13,8 +13,8 @@
 
         <el-divider style="margin: 0"/>
 
+        <!-- all tools button -->
         <el-row>
-          <!-- all tools button -->
           <el-button text style="height: 40px; width: 250px; justify-content: left;">
             <template #icon>
               <el-icon><icon-home-filled /></el-icon>
@@ -25,44 +25,24 @@
           </el-button>
         </el-row>
 
-        
-
+        <!-- side bar menu -->
         <el-menu>
-          <el-sub-menu index="1">
+          <el-sub-menu v-for="menu in sideBarMenus" :index="menu.index" :key="menu.index">
             <template #title>
-              <el-icon :size="14"><icon-refresh /></el-icon>
-              <span>Converters</span>
+              <el-icon :size="14">
+                <component :is="menu.icon"></component>
+              </el-icon>
+              <span>{{ menu.name }}</span>
             </template>
-            <el-menu-item index="1-1">
-              <template #title>
-                <el-icon><icon-refresh /></el-icon>
-                <span>Converters1</span>
-              </template>
+            <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index">
+              <el-icon :size="14">
+                <component :is="child.icon"></component>
+              </el-icon>
+              <span>{{ child.name }}</span>
             </el-menu-item>
-            <el-menu-item index="1-2">
-              <template #title>
-                <el-icon><icon-refresh /></el-icon>
-                <span>Converters2</span>
-              </template>
-            </el-menu-item>
-          </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon><icon-menu /></el-icon>
-              <span>Encoders / Decoders</span>
-            </template>
-            <el-menu-item index="2-1">Encoder</el-menu-item>
-            <el-menu-item index="2-2">Decoder</el-menu-item>
-          </el-sub-menu>
-          <el-sub-menu index="3">
-            <template #title>
-              <el-icon><icon-menu /></el-icon>
-              <span>Formatter</span>
-            </template>
-            <el-menu-item index="3-1">Formatter1</el-menu-item>
-            <el-menu-item index="3-2">Formatter2</el-menu-item>
           </el-sub-menu>
         </el-menu>
+
       </el-aside>
 
 
@@ -92,8 +72,14 @@ export default {
   },
 
   created() {
-    console.log(menu.sideBarMenu)
+    this.sideBarMenus = menu.sideBarMenus
   },
+
+  data() {
+    return {
+      sideBarMenus: [],
+    }
+  }
 }
 </script>
 

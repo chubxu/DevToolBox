@@ -1,9 +1,19 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+
 // import "tailwindcss/tailwind.css"
 
-createApp(App)
-  .use(ElementPlus)
-  .mount('#app')
+import ElementPlus from 'element-plus'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import 'element-plus/dist/index.css'
+
+const app = createApp(App)
+
+// 注册全局图标
+for(const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  console.log(key)
+  app.component(key, component)
+}
+
+app.use(ElementPlus)
+app.mount('#app')
