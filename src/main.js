@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import { router } from './router/index'
 
 // import "tailwindcss/tailwind.css"
 
@@ -11,9 +12,9 @@ const app = createApp(App)
 
 // 注册全局图标
 for(const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  console.log(key)
   app.component(key, component)
 }
 
 app.use(ElementPlus)
+app.use(router)
 app.mount('#app')

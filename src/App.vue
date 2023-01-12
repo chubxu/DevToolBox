@@ -34,7 +34,7 @@
               </el-icon>
               <span>{{ menu.name }}</span>
             </template>
-            <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index">
+            <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index" :route="routeTest">
               <el-icon :size="14">
                 <component :is="child.icon"></component>
               </el-icon>
@@ -48,6 +48,7 @@
 
       <el-main style="overflow-y: hidden; padding: 0 20px 20px 20px;">
         <el-card shadow="never" style="height: 100%; background-color: #fffffc ;">
+          <router-view></router-view>
         </el-card>
       </el-main>
     </el-container>
@@ -78,6 +79,9 @@ export default {
   data() {
     return {
       sideBarMenus: [],
+      routeTest: { 
+        name: 'ConverterFirst',
+      },
     }
   }
 }

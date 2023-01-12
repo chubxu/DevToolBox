@@ -16,7 +16,8 @@
     "core-js": "^3.8.3",
     "daisyui": "^2.46.1",
     "element-plus": "^2.2.28",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -32,5 +33,6 @@
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4",
     "vue-cli-plugin-electron-builder": "~2.1.1"
-  }
+  },
+  "__npminstall_done": false
 }
