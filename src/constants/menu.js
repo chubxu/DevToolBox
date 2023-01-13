@@ -37,18 +37,13 @@ const sideBarMenus = [
     name: 'Formatter',
     icon: 'Crop',
     index: '3',
-    // children: [
-    //   {
-    //     name: 'Formatter1',
-    //     icon: 'Crop',
-    //     index: '3-1',
-    //   },
-    //   {
-    //     name: 'Formatter2',
-    //     icon: 'Crop',
-    //     index: '3-2',
-    //   }
-    // ],
+    children: [
+      {
+        name: 'JsonFormatter',
+        icon: 'Crop',
+        index: '/JsonFormatter',
+      }
+    ],
   }
 ]
 

@@ -16,6 +16,11 @@ const routes = [
     path: '/ConverterSecond', 
     component: () => import('@/components/ConverterSecond.vue')
   },
+  { 
+    name: 'JsonFormatter',
+    path: '/JsonFormatter', 
+    component: () => import('@/components/JsonFormatter.vue')
+  },
 ]
 
 const router = createRouter({
