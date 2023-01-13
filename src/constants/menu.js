@@ -7,14 +7,12 @@ const sideBarMenus = [
       {
         name: 'Converter1',
         icon: 'Sort',
-        index: '1-1',
-        routerName: 'ConverterFirst',
+        index: '/ConverterFirst',
       },
       {
         name: 'Converter2',
         icon: 'Sort',
-        index: '1-2',
-        routerName: 'ConverterSecond',
+        index: '/ConverterSecond',
       }
     ],
   },

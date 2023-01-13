@@ -1,17 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import ConverterFirst from '../components/ConverterFirst.vue'
-import ConverterSecond from '../components/ConverterSecond.vue'
 
 const routes = [
+  {
+    name: 'AllTools',
+    path: '/', 
+    component: () => import('@/components/AllTools.vue')
+  },
   { 
     name: 'ConverterFirst',
     path: '/ConverterFirst', 
-    component: ConverterFirst 
+    component: () => import('@/components/ConverterFirst.vue') 
   },
   { 
     name: 'ConverterSecond',
     path: '/ConverterSecond', 
-    component: ConverterSecond 
+    component: () => import('@/components/ConverterSecond.vue')
   },
 ]
 

@@ -15,7 +15,7 @@
 
         <!-- all tools button -->
         <el-row>
-          <el-button text style="height: 40px; width: 250px; justify-content: left;">
+          <el-button @click="toAllToolsPage" text style="height: 40px; width: 250px; justify-content: left;">
             <template #icon>
               <el-icon><icon-home-filled /></el-icon>
             </template>
@@ -26,7 +26,7 @@
         </el-row>
 
         <!-- side bar menu -->
-        <el-menu>
+        <el-menu :router="true">
           <el-sub-menu v-for="menu in sideBarMenus" :index="menu.index" :key="menu.index">
             <template #title>
               <el-icon :size="14">
@@ -34,7 +34,7 @@
               </el-icon>
               <span>{{ menu.name }}</span>
             </template>
-            <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index" :route="routeTest">
+            <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index">
               <el-icon :size="14">
                 <component :is="child.icon"></component>
               </el-icon>
@@ -79,10 +79,16 @@ export default {
   data() {
     return {
       sideBarMenus: [],
-      routeTest: { 
-        name: 'ConverterFirst',
-      },
     }
+  },
+
+  methods: {
+    toAllToolsPage() {
+      this.$router.push({
+        name: 'AllTools',
+        path: '/', 
+      })
+    },
   }
 }
 </script>
