@@ -5,19 +5,23 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="7">
-        <span class="input">
+        <el-row class="label">
           Input
-        </span>
-        <div>
-          <el-input v-model="inputData" :rows="22" resize="none" type="textarea" placeholder="Please input"/>
-        </div>
+        </el-row>
+        <el-row>
+          <el-input v-model="inputData" :rows="22"
+                    resize="none" type="textarea" placeholder="Please input"/>
+        </el-row>
       </el-col>
+
       <el-col :span="17">
-        <div>
+        <el-row class="label">
           Output
-        </div>
+        </el-row>
         <div class="vue-json-pretty">
-          <vue-json-pretty :data="inputJsonData" :show-line-number="true" :show-icon="true" />
+          <el-scrollbar>
+            <vue-json-pretty :data="inputJsonData" :show-line-number="true" :show-icon="true" />
+          </el-scrollbar>
         </div>
       </el-col>
     </el-row>
@@ -67,10 +71,11 @@ export default {
 .title {
   font-size: var(--el-font-size-extra-large); 
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
-.input {
-  font-size: var(--el-font-size-base); 
+.label {
+  font-size: var(--el-font-size-base);
+  margin-bottom: 5px;
 }
 .vue-json-pretty {
   border: 1px solid #dcdfe6;

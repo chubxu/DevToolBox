@@ -102,6 +102,20 @@ export default {
   color: #2c3e50;
   /* margin-top: 40px; */
 }
+/* 整个滚动条宽高 */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+/* 滚动条滑块设置 */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 145, 148,.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 145, 148,.4);
+  border-radius: 3px;
+}
 
 .el-menu {
   border-right: 0 !important;
