@@ -16,8 +16,14 @@
 
       <el-col :span="17">
         <el-row class="label">
-          Output
+          <el-col :span="1">Output</el-col>
+          <el-col :span="2" :offset="20">
+            <el-button size="small" style="margin-top: -6px">
+              <el-icon :size="14"><IconCopyDocument /></el-icon> &nbsp;Copy
+            </el-button>
+          </el-col>
         </el-row>
+
         <div class="vue-json-pretty">
           <el-scrollbar>
             <vue-json-pretty :data="inputJsonData" :show-line-number="true" :show-icon="true" />
@@ -31,10 +37,14 @@
 <script>
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
+import {
+  CopyDocument as IconCopyDocument,
+} from '@element-plus/icons-vue'
 
 export default {
   components: {
     VueJsonPretty,
+    IconCopyDocument,
   },
 
   data() {
