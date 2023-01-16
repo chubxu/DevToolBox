@@ -18,7 +18,7 @@
         <el-row class="label">
           <el-col :span="1">Output</el-col>
           <el-col :span="2" :offset="20">
-            <el-button size="small" style="margin-top: -6px">
+            <el-button @click="copyJson" size="small" style="margin-top: -6px">
               <el-icon :size="14"><IconCopyDocument /></el-icon> &nbsp;Copy
             </el-button>
           </el-col>
@@ -40,7 +40,6 @@ import 'vue-json-pretty/lib/styles.css';
 import {
   CopyDocument as IconCopyDocument,
 } from '@element-plus/icons-vue'
-
 export default {
   components: {
     VueJsonPretty,
@@ -54,11 +53,14 @@ export default {
   },
 
   methods: {
+    copyJson() {
+      console.log(this.inputData)
+      window.electronAPI.copyJson(this.inputData)
+    }
   },
 
   computed: {
     inputJsonData() {
-      console.log(this.inputData)
       if (typeof this.inputData === 'string') {
         try {
           let obj = JSON.parse(this.inputData)
