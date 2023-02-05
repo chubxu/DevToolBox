@@ -16,6 +16,7 @@
     "core-js": "^3.8.3",
     "daisyui": "^2.46.1",
     "element-plus": "^2.2.28",
+    "md5": "^2.3.0",
     "vue": "^3.2.13",
     "vue-json-pretty": "^2.2.3",
     "vue-router": "^4.1.6"

@@ -6,6 +6,7 @@
     <el-row>
       <el-card v-for="(tool, index) in toolList" :index="index" :key="index" 
                @click="clickCardToRoute(tool.routerName)"
+               class="all-tools-cards"
                :body-style="{ padding: '0px', width: '160px', height: '220px' }" shadow="hover">
         <img class="all-tools-cards-img" :src="require('@/assets/images/' + tool.imageName)"/>
         <div class="all-tools-cards-desc-title">
@@ -30,7 +31,10 @@ export default {
 
   data() {
     return {
-      toolList: []
+      toolList: [],
+      cardBodyStyle: {
+
+      },
     }
   },
 
@@ -49,6 +53,10 @@ export default {
   font-size: var(--el-font-size-extra-large); 
   font-weight: bold;
   margin-bottom: 24px;
+}
+
+.all-tools-cards {
+  margin-right: 40px;
 }
 
 .all-tools-cards-img {

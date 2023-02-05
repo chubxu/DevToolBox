@@ -19,7 +19,12 @@ const routes = [
   { 
     name: 'JsonFormatter',
     path: '/JsonFormatter', 
-    component: () => import('@/components/JsonFormatter.vue')
+    component: () => import('@/components/formatter/JsonFormatter.vue')
+  },
+  { 
+    name: 'MD5',
+    path: '/MD5', 
+    component: () => import('@/components/encrypt&decrypt/MD5.vue')
   },
 ]
 

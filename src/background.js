@@ -44,10 +44,6 @@ async function createWindow() {
   }
 }
 
-function handleCopyJson(event, json) {
-  clipboard.writeText(json)
-}
-
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
@@ -63,6 +59,14 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
+function handleCopyJson(event, json) {
+  clipboard.writeText(json)
+}
+
+function handleCopyMd5TextDigest(event, md5TextDigest) {
+  clipboard.writeText(md5TextDigest)
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -76,6 +80,7 @@ app.on('ready', async () => {
     }
   }
   ipcMain.on('copy-json', handleCopyJson)
+  ipcMain.on('copy-md5', handleCopyMd5TextDigest)
   createWindow()
 })
 
