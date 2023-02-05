@@ -24,17 +24,17 @@ const sideBarMenus = [
     ],
   },
   {
-    name: 'Converters',
-    icon: 'Sort',
+    name: 'AIGC',
+    icon: 'Cpu',
     index: '3',
-    children: [],
-  },
-  {
-    name: 'Encoders / Decoders',
-    icon: 'ScaleToOriginal',
-    index: '4',
-    children: [],
-  },
+    children: [
+      {
+        name: 'ChatGPT',
+        icon: 'Memo',
+        index: '/ChatGPT',
+      },
+    ],
+  }
   
 ]
 

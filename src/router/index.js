@@ -7,16 +7,6 @@ const routes = [
     component: () => import('@/components/AllTools.vue')
   },
   { 
-    name: 'ConverterFirst',
-    path: '/ConverterFirst', 
-    component: () => import('@/components/ConverterFirst.vue') 
-  },
-  { 
-    name: 'ConverterSecond',
-    path: '/ConverterSecond', 
-    component: () => import('@/components/ConverterSecond.vue')
-  },
-  { 
     name: 'JsonFormatter',
     path: '/JsonFormatter', 
     component: () => import('@/components/formatter/JsonFormatter.vue')
@@ -26,6 +16,11 @@ const routes = [
     path: '/MD5', 
     component: () => import('@/components/encrypt&decrypt/MD5.vue')
   },
+  {
+    name: 'ChatGPT',
+    path: '/ChatGPT', 
+    component: () => import('@/components/aigc/ChatGPT.vue')
+  }
 ]
 
 const router = createRouter({
