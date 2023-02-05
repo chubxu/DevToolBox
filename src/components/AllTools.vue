@@ -1,15 +1,71 @@
 <template>
   <div>
-    all tools
+    <el-row class="title">
+      All Tools
+    </el-row>
+    <el-row>
+      <el-card v-for="(tool, index) in toolList" :index="index" :key="index" 
+               @click="clickCardToRoute(tool.routerName)"
+               :body-style="{ padding: '0px', width: '160px', height: '220px' }" shadow="hover">
+        <img class="all-tools-cards-img" :src="require('@/assets/images/' + tool.imageName)"/>
+        <div class="all-tools-cards-desc-title">
+          <span>{{ tool.title }}</span>
+          <div class="all-tools-cards-desc-content">
+            <span>{{ tool.content }}</span>
+          </div>
+        </div>
+      </el-card>
+    </el-row>
   </div>
 </template>
 
 <script>
+import { toolList } from '@/constants'
 export default {
+  name: 'AllTools',
 
+  created() {
+    this.toolList = toolList.toolList
+  },
+
+  data() {
+    return {
+      toolList: []
+    }
+  },
+
+  methods: {
+    clickCardToRoute(routerName) {
+      this.$router.push({
+        name: routerName
+      })
+    }
+  },
 }
 </script>
 
-<style>
+<style scoped>
+.title {
+  font-size: var(--el-font-size-extra-large); 
+  font-weight: bold;
+  margin-bottom: 24px;
+}
 
+.all-tools-cards-img {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.all-tools-cards-desc-title {
+  padding: 14px; 
+  font-size: smaller; 
+  font-weight: 600; 
+  text-align: left
+}
+
+.all-tools-cards-desc-content {
+  margin-top: 10px;
+  font-size: xx-small; 
+  text-align: left
+}
 </style>
