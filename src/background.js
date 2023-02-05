@@ -20,6 +20,7 @@ async function createWindow() {
     width: 1200,
     height: 650,
     resizable: false, //禁止改变主窗口尺寸
+    icon: path.join(__dirname, '/icon.png'), // 添加icon
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
