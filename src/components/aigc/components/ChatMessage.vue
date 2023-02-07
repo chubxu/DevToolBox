@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div v-if="message.user.username === 'DevplaCalledMe'" class="chat__mymessage" :class="[isSame ? '' : 'chat__first']">
+    <div v-if="message.user.username === 'user'" class="chat__mymessage" :class="[isSame ? '' : 'chat__first']">
       <p class="chat__mymessage__paragraph">{{ message.message }}</p>
+      <div class="chat__message__avartar">
+        <img :src="avatar" alt="" v-if="!isSame" class="chat__yourmessage__img"/>
+      </div>
     </div>
     <div v-else class="chat__yourmessage" :class="[isSame ? '' : 'chat__first']">
       <div class="chat__yourmessage__avartar">
@@ -51,8 +54,13 @@ export default {
 </script>
 
 <style>
+.chat__first {
+  margin-top: 20px;
+}
+
 .chat__mymessage {
   display: flex;
+  flex-direction: row;
   justify-content: right;
   align-items: flex-end;
   margin: 0;
@@ -61,7 +69,7 @@ export default {
 }
 
 .chat__mymessage__paragraph {
-  margin: 0.4rem 0 0 1rem;
+  margin: 0 0 0.4rem 1rem;
   border-radius: 20px 20px 0px 20px;
   max-width: 180px;
   background-color: #bbc4ef;
@@ -70,8 +78,9 @@ export default {
   font-size: 14px;
 }
 
-.chat__first {
-  margin-top: 2rem;
+.chat__message__avartar {
+  width: 40px;
+  margin-left: 1rem;
 }
 
 .chat__yourmessage {

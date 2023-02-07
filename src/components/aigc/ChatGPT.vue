@@ -50,8 +50,8 @@ export default {
       let userMessage = {
         message: this.prompt,
         user: {
-          username: 'DevplaCalledMe',
-          avatar: '',
+          username: 'user',
+          avatar: require('@/assets/images/user-avatar.png'),
         }
       }
       this.messageList.push(userMessage)
@@ -61,7 +61,7 @@ export default {
         message: this.doSendMessageToChatGPT(this.prompt),
         user: {
           userName: 'ChatGPT',
-          avatar: '',
+          avatar: require('@/assets/images/chatgpt.png'),
         }
       }
       this.messageList.push(chatGptMessage)
