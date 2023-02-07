@@ -17,8 +17,8 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1200,
-    height: 650,
+    width: 1400,
+    height: 800,
     resizable: false, //禁止改变主窗口尺寸
     icon: path.join(__dirname, '/icon.png'), // 添加icon
     webPreferences: {

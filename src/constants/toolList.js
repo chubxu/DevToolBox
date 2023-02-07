@@ -1,5 +1,12 @@
 const toolList = [
   {
+    toolName: 'ChatGPT',
+    imageName: 'chatgpt.png',
+    title: 'ChatGPT',
+    content: 'Optimizing Language Models for Dialogue.',
+    routerName: 'ChatGPT',
+  },
+  {
     toolName: 'JsonFormatter',
     imageName: 'json.png',
     title: 'JsonFormatter',
@@ -12,13 +19,6 @@ const toolList = [
     title: 'MD5',
     content: 'MD5 message-digest algorithm.',
     routerName: 'MD5',
-  },
-  {
-    toolName: 'ChatGPT',
-    imageName: 'chatgpt.png',
-    title: 'ChatGPT',
-    content: 'MD5 message-digest algorithm.',
-    routerName: 'ChatGPT',
   },
 ]
 

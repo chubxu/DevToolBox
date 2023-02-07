@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-container style="height: 600px">
+    <el-container style="height: 750px">
       <el-aside width="250px">
         <!-- 搜索框 -->
         <el-row class="search-input">
