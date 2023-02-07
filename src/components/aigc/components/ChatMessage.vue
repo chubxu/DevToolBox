@@ -61,7 +61,7 @@ export default {
 .chat__mymessage {
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  justify-content: flex-end;
   align-items: flex-end;
   margin: 0;
   min-height: 40px;
@@ -70,10 +70,10 @@ export default {
 
 .chat__mymessage__paragraph {
   margin: 0 0 0.4rem 1rem;
-  border-radius: 20px 20px 0px 20px;
+  border-radius: 8px 8px 0px 8px;
   max-width: 180px;
-  background-color: #bbc4ef;
-  color: #ffffff;
+  background-color: #b2e281;
+  color: #292929;
   padding: 0.8rem;
   font-size: 14px;
 }
@@ -115,7 +115,7 @@ export default {
 
 .chat__yourmessage__paragraph {
   margin: 0.4rem 1rem 0 0;
-  border-radius: 0px 20px 20px 20px;
+  border-radius: 0px 8px 8px 8px;
   background-color: #f3f3f3;
   max-width: 180px;
   color: #414141;
