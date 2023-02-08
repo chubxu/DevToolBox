@@ -25,6 +25,7 @@
 
 <script>
 import ChatMessage from "./components/ChatMessage.vue";
+import { Configuration, OpenAIApi } from "openai";
 import {
   Promotion as IconPromotion,
 } from '@element-plus/icons-vue'
@@ -55,7 +56,6 @@ export default {
         }
       }
       this.messageList.push(userMessage)
-      console.log(this.messageList)
 
       let chatGptMessage = {
         message: this.doSendMessageToChatGPT(this.prompt),
@@ -73,6 +73,20 @@ export default {
       console.log(prompt)
       // TODO openai调用
       return 'ChatGPT'
+    },
+
+    async chapGptOpenApi(prompt) {
+      let configuration = new Configuration({
+        apiKey: "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",
+      });
+      let openai = new OpenAIApi(configuration);
+      let response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: prompt,
+        temperature: 0,
+        max_tokens: 7,
+      });
+      return response
     },
 
     scrollToBottom() {
