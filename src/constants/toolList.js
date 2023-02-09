@@ -20,6 +20,13 @@ const toolList = [
     content: 'MD5 message-digest algorithm.',
     routerName: 'MD5',
   },
+  {
+    toolName: 'TimeStamp',
+    imageName: 'clock.png',
+    title: 'TimeStamp',
+    content: 'TimeStamp convert.',
+    routerName: 'TimeStamp',
+  },
 ]
 
 export default {

@@ -1,8 +1,20 @@
 const sideBarMenus = [
   {
+    name: 'AIGC',
+    icon: 'Cpu',
+    index: '1',
+    children: [
+      {
+        name: 'ChatGPT',
+        icon: 'Memo',
+        index: '/ChatGPT',
+      },
+    ],
+  },
+  {
     name: 'Formatter',
     icon: 'Crop',
-    index: '1',
+    index: '2',
     children: [
       {
         name: 'JsonFormatter',
@@ -14,7 +26,7 @@ const sideBarMenus = [
   {
     name: 'Encrypt & Decrypt',
     icon: 'Grid',
-    index: '2',
+    index: '3',
     children: [
       {
         name: 'MD5',
@@ -24,18 +36,17 @@ const sideBarMenus = [
     ],
   },
   {
-    name: 'AIGC',
-    icon: 'Cpu',
-    index: '3',
+    name: 'Convert',
+    icon: 'Grid',
+    index: '4',
     children: [
       {
-        name: 'ChatGPT',
-        icon: 'Memo',
-        index: '/ChatGPT',
+        name: 'TimeStamp',
+        icon: 'Lock',
+        index: '/TimeStamp',
       },
     ],
-  }
-  
+  },
 ]
 
 export default {
