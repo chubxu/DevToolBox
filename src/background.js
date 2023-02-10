@@ -60,12 +60,8 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
-function handleCopyJson(event, json) {
-  clipboard.writeText(json)
-}
-
-function handleCopyMd5TextDigest(event, md5TextDigest) {
-  clipboard.writeText(md5TextDigest)
+function handleCopyAction(event, text) {
+  clipboard.writeText(text)
 }
 
 // This method will be called when Electron has finished
@@ -80,8 +76,7 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  ipcMain.on('copy-json', handleCopyJson)
-  ipcMain.on('copy-md5', handleCopyMd5TextDigest)
+  ipcMain.on('copy', handleCopyAction)
   createWindow()
 })
 

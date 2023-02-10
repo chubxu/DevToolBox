@@ -7,63 +7,81 @@
     </el-row>
 
     <!-- timestamp -> time -->
-    <el-row :gutter="25" class="timestamp-to-time">
-      <el-col :span="6">
-        <span style="font-size: small;">
-          Unix时间戳(Unix timestamp)
-        </span>
-      </el-col>
-      <el-col :span="7">
-        <el-input v-model="inputTimeStamp" @input="inputTimeStampHandler"/>
-        <div class="validate-font" v-if="timestampToTimeValidatedText">{{ timestampToTimeValidatedText }}</div>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="timestampToTimeDefaultSelectedUnit" @change="timestampToTimeDefaultSelectedUnitChangeHandler">
-          <el-option v-for="unit in unitOptions"
-            :key="unit.value"
-            :label="unit.label"
-            :value="unit.value"
-          />
-        </el-select>
-      </el-col>
-      <el-col :span="8">
-        <el-input v-model="convertedTime" readonly/>
-      </el-col>
-    </el-row>
+    <div class="box">
+      <el-row :gutter="25" class="timestamp-to-time">
+        <el-col :span="6">
+          <span style="font-size: small;">
+            Unix时间戳(Unix timestamp)
+          </span>
+        </el-col>
+        <el-col :span="6">
+          <el-input v-model="inputTimeStamp" @input="inputTimeStampHandler" />
+          <div class="validate-font" v-if="timestampToTimeValidatedText">{{ timestampToTimeValidatedText }}</div>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="timestampToTimeDefaultSelectedUnit"
+            @change="timestampToTimeDefaultSelectedUnitChangeHandler">
+            <el-option v-for="unit in unitOptions" :key="unit.value" :label="unit.label" :value="unit.value" />
+          </el-select>
+        </el-col>
+        <el-col :span="6">
+          <el-input v-model="convertedTime" readonly />
+        </el-col>
 
-    <!-- time -> timestamp -->
-    <el-row :gutter="25" class="time-to-timestamp">
-      <el-col :span="6">
-        <span style="font-size: small;">
-          时间(yyyy-MM-DD hh:mm:ss)
-        </span>
-      </el-col>
-      <el-col :span="8">
-        <el-input v-model="inputTime" @input="inputTimeHandler"/>
-        <div class="validate-font" v-if="timesToTimeStampValidatedText">{{ timesToTimeStampValidatedText }}</div>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="timesToTimeStampDefaultSelectedUnit"  @change="timesToTimeStampDefaultSelectedUnitChangeHandler">
-          <el-option v-for="unit in unitOptions"
-            :key="unit.value"
-            :label="unit.label"
-            :value="unit.value"
-          />
-        </el-select>
-      </el-col>
-      <el-col :span="7">
-        <el-input v-model="convertedTimestamp" readonly/>
-      </el-col>
-    </el-row>
+        <el-col :span="3">
+          <el-button @click="copy('convertedTime')" size="small">
+            <el-icon :size="14">
+              <IconCopyDocument />
+            </el-icon> &nbsp;Copy
+          </el-button>
+        </el-col>
+      </el-row>
+
+      <!-- time -> timestamp -->
+      <el-row :gutter="25" class="time-to-timestamp">
+        <el-col :span="6">
+          <span style="font-size: small;">
+            时间(yyyy-MM-DD hh:mm:ss)
+          </span>
+        </el-col>
+        <el-col :span="6">
+          <el-input v-model="inputTime" @input="inputTimeHandler" />
+          <div class="validate-font" v-if="timesToTimeStampValidatedText">{{ timesToTimeStampValidatedText }}</div>
+        </el-col>
+        <el-col :span="3">
+          <el-select v-model="timesToTimeStampDefaultSelectedUnit"
+            @change="timesToTimeStampDefaultSelectedUnitChangeHandler">
+            <el-option v-for="unit in unitOptions" :key="unit.value" :label="unit.label" :value="unit.value" />
+          </el-select>
+        </el-col>
+        <el-col :span="6">
+          <el-input v-model="convertedTimestamp" readonly />
+        </el-col>
+        <el-col :span="3">
+          <el-button @click="copy('convertedTimestamp')" size="small">
+            <el-icon :size="14">
+              <IconCopyDocument />
+            </el-icon> &nbsp;Copy
+          </el-button>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
+import {
+  CopyDocument as IconCopyDocument,
+} from '@element-plus/icons-vue'
 import moment from 'moment'
 export default {
   name: 'TimeStamp',
 
-  data() {
+  components: {
+    IconCopyDocument,
+  },
+
+  data () {
     return {
       inputTimeStamp: '',
       convertedTime: '',
@@ -90,7 +108,7 @@ export default {
   },
 
   methods: {
-    inputTimeStampHandler() {
+    inputTimeStampHandler () {
       this.timestampToTimeValidatedText = ''
       this.convertedTime = ''
 
@@ -113,11 +131,11 @@ export default {
       this.convertedTime = date.format("yyyy-MM-DD HH:mm:ss")
     },
 
-    timestampToTimeDefaultSelectedUnitChangeHandler() {
+    timestampToTimeDefaultSelectedUnitChangeHandler () {
       this.inputTimeStampHandler()
     },
 
-    inputTimeHandler() {
+    inputTimeHandler () {
       this.timesToTimeStampValidatedText = ''
       this.convertedTimestamp = ''
 
@@ -136,16 +154,37 @@ export default {
       }
     },
 
-    timesToTimeStampDefaultSelectedUnitChangeHandler() {
+    timesToTimeStampDefaultSelectedUnitChangeHandler () {
       this.inputTimeHandler()
+    },
+
+    copy (type) {
+      if (type === 'convertedTime') {
+        window.electronAPI.copyJson(this.convertedTime)
+        this.$message.success({
+          showClose: true,
+          message: 'Copy Success',
+        })
+      } else if (type === 'convertedTimestamp') {
+        window.electronAPI.copyJson(this.convertedTimestamp.toString())
+        this.$message.success({
+          showClose: true,
+          message: 'Copy Success',
+        })
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+.box {
+  border: 1px dashed #E6E8EB;
+  padding: 60px 0 60px 0;
+}
+
 .title {
-  font-size: var(--el-font-size-extra-large); 
+  font-size: var(--el-font-size-extra-large);
   font-weight: bold;
   margin-bottom: 24px;
 }
@@ -153,7 +192,8 @@ export default {
 .timestamp-to-time {
   padding: 0 180px 0 100px;
   margin-bottom: 40px;
-  display: -webkit-flex; /* Safari */
+  display: -webkit-flex;
+  /* Safari */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -161,15 +201,16 @@ export default {
 }
 
 .validate-font {
-  margin-bottom: -15px; 
-  font-size: small; 
+  margin-bottom: -15px;
+  font-size: small;
   color: brown;
   text-align: left;
 }
 
 .time-to-timestamp {
   padding: 0 180px 0 100px;
-  display: -webkit-flex; /* Safari */
+  display: -webkit-flex;
+  /* Safari */
   display: flex;
   flex-direction: row;
   justify-content: center;
