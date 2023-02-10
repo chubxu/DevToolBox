@@ -35,15 +35,15 @@
     <el-row :gutter="25" class="time-to-timestamp">
       <el-col :span="6">
         <span style="font-size: small;">
-          时间(年/月/日 时:分:秒)
+          时间(yyyy-MM-DD hh:mm:ss)
         </span>
       </el-col>
       <el-col :span="8">
-        <el-input v-model="inputTime" />
+        <el-input v-model="inputTime" @input="inputTimeHandler"/>
         <div class="validate-font" v-if="timesToTimeStampValidatedText">{{ timesToTimeStampValidatedText }}</div>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="timesToTimeStampDefaultSelectedUnit">
+        <el-select v-model="timesToTimeStampDefaultSelectedUnit"  @change="timesToTimeStampDefaultSelectedUnitChangeHandler">
           <el-option v-for="unit in unitOptions"
             :key="unit.value"
             :label="unit.label"
@@ -83,7 +83,9 @@ export default {
           label: 's',
           value: 's',
         }
-      ]
+      ],
+
+      dateReg: /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(2[0-3]|[0-1]\d):[0-5]\d:[0-5]\d$/
     }
   },
 
@@ -99,9 +101,9 @@ export default {
       let timeStamp = Number(this.inputTimeStamp)
       if (!Number.isInteger(timeStamp)) {
         this.timestampToTimeValidatedText = '请输入正确的时间戳格式'
-        
         return
       }
+
       let date
       if (this.timestampToTimeDefaultSelectedUnit == 'ms') {
         date = moment(timeStamp)
@@ -113,6 +115,29 @@ export default {
 
     timestampToTimeDefaultSelectedUnitChangeHandler() {
       this.inputTimeStampHandler()
+    },
+
+    inputTimeHandler() {
+      this.timesToTimeStampValidatedText = ''
+      this.convertedTimestamp = ''
+
+      if (this.inputTime === '') {
+        return
+      }
+
+      if (!this.inputTime.match(this.dateReg)) {
+        this.timesToTimeStampValidatedText = '请输入正确的时间格式 yyyy-MM-DD hh:mm:ss'
+        return
+      }
+      if (this.timesToTimeStampDefaultSelectedUnit == 'ms') {
+        this.convertedTimestamp = moment('2020-12-20 20:20:20', 'YYYY-MM-DD HH:mm:ss').valueOf()
+      } else {
+        this.convertedTimestamp = moment(this.inputTime, 'yyyy-MM-DD hh:mm:ss').unix()
+      }
+    },
+
+    timesToTimeStampDefaultSelectedUnitChangeHandler() {
+      this.inputTimeHandler()
     }
   }
 }
