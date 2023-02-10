@@ -14,10 +14,11 @@
         </span>
       </el-col>
       <el-col :span="7">
-        <el-input v-model="inputTimeStamp"/>
+        <el-input v-model="inputTimeStamp" @input="inputTimeStampHandler"/>
+        <div class="validate-font" v-if="timestampToTimeValidatedText">{{ timestampToTimeValidatedText }}</div>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="timestampToTimeDefaultSelectedUnit">
+        <el-select v-model="timestampToTimeDefaultSelectedUnit" @change="timestampToTimeDefaultSelectedUnitChangeHandler">
           <el-option v-for="unit in unitOptions"
             :key="unit.value"
             :label="unit.label"
@@ -39,6 +40,7 @@
       </el-col>
       <el-col :span="8">
         <el-input v-model="inputTime" />
+        <div class="validate-font" v-if="timesToTimeStampValidatedText">{{ timesToTimeStampValidatedText }}</div>
       </el-col>
       <el-col :span="3">
         <el-select v-model="timesToTimeStampDefaultSelectedUnit">
@@ -57,6 +59,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'TimeStamp',
 
@@ -69,6 +72,8 @@ export default {
 
       timestampToTimeDefaultSelectedUnit: 'ms',
       timesToTimeStampDefaultSelectedUnit: 'ms',
+      timestampToTimeValidatedText: '',
+      timesToTimeStampValidatedText: '',
       unitOptions: [
         {
           label: 'ms',
@@ -79,6 +84,35 @@ export default {
           value: 's',
         }
       ]
+    }
+  },
+
+  methods: {
+    inputTimeStampHandler() {
+      this.timestampToTimeValidatedText = ''
+      this.convertedTime = ''
+
+      if (this.inputTimeStamp === '') {
+        return
+      }
+
+      let timeStamp = Number(this.inputTimeStamp)
+      if (!Number.isInteger(timeStamp)) {
+        this.timestampToTimeValidatedText = '请输入正确的时间戳格式'
+        
+        return
+      }
+      let date
+      if (this.timestampToTimeDefaultSelectedUnit == 'ms') {
+        date = moment(timeStamp)
+      } else {
+        date = moment.unix(timeStamp)
+      }
+      this.convertedTime = date.format("yyyy-MM-DD HH:mm:ss")
+    },
+
+    timestampToTimeDefaultSelectedUnitChangeHandler() {
+      this.inputTimeStampHandler()
     }
   }
 }
@@ -99,6 +133,13 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.validate-font {
+  margin-bottom: -15px; 
+  font-size: small; 
+  color: brown;
+  text-align: left;
 }
 
 .time-to-timestamp {
