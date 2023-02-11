@@ -26,7 +26,7 @@ const toolList = [
   {
     toolName: 'TimeStamp',
     imageName: 'clock.png',
-    darkImageName: 'clock.png',
+    darkImageName: 'clock-dark.png',
     title: 'TimeStamp',
     content: 'TimeStamp convert.',
     routerName: 'TimeStamp',
