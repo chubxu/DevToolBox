@@ -39,6 +39,8 @@
                 <component :is="child.icon"></component>
               </el-icon>
               <span>{{ child.name }}</span>
+              <el-badge v-if="child.badgeName" :value="child.badgeName" style="margin-bottom: 30px; margin-left: 10px" type="warning">
+              </el-badge>
             </el-menu-item>
           </el-sub-menu>
         </el-menu>
