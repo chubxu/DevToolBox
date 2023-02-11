@@ -2,6 +2,7 @@ const toolList = [
   {
     toolName: 'ChatGPT',
     imageName: 'chatgpt.png',
+    darkImageName: 'chatgpt.png',
     title: 'ChatGPT',
     content: 'Optimizing Language Models for Dialogue.',
     routerName: 'ChatGPT',
@@ -9,6 +10,7 @@ const toolList = [
   {
     toolName: 'JsonFormatter',
     imageName: 'json.png',
+    darkImageName: 'json-dark.png',
     title: 'JsonFormatter',
     content: 'Pretty formatter json string and copy it.',
     routerName: 'JsonFormatter',
@@ -16,6 +18,7 @@ const toolList = [
   {
     toolName: 'MD5',
     imageName: 'md5.png',
+    darkImageName: 'md5-dark.png',
     title: 'MD5',
     content: 'MD5 message-digest algorithm.',
     routerName: 'MD5',
@@ -23,6 +26,7 @@ const toolList = [
   {
     toolName: 'TimeStamp',
     imageName: 'clock.png',
+    darkImageName: 'clock.png',
     title: 'TimeStamp',
     content: 'TimeStamp convert.',
     routerName: 'TimeStamp',

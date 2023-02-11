@@ -19,7 +19,7 @@
               inactive-icon="Sunny" 
               active-color="#2c2c2c"
               inactive-color="#d0d0d0"
-              @change="toggleDark"/>
+              @change="toggleDarkHandler"/>
           </el-col>
         </el-row>
         <el-divider style="margin: 0"/>
@@ -78,6 +78,7 @@ import {
 } from '@element-plus/icons-vue'
 import { menu } from './constants'
 import { useDark, useToggle } from '@vueuse/core'
+import { useGlobalStore } from '@/store/GlobalStore.js'
 
 const isDark = useDark()
 
@@ -91,8 +92,9 @@ export default {
     IconSunny
   },
 
-  created() {
-    this.sideBarMenus = menu.sideBarMenus
+  setup() {
+    const globalStore = useGlobalStore()
+    return { globalStore }
   },
 
   data() {
@@ -110,12 +112,16 @@ export default {
       })
     },
 
-    toggleDark() {
-      console.log(isDark)
+    toggleDarkHandler() {
+      this.globalStore.darkFlag = !this.globalStore.darkFlag
       const toggleDark = useToggle(isDark)
-      console.log(toggleDark())
+      toggleDark()
     }
-  }
+  },
+
+  created() {
+    this.sideBarMenus = menu.sideBarMenus
+  },
 }
 </script>
 

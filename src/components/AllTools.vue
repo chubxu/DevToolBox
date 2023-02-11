@@ -8,7 +8,7 @@
                @click="clickCardToRoute(tool.routerName)"
                class="all-tools-cards"
                :body-style="{ padding: '0px', width: '160px', height: '220px' }" shadow="hover">
-        <img class="all-tools-cards-img" :src="require('@/assets/images/' + tool.imageName)"/>
+        <img class="all-tools-cards-img" :src="globalStore.darkFlag ? require('@/assets/images/' + tool.darkImageName) : require('@/assets/images/' + tool.imageName)"/>
         <div class="all-tools-cards-desc-title">
           <span>{{ tool.title }}</span>
           <div class="all-tools-cards-desc-content">
@@ -22,8 +22,14 @@
 
 <script>
 import { toolList } from '@/constants'
+import { useGlobalStore } from '@/store/GlobalStore.js'
 export default {
   name: 'AllTools',
+
+  setup() {
+    const globalStore = useGlobalStore()
+    return { globalStore }
+  },
 
   data() {
     return {
