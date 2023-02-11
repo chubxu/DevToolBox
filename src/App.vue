@@ -49,7 +49,7 @@
 
 
       <el-main style="overflow-y: hidden; padding: 0 20px 20px 20px;">
-        <el-card shadow="never" style="height: 100%; background-color: #fffffc ;">
+        <el-card shadow="never" style="height: 100%; background-color: #ffffff ;">
           <router-view></router-view>
         </el-card>
       </el-main>
