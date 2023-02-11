@@ -25,11 +25,10 @@
 
 <script>
 import ChatMessage from "./components/ChatMessage.vue";
-import { Configuration, OpenAIApi } from "openai";
 import {
   Promotion as IconPromotion,
 } from '@element-plus/icons-vue'
-
+// import { Configuration, OpenAIApi } from 'openai'
 export default {
   name: 'ChatGPT',
   
@@ -72,21 +71,27 @@ export default {
     doSendMessageToChatGPT(prompt) {
       console.log(prompt)
       // TODO openai调用
+      this.chapGptOpenApi()
       return 'ChatGPT'
     },
 
-    async chapGptOpenApi(prompt) {
-      let configuration = new Configuration({
-        apiKey: "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",
-      });
-      let openai = new OpenAIApi(configuration);
-      let response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: prompt,
-        temperature: 0,
-        max_tokens: 7,
-      });
-      return response
+    async chapGptOpenApi() {
+      console.log('aaa')
+      // const configuration = new Configuration({
+      //   apiKey: "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",
+      // });
+      // const openai = new OpenAIApi(configuration);
+      // try {
+      //   const response = await openai.createCompletion({
+      //     model: "text-davinci-003",
+      //     prompt: "Say this is a test",
+      //     temperature: 0,
+      //     max_tokens: 7,
+      //   });
+      //   console.log(response.data.choices[0].text)
+      // } catch (err) {
+      //   console.log(err)
+      // }
     },
 
     scrollToBottom() {
