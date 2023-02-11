@@ -25,10 +25,6 @@ import { toolList } from '@/constants'
 export default {
   name: 'AllTools',
 
-  created() {
-    this.toolList = toolList.toolList
-  },
-
   data() {
     return {
       toolList: [],
@@ -45,6 +41,10 @@ export default {
       })
     }
   },
+
+  created() {
+    this.toolList = toolList.toolList
+  }
 }
 </script>
 
