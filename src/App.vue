@@ -3,14 +3,25 @@
     <el-container style="height: 750px">
       <el-aside width="250px">
         <!-- 搜索框 -->
-        <el-row class="search-input">
-          <el-input placeholder="Type to Search Tools">
-            <template #suffix>
-              <el-icon><icon-search /></el-icon>
-            </template>
-          </el-input>
+        <el-row class="search-input" :gutter="10">
+          <el-col :span="19"> 
+            <el-input placeholder="Type to Search Tools">
+              <template #suffix>
+                <el-icon><icon-search /></el-icon>
+              </template>
+            </el-input>
+          </el-col>
+          <el-col :span="5">
+            <el-switch 
+              v-model="isDarkFlag" 
+              inline-prompt 
+              active-icon="Moon" 
+              inactive-icon="Sunny" 
+              active-color="#2c2c2c"
+              inactive-color="#d0d0d0"
+              @change="toggleDark"/>
+          </el-col>
         </el-row>
-
         <el-divider style="margin: 0"/>
 
         <!-- all tools button -->
@@ -63,15 +74,21 @@ import {
   Menu as IconMenu,
   Search as IconSearch,
   HomeFilled as IconHomeFilled,
+  Sunny as IconSunny,
 } from '@element-plus/icons-vue'
 import { menu } from './constants'
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+
 export default {
   name: 'App',
   components: {
     IconMenu,
     IconRefresh,
     IconSearch,
-    IconHomeFilled
+    IconHomeFilled,
+    IconSunny
   },
 
   created() {
@@ -81,6 +98,7 @@ export default {
   data() {
     return {
       sideBarMenus: [],
+      isDarkFlag: false
     }
   },
 
@@ -91,6 +109,12 @@ export default {
         path: '/', 
       })
     },
+
+    toggleDark() {
+      console.log(isDark)
+      const toggleDark = useToggle(isDark)
+      console.log(toggleDark())
+    }
   }
 }
 </script>
