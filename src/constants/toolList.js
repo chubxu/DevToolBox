@@ -2,7 +2,7 @@ const toolList = [
   {
     toolName: 'ChatGPT',
     imageName: 'chatgpt.png',
-    darkImageName: 'chatgpt.png',
+    darkImageName: 'chatgpt-dark.png',
     title: 'ChatGPT',
     content: 'Optimizing Language Models for Dialogue.',
     routerName: 'ChatGPT',
