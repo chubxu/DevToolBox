@@ -8,7 +8,7 @@ const sideBarMenus = [
         name: 'ChatGPT',
         icon: 'Memo',
         index: '/ChatGPT',
-        badgeName: 'unfinished'
+        badgeName: 'dev'
       },
     ],
   },
