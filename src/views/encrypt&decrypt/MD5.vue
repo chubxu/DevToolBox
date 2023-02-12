@@ -60,7 +60,7 @@ export default {
 
   methods: {
     copyMd5TextDigest() {
-      window.electronAPI.copyMd5TextDigest(this.md5Text)
+      window.electronAPI.copy(this.md5Text)
       this.$message.success({
         showClose: true,
         message: 'Copy Success',

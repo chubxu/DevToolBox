@@ -54,7 +54,7 @@ export default {
 
   methods: {
     copyJson() {
-      window.electronAPI.copyJson(this.inputData)
+      window.electronAPI.copy(this.inputData)
       this.$message.success({
         showClose: true,
         message: 'Copy Success',

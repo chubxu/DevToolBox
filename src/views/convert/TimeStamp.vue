@@ -160,13 +160,13 @@ export default {
 
     copy (type) {
       if (type === 'convertedTime') {
-        window.electronAPI.copyJson(this.convertedTime)
+        window.electronAPI.copy(this.convertedTime)
         this.$message.success({
           showClose: true,
           message: 'Copy Success',
         })
       } else if (type === 'convertedTimestamp') {
-        window.electronAPI.copyJson(this.convertedTimestamp.toString())
+        window.electronAPI.copy(this.convertedTimestamp.toString())
         this.$message.success({
           showClose: true,
           message: 'Copy Success',

@@ -38,13 +38,18 @@ const sideBarMenus = [
   },
   {
     name: 'Convert',
-    icon: 'Grid',
+    icon: 'Switch',
     index: '4',
     children: [
       {
         name: 'TimeStamp',
         icon: 'Lock',
         index: '/TimeStamp',
+      },
+      {
+        name: 'BinOctDecHex',
+        icon: 'CirclePlus',
+        index: '/BinOctDecHex',
       },
     ],
   },
