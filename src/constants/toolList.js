@@ -31,6 +31,14 @@ const toolList = [
     content: 'TimeStamp convert.',
     routerName: 'TimeStamp',
   },
+  {
+    toolName: '进制转换',
+    imageName: '进制转换.png',
+    darkImageName: '进制转换-dark.png',
+    title: '进制转换',
+    content: '二进制、八进制、十进制、十六进制相互转换.',
+    routerName: 'BinOctDecHex',
+  },
 ]
 
 export default {
