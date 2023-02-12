@@ -5,7 +5,7 @@
     </el-row>
     <el-row>
       <el-card v-for="(tool, index) in toolList" :index="index" :key="index" 
-               @click="clickCardToRoute(tool.routerName)"
+               @click="clickCardToRoute(tool.name)"
                class="all-tools-cards"
                :body-style="{ padding: '0px', width: '160px', height: '220px' }" shadow="hover">
         <img class="all-tools-cards-img" :src="globalStore.darkFlag ? require('@/assets/images/' + tool.darkImageName) : require('@/assets/images/' + tool.imageName)"/>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { toolList } from '@/constants'
+import { menu } from '@/constants'
 import { useGlobalStore } from '@/store/GlobalStore.js'
 export default {
   name: 'AllTools',
@@ -49,7 +49,15 @@ export default {
   },
 
   created() {
-    this.toolList = toolList.toolList
+    if (menu.sideBarMenus && menu.sideBarMenus.length > 0) {
+      menu.sideBarMenus.forEach(sideBarMenu => {
+        if (sideBarMenu && sideBarMenu.children && sideBarMenu.children.length) {
+          sideBarMenu.children.forEach(child => {
+            this.toolList.push(child)
+          })
+        }
+      })
+    }
   }
 }
 </script>
