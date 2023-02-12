@@ -4,27 +4,27 @@ const routes = [
   {
     name: 'AllTools',
     path: '/',
-    component: () => import('@/components/AllTools.vue')
+    component: () => import('@/views/AllTools.vue')
   },
   {
     name: 'JsonFormatter',
     path: '/JsonFormatter',
-    component: () => import('@/components/formatter/JsonFormatter.vue')
+    component: () => import('@/views/formatter/JsonFormatter.vue')
   },
   {
     name: 'MD5',
     path: '/MD5',
-    component: () => import('@/components/encrypt&decrypt/MD5.vue')
+    component: () => import('@/views/encrypt&decrypt/MD5.vue')
   },
   {
     name: 'ChatGPT',
     path: '/ChatGPT',
-    component: () => import('@/components/aigc/ChatGPT.vue')
+    component: () => import('@/views/aigc/ChatGPT.vue')
   },
   {
     name: 'TimeStamp',
     path: '/TimeStamp',
-    component: () => import('@/components/convert/TimeStamp.vue')
+    component: () => import('@/views/convert/TimeStamp.vue')
   },
 ]
 
