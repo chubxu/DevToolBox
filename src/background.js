@@ -16,12 +16,14 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1400,
-    height: 800,
-    resizable: false, //禁止改变主窗口尺寸
-    icon: path.join(__dirname, '/icon.png'), // 添加icon
+    // 最小窗口尺寸
+    minWidth: 900,
+    minHeight: 600,
+
+    // 添加icon
+    icon: path.join(__dirname, '/icon.png'),
+
     webPreferences: {
-      
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
@@ -32,6 +34,9 @@ async function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     }
   })
+
+  // 最大化窗口展示
+  win.maximize()
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -62,6 +67,15 @@ app.on('activate', () => {
 function handleCopyAction(event, text) {
   clipboard.writeText(text)
 }
+
+ipcMain.handle('dark-mode:toggle', () => {
+  if (nativeTheme.shouldUseDarkColors) {
+    nativeTheme.themeSource = 'light'
+  } else {
+    nativeTheme.themeSource = 'dark'
+  }
+  return nativeTheme.shouldUseDarkColors
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
