@@ -113,9 +113,13 @@ export default {
     },
 
     toggleDarkHandler() {
+      // 设置element plus页面为黑暗模式
       this.globalStore.darkFlag = !this.globalStore.darkFlag
       const toggleDark = useToggle(isDark)
       toggleDark()
+
+      // 设置 electron 为黑暗模式
+      window.electronAPI.toggle()
     }
   },
 
