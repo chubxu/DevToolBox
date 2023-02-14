@@ -44,8 +44,8 @@ const sideBarMenus = [
         icon: 'Document',
         index: '/FileDiff',
         toolName: 'FileDiff',
-        imageName: '',
-        darkImageName: '',
+        imageName: 'diff-file.png',
+        darkImageName: 'diff-file-dark.png',
         title: 'FileDiff',
         content: 'File comparison tool.',
       }

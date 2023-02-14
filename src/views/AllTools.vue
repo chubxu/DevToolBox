@@ -70,7 +70,8 @@ export default {
 }
 
 .all-tools-cards {
-  margin-right: 40px;
+  margin-right: 34px;
+  margin-bottom: 34px;
 }
 
 .all-tools-cards-img {
