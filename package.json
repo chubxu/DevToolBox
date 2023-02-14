@@ -2,6 +2,15 @@
   "name": "dev-tool-box",
   "version": "0.1.0",
   "private": true,
+  "build": {
+    "appId": "dev.tool.box",
+    "mac": {
+      "target": ["dmg","zip"]
+    },
+    "win": {
+      "target": ["nsis","zip"]
+    }
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -9,9 +18,10 @@
     "eb": "vue-cli-service electron:build",
     "es": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "dist": "electron-builder --win --x64"
   },
-  "main": "background.js",
+  "main": "./src/background.js",
   "dependencies": {
     "@vueuse/core": "^9.12.0",
     "ace-diff": "^3.0.3",
@@ -36,6 +46,7 @@
     "@vue/cli-service": "~5.0.0",
     "autoprefixer": "^10.4.13",
     "electron": "^13.0.0",
+    "electron-builder": "^23.6.0",
     "electron-devtools-installer": "^3.1.0",
     "electron-windows-titlebar": "^1.0.7",
     "eslint": "^7.32.0",
