@@ -31,6 +31,11 @@ const routes = [
     path: '/BinOctDecHex',
     component: () => import('@/views/convert/BinOctDecHex.vue')
   },
+  {
+    name: 'FileDiff',
+    path: '/FileDiff',
+    component: () => import('@/views/diff/FileDiff.vue')
+  },
 ]
 
 const router = createRouter({

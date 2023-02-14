@@ -11,6 +11,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 
+import VueDiff from 'vue-diff';
+import 'vue-diff/dist/index.css';
+
 const app = createApp(App)
 
 // 注册全局图标
@@ -21,4 +24,5 @@ for(const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(router)
 app.use(createPinia())
 app.use(ElementPlus)
+app.use(VueDiff);
 app.mount('#app')

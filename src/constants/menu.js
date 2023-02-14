@@ -35,9 +35,26 @@ const sideBarMenus = [
     ],
   },
   {
+    name: 'Diff',
+    icon: 'Connection',
+    index: '3',
+    children: [
+      {
+        name: 'FileDiff',
+        icon: 'Document',
+        index: '/FileDiff',
+        toolName: 'FileDiff',
+        imageName: '',
+        darkImageName: '',
+        title: 'FileDiff',
+        content: 'File comparison tool.',
+      }
+    ]
+  },
+  {
     name: 'Encrypt & Decrypt',
     icon: 'Grid',
-    index: '3',
+    index: '4',
     children: [
       {
         name: 'MD5',
@@ -54,7 +71,7 @@ const sideBarMenus = [
   {
     name: 'Convert',
     icon: 'Switch',
-    index: '4',
+    index: '5',
     children: [
       {
         name: 'TimeStamp',
