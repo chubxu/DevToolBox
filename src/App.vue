@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-container style="height: 750px">
-      <el-aside width="250px">
+    <el-container class="container">
+      <el-aside class="side-bar">
         <!-- 搜索框 -->
         <el-row class="search-input" :gutter="10">
           <el-col :span="19"> 
@@ -59,8 +59,8 @@
       </el-aside>
 
 
-      <el-main style="overflow-y: hidden; padding: 0 20px 20px 20px;">
-        <el-card shadow="never" style="height: 100%;">
+      <el-main class="main-window">
+        <el-card shadow="never" class="main-window-card">
           <router-view></router-view>
         </el-card>
       </el-main>
@@ -153,6 +153,15 @@ export default {
   border-radius: 3px;
 }
 
+.container {
+  height: 98vh !important;
+}
+
+.side-bar {
+  width: 250px !important;
+  overflow-x: hidden !important;
+}
+
 .el-menu {
   border-right: 0 !important;
 }
@@ -164,5 +173,14 @@ export default {
 .el-sub-menu__title {
   padding-left: 10px !important;
   height: 40px !important;
+}
+
+.main-window {
+  padding: 0 0px 0px 20px !important;
+}
+
+.main-window-card {
+  height: 99%;
+  overflow-y: scroll !important;
 }
 </style>
