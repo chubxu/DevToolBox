@@ -19,8 +19,7 @@ module.exports = defineConfig({
         }
       },
     }
-  }
-  transpileDependencies: true,
+  },
   configureWebpack: {
     externals: {
       "fs": 'require("fs")',

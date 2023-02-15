@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import ChatMessage from "./components/ChatMessage.vue";
+import ChatMessage from "./components/ChatMessage.vue"
+import axios from 'axios'
 import {
   Promotion as IconPromotion,
 } from '@element-plus/icons-vue'
@@ -71,12 +72,33 @@ export default {
     doSendMessageToChatGPT(prompt) {
       console.log(prompt)
       // TODO openai调用
-      this.chapGptOpenApi()
+      this.chapGptOpenApi(prompt)
       return 'ChatGPT'
     },
 
-    async chapGptOpenApi() {
-      console.log('aaa')
+    async chapGptOpenApi(prompt) {
+      console.log(prompt)
+      let data = {
+        prompt: prompt,
+        temperature: 1,
+        top_p: 1,
+        model: 'text-davinci-003',
+        max_tokens: 1024,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        stop: ["Human", "AI:"],
+      }
+      axios.post('https://api.openai.com/v1/completions', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ` + '',
+        }
+      }).then(response => {
+        this.response = response.data.choices[0].text
+        console.log(this.response)
+      }).catch(error => {
+        console.log(error)
+      })
       // const configuration = new Configuration({
       //   apiKey: "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",
       // });
