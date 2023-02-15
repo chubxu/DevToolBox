@@ -1,42 +1,29 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+// 初始化routes
 const routes = [
   {
     name: 'AllTools',
     path: '/',
     component: () => import('@/views/AllTools.vue')
   },
-  {
-    name: 'JsonFormatter',
-    path: '/JsonFormatter',
-    component: () => import('@/views/formatter/JsonFormatter.vue')
-  },
-  {
-    name: 'MD5',
-    path: '/MD5',
-    component: () => import('@/views/encrypt&decrypt/MD5.vue')
-  },
-  {
-    name: 'ChatGPT',
-    path: '/ChatGPT',
-    component: () => import('@/views/aigc/ChatGPT.vue')
-  },
-  {
-    name: 'TimeStamp',
-    path: '/TimeStamp',
-    component: () => import('@/views/convert/TimeStamp.vue')
-  },
-  {
-    name: 'BinOctDecHex',
-    path: '/BinOctDecHex',
-    component: () => import('@/views/convert/BinOctDecHex.vue')
-  },
-  {
-    name: 'FileDiff',
-    path: '/FileDiff',
-    component: () => import('@/views/diff/FileDiff.vue')
-  },
 ]
+
+// 读取当前文件夹下除index.js外的所有routes
+const modulesFiles = require.context('./', true, /.js$/)
+const modules = modulesFiles.keys().reduce((modules, modulePath) => {
+  const moduleName = modulePath.replace(/^.\/(.*)\.js/,'$1')
+  if (moduleName !== 'index') {
+    const value = modulesFiles(modulePath)
+    modules[moduleName] = value.routes
+  }
+  return modules
+}, {})
+if (modules) {
+  Object.values(modules).forEach(value => {
+    routes.push(...value)
+  })
+}
 
 const router = createRouter({
   history: createWebHashHistory(),
