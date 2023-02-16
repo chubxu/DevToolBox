@@ -5,21 +5,42 @@
       ChatGPT
     </el-row>
 
-    <!-- chat -->
-    <div class="chat">
-      <div class="chat__header">
-        <span class="chat__header__greetings">
-          Chat Room
-        </span>
-      </div>
-      <div class="chat__body" id="chat__body">
-        <ChatMessage v-for="(message, index) in messageList" :key="index" :message="message" :prev="[index == 0 ? null : messageList[index - 1]]" />
-      </div>
-      <div class="form">
-        <input class="form__input" type="text" placeholder="pls input..." v-model.trim="prompt" @keyup.enter="sendMessage" />
-        <el-icon :size="14"><IconPromotion /></el-icon>
-      </div>
-    </div>
+    <el-row :gutter="10" v-loading="chatLoading" element-loading-text="答案正在赶来, 请耐心等待 O(∩_∩)O ...">
+      <el-col :span="14">
+        <!-- chat -->
+        <div class="chat">
+          <div class="chat__header">
+            <span class="chat__header__greetings">
+              Chat Room
+            </span>
+          </div>
+          <div class="chat__body" id="chat__body">
+            <ChatMessage v-for="(message, index) in messageList" :key="index" :message="message" :prev="[index == 0 ? null : messageList[index - 1]]" />
+          </div>
+          
+          <div class="form">
+            <el-input 
+              class="form__input"
+              :placeholder="inputPlaceholder" 
+              v-model.trim="prompt" 
+              @keyup.enter="sendMessage">
+              <template #suffix>
+                <el-icon><IconPromotion /></el-icon>
+              </template>
+            </el-input>
+          </div>
+        </div>
+      </el-col>
+
+      <el-col :span="10">
+        <el-row>
+          <el-input v-model="apiKey" class="api-key-input">
+            <template #prepend>ApiKey</template>
+          </el-input>
+        </el-row>
+      </el-col>
+    </el-row>
+    
   </div>
 </template>
 
@@ -29,7 +50,6 @@ import axios from 'axios'
 import {
   Promotion as IconPromotion,
 } from '@element-plus/icons-vue'
-// import { Configuration, OpenAIApi } from 'openai'
 export default {
   name: 'ChatGPT',
   
@@ -40,14 +60,17 @@ export default {
 
   data() {
     return {
+      chatLoading: false,
       messageList: [],
       prompt: "",
-
+      inputPlaceholder: '请输入您的问题...',
+      apiKey: '',
     };
   },
 
   methods: {
     sendMessage() {
+      this.chatLoading = true
       let userMessage = {
         message: this.prompt,
         user: {
@@ -57,27 +80,19 @@ export default {
       }
       this.messageList.push(userMessage)
 
-      let chatGptMessage = {
-        message: this.doSendMessageToChatGPT(this.prompt),
-        user: {
-          userName: 'ChatGPT',
-          avatar: require('@/assets/images/chatgpt.png'),
-        }
-      }
-      this.messageList.push(chatGptMessage)
-
-      this.scrollToBottom()
+      this.prompt = ''
+      this.inputPlaceholder = '答案正在赶来, 请耐心等待 O(∩_∩)O '
+      setTimeout(() => {
+        this.chatLoading = false
+        this.inputPlaceholder = "网络异常, 请稍后重试..."
+      }, 20000)
     },
 
     doSendMessageToChatGPT(prompt) {
-      console.log(prompt)
-      // TODO openai调用
       this.chapGptOpenApi(prompt)
-      return 'ChatGPT'
     },
 
     async chapGptOpenApi(prompt) {
-      console.log(prompt)
       let data = {
         prompt: prompt,
         temperature: 1,
@@ -91,29 +106,25 @@ export default {
       axios.post('https://api.openai.com/v1/completions', data, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ` + '',
+          'Authorization': `Bearer ` + this.apiKey,
         }
       }).then(response => {
-        this.response = response.data.choices[0].text
-        console.log(this.response)
+        let resText = response.data.choices[0].text
+        console.log(resText)
+        let chatGptMessage = {
+          message: resText,
+          user: {
+            userName: 'ChatGPT',
+            avatar: require('@/assets/images/chatgpt.png'),
+          }
+        }
+        this.messageList.push(chatGptMessage)
+        this.inputPlaceholder = '请输入您的问题...'
+        this.scrollToBottom()
+        this.chatLoading = false
       }).catch(error => {
         console.log(error)
       })
-      // const configuration = new Configuration({
-      //   apiKey: "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",
-      // });
-      // const openai = new OpenAIApi(configuration);
-      // try {
-      //   const response = await openai.createCompletion({
-      //     model: "text-davinci-003",
-      //     prompt: "Say this is a test",
-      //     temperature: 0,
-      //     max_tokens: 7,
-      //   });
-      //   console.log(response.data.choices[0].text)
-      // } catch (err) {
-      //   console.log(err)
-      // }
     },
 
     scrollToBottom() {
@@ -144,10 +155,9 @@ export default {
 .chat__header {
   background: #ffffff;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 16px 16px 0px 0px;
-  padding: 15px;
-  
-  width: 700px;
+  border-radius: 8px 8px 0px 0px;
+  padding: 10px 15px 10px 15px;
+  width: 600px;
   z-index: 2;
 }
 
@@ -159,7 +169,7 @@ export default {
 
 .chat__body {
   background: #ffffff;
-  width: 700px;
+  width: 600px;
   height: 500px;
   padding: 15px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
@@ -174,19 +184,20 @@ export default {
 .form {
   display: flex;
   justify-content: space-between;
-  padding: 15px;
-  width: 700px;
+  padding: 5px 15px 5px 15px;
+  width: 600px;
   background: #ffffff;
-  border-radius: 0px 0px 16px 16px;
+  border-radius: 0px 0px 8px 8px;
   box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.1);
   z-index: 2;
+
 }
 
 .form__input {
   border: none;
   padding: 0.5rem;
   font-size: 16px;
-  width: calc(100% - 60px);
+  width: 100%;
 }
 
 .form__input:focus {
@@ -197,5 +208,9 @@ export default {
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+.api-key-input {
+  font-size: 13px;
 }
 </style>
