@@ -8,7 +8,6 @@ const sideBarMenus = [
         name: 'ChatGPT',
         icon: 'Memo',
         index: '/ChatGPT',
-        badgeName: 'dev',
         toolName: 'ChatGPT',
         imageName: 'chatgpt.png',
         darkImageName: 'chatgpt-dark.png',
