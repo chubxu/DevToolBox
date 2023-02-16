@@ -2,7 +2,7 @@ const sideBarMenus = [
   {
     name: 'AIGC',
     icon: 'Cpu',
-    index: '1',
+    index: 'AIGC',
     children: [
       {
         name: 'ChatGPT',
@@ -19,7 +19,7 @@ const sideBarMenus = [
   {
     name: 'Formatter',
     icon: 'Crop',
-    index: '2',
+    index: 'Formatter',
     children: [
       {
         name: 'JsonFormatter',
@@ -36,7 +36,7 @@ const sideBarMenus = [
   {
     name: 'Diff',
     icon: 'Connection',
-    index: '3',
+    index: 'Diff',
     children: [
       {
         name: 'FileDiff',
@@ -53,7 +53,7 @@ const sideBarMenus = [
   {
     name: 'Encrypt & Decrypt',
     icon: 'Grid',
-    index: '4',
+    index: 'Encrypt & Decrypt',
     children: [
       {
         name: 'MD5',
@@ -70,7 +70,7 @@ const sideBarMenus = [
   {
     name: 'Convert',
     icon: 'Switch',
-    index: '5',
+    index: 'Convert',
     children: [
       {
         name: 'TimeStamp',
@@ -101,6 +101,23 @@ const sideBarMenus = [
         darkImageName: 'Json2Yaml-dark.png',
         title: 'Json2Yaml',
         content: 'Json -> YAML; YAML -> Json.',
+      },
+    ],
+  },
+  {
+    name: 'Host',
+    icon: 'House',
+    index: 'Host',
+    children: [
+      {
+        name: 'Host',
+        icon: 'House',
+        index: '/Host',
+        toolName: 'Host',
+        imageName: 'host.png',
+        darkImageName: 'host-dark.png',
+        title: 'Host',
+        content: 'Host Switch.',
       },
     ],
   },
