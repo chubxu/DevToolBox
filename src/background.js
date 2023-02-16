@@ -17,8 +17,9 @@ async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     // 最小窗口尺寸
-    minWidth: 900,
-    minHeight: 600,
+    // minWidth: 900,
+    // minHeight: 600,
+    resizable: false,
 
     // 添加icon
     icon: path.join(__dirname, '/icon.png'),
