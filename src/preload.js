@@ -8,4 +8,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   copyConvertedTimestamp: (title) => ipcRenderer.send('copy', title),
 
   toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+
+  readFile: (filename) => ipcRenderer.invoke('read-file', filename),
+  writeHostFile: (hostList) => ipcRenderer.invoke('write-host-file', hostList),
 })
