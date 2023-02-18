@@ -6,7 +6,7 @@
     </el-row>
 
     <!-- main -->
-    <el-row :gutter="10">
+    <el-row>
       <el-col :span="5" class="add-button-and-switch">
         <el-button 
           type="success" 
@@ -17,7 +17,13 @@
           新增 host
         </el-button>
         <el-form label-width="140" label-position="left">
-          <el-form-item v-for="host in hostList" :label="host.name" :key="host.name">
+          <el-form-item 
+            v-for="host in hostList" 
+            :label="host.name" 
+            :key="host.name" 
+            @mouseover="mouseoverHandler(host)" 
+            @mouseleave="mouseleaveHandler(host)"
+          >
             <el-switch
               v-model="host.switch"
               class="ml-2"
@@ -28,12 +34,19 @@
               :disabled="host.switch"
               @change="switchHandler(host.name)"
             />
-            <el-button type="danger" icon="Delete" link class="delete-host-button"/>
+            <el-button 
+              v-if="host.deleteButtonVisible" 
+              @click="deleteHostHandler(host.name)"
+              type="danger" 
+              icon="Delete" 
+              link 
+              class="delete-host-button"
+            />
           </el-form-item>
         </el-form>
       </el-col>
 
-      <el-col :span="18">
+      <el-col :span="19">
         <el-input
           v-model="currentHostContent"
           :rows="32"
@@ -66,6 +79,7 @@
 </template>
 
 <script>
+import { ElMessage, ElMessageBox } from 'element-plus'
 export default {
   name: 'HostTool',
 
@@ -81,26 +95,31 @@ export default {
           name: 'default',
           switch: true,
           content: '',
+          deleteButtonVisible: false,
         },
         {
           name: 'dev',
           switch: false,
           content: '',
+          deleteButtonVisible: false,
         },
         {
           name: 'test',
           switch: false,
           content: '',
+          deleteButtonVisible: false,
         },
         {
           name: 'pre',
           switch: false,
           content: '',
+          deleteButtonVisible: false,
         },
         {
           name: 'prd',
           switch: false,
           content: '',
+          deleteButtonVisible: false,
         }
       ],
 
@@ -111,11 +130,24 @@ export default {
   },
 
   methods: {
+    mouseoverHandler(host) {
+      host.deleteButtonVisible = true
+    },
+
+    mouseleaveHandler(host) {
+      host.deleteButtonVisible = false
+    },
+
     switchHandler(hostName) {
       this.hostList.forEach(host => {
         if (host.name === this.currentActivedHost) {
+          host.content = this.currentHostContent
           host.switch = false
-        } else if (host.name === hostName) {
+        }
+      })
+
+      this.hostList.forEach(host => {
+        if (host.name === hostName) {
           this.currentHostContent = host.content
         }
       })
@@ -144,18 +176,44 @@ export default {
       })
 
       this.addHostDialogVisible = false
+    },
+
+    deleteHostHandler(hostName) {
+      ElMessageBox.confirm(
+        `${hostName} 将被删除, 是否继续?`,
+        'Warning',
+        {
+          confirmButtonText: '删除',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+      ).then(() => {
+        this.hostList = this.hostList.filter(host => host.name !== hostName)
+        window.electronAPI.deleteHostFile(hostName)
+        ElMessage({
+          type: 'success',
+          message: '删除成功',
+        })
+      }).catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '取消删除',
+        })
+      })
+      
     }
   },
 
   created() {
-    let defaultHostFileContent = window.electronAPI.readFile('default')
-    defaultHostFileContent.then(res => {
+    let hostListString = window.electronAPI.readHostFile()
+    hostListString.then(res => {
+      this.hostList = JSON.parse(res)
+      this.currentActivedHost = 'default'
       this.hostList.forEach(host => {
-        if (host.name === 'default') {
-          host.content = res
+        if (host.name === this.currentActivedHost) {
+          this.currentHostContent = host.content
         }
       })
-      this.currentHostContent = res
     }).catch(err => {
       console.log(err)
     })
@@ -200,6 +258,6 @@ export default {
 }
 
 .delete-host-button {
-  margin-left: 40px;
+  margin-left: 20px;
 }
 </style>

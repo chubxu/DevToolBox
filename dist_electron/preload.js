@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const { contextBridge, ipcRenderer } = __webpack_require__(/*! electron */ \"electron\")\r\n\r\ncontextBridge.exposeInMainWorld('electronAPI', {\r\n  copy: (text) => ipcRenderer.send('copy', text),\r\n  copyJson: (title) => ipcRenderer.send('copy', title),\r\n  copyMd5TextDigest: (title) => ipcRenderer.send('copy', title),\r\n  copyConvertedTime: (title) => ipcRenderer.send('copy', title),\r\n  copyConvertedTimestamp: (title) => ipcRenderer.send('copy', title),\r\n\r\n  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),\r\n\r\n  readFile: (filename) => ipcRenderer.invoke('read-file', filename),\r\n  writeHostFile: (hostList) => ipcRenderer.invoke('write-host-file', hostList),\r\n})\n\n//# sourceURL=webpack:///./src/preload.js?");
+eval("const { contextBridge, ipcRenderer } = __webpack_require__(/*! electron */ \"electron\")\r\n\r\ncontextBridge.exposeInMainWorld('electronAPI', {\r\n  copy: (text) => ipcRenderer.send('copy', text),\r\n  copyJson: (title) => ipcRenderer.send('copy', title),\r\n  copyMd5TextDigest: (title) => ipcRenderer.send('copy', title),\r\n  copyConvertedTime: (title) => ipcRenderer.send('copy', title),\r\n  copyConvertedTimestamp: (title) => ipcRenderer.send('copy', title),\r\n\r\n  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),\r\n\r\n  readHostFile: () => ipcRenderer.invoke('read-host-file'),\r\n  writeHostFile: (hostList) => ipcRenderer.invoke('write-host-file', hostList),\r\n  deleteHostFile: (filename) => ipcRenderer.invoke('delete-host-file', filename),\r\n})\n\n//# sourceURL=webpack:///./src/preload.js?");
 
 /***/ }),
 

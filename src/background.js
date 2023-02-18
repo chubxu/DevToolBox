@@ -4,7 +4,7 @@ import { app, protocol, BrowserWindow, Menu, ipcMain, clipboard, nativeTheme } f
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 
-import { readFileSync, writeFile, mkdir } from 'fs';
+import { readFileSync, writeFile, mkdirSync, rmSync, readdirSync } from 'fs';
 const path = require('path')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -24,16 +24,39 @@ function handleDarkModeToggle() {
 }
 
 // 处理读取文件操作
-function handleReadFile(event, hostName) {
-  if (hostName === 'default') {
-    let defaultHostFilePath = 'C:/Windows/System32/drivers/etc/hosts'
-    let content = readFileSync(defaultHostFilePath, 'utf8')
-    return content
+function readHostFileHandler(event) {
+  let defaultHostFilePath = 'C:/Windows/System32/drivers/etc/hosts'
+  let content = readFileSync(defaultHostFilePath, 'utf8')
+
+  let hostList = []
+  hostList.push({
+    name: 'default',
+    switch: true,
+    content: content,
+    deleteButtonVisible: false,
+  })
+
+  try {
+    mkdirSync('./host')
+  } catch(err) {
+    console.log('host文件夹已经存在')
   }
+
+  let fileArray = readdirSync('./host')
+  fileArray.forEach(file => {
+    let fileContent = readFileSync(`./host/${file}`, 'utf8')
+    hostList.push({
+      name: file, 
+      switch: false,
+      content: fileContent,
+      deleteButtonVisible: false,
+    })
+  })
+  return JSON.stringify(hostList)
 }
 
 // 处理写入host文件操作
-function writeHostFile(event, hostListString) {
+function writeHostFileHandler(event, hostListString) {
   let hostList = JSON.parse(hostListString)
   mkdir('./host', (err) => {
     if (err) {
@@ -50,11 +73,19 @@ function writeHostFile(event, hostListString) {
   })
 }
 
+// 处理删除host文件
+function deleteHostFileHandler(event, hostName) {
+  rmSync(`./host/${hostName}`, {
+    force: true
+  })
+}
+
 function registerIpcHandler() {
   ipcMain.on('copy', handleCopyAction)
   ipcMain.handle('dark-mode:toggle', handleDarkModeToggle)
-  ipcMain.handle('read-file', handleReadFile)
-  ipcMain.handle('write-host-file', writeHostFile)
+  ipcMain.handle('read-host-file', readHostFileHandler)
+  ipcMain.handle('write-host-file', writeHostFileHandler)
+  ipcMain.handle('delete-host-file', deleteHostFileHandler)
 }
 
 protocol.registerSchemesAsPrivileged([

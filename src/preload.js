@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
 
-  readFile: (filename) => ipcRenderer.invoke('read-file', filename),
+  readHostFile: () => ipcRenderer.invoke('read-host-file'),
   writeHostFile: (hostList) => ipcRenderer.invoke('write-host-file', hostList),
+  deleteHostFile: (filename) => ipcRenderer.invoke('delete-host-file', filename),
 })
