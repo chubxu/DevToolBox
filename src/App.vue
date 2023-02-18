@@ -183,4 +183,8 @@ export default {
   height: 99%;
   overflow-y: scroll !important;
 }
+
+.el-dialog__header {
+  text-align: left !important;
+}
 </style>
