@@ -35,7 +35,7 @@
               @change="switchHandler(host.name)"
             />
             <el-button 
-              v-if="host.deleteButtonVisible && host.name !== 'default'" 
+              v-if="host.deleteButtonVisible && host.name !== 'default' && !host.switch" 
               @click="deleteHostHandler(host.name)"
               type="danger" 
               icon="Delete" 
@@ -56,6 +56,7 @@
       </el-col>
     </el-row>
 
+    <!-- 新增dialog -->
     <el-dialog
       v-model="addHostDialogVisible"
       title="新增Host"
@@ -88,7 +89,7 @@ export default {
 
   data() {
     return {
-      currentActivedHost: 'default',
+      currentActivedHost: '',
       currentHostContent: '',
       hostList: [
         {
@@ -209,9 +210,9 @@ export default {
     let hostListString = window.electronAPI.readHostFile()
     hostListString.then(res => {
       this.hostList = JSON.parse(res)
-      this.currentActivedHost = 'default'
       this.hostList.forEach(host => {
-        if (host.name === this.currentActivedHost) {
+        if (host.switch) {
+          this.currentActivedHost = host.name
           this.currentHostContent = host.content
         }
       })

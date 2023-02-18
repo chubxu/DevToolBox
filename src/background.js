@@ -25,43 +25,48 @@ function handleDarkModeToggle() {
 
 // 处理读取文件操作
 function readHostFileHandler(event) {
-  let defaultHostFilePath = 'C:/Windows/System32/drivers/etc/hosts'
-  let content = readFileSync(defaultHostFilePath, 'utf8')
-
-  let hostList = []
-  hostList.push({
-    name: 'default',
-    switch: true,
-    content: content,
-    deleteButtonVisible: false,
-  })
-
   try {
     mkdirSync('./host')
   } catch(err) {
     console.log('host文件夹已经存在')
   }
 
+  let activeName
+  let hostList = []
+
   let fileArray = readdirSync('./host')
   fileArray.forEach(file => {
-    let fileContent = readFileSync(`./host/${file}`, 'utf8')
-    if (file.indexOf('.') !== -1) {
-      let fileNameAnsSwitchFlag = file.split('.')
-      hostList.push({
-        name: fileNameAnsSwitchFlag[0], 
-        switch: true,
-        content: fileContent,
-        deleteButtonVisible: false,
-      })
-    } else {
+    if (!file.startsWith('.')) {
+      let fileContent = readFileSync(`./host/${file}`, 'utf8')
       hostList.push({
         name: file, 
         switch: false,
         content: fileContent,
         deleteButtonVisible: false,
       })
+    } else {
+      activeName = readFileSync(`./host/${file}`, 'utf8')
     }
   })
+
+  if (activeName) {
+    hostList.forEach(host => {
+      if (host.name === activeName) {
+        host.switch = true
+      }
+    })
+  } else {
+    let defaultHostFilePath = 'C:/Windows/System32/drivers/etc/hosts'
+    let content = readFileSync(defaultHostFilePath, 'utf8')
+    hostList.unshift({
+      name: 'default',
+      switch: true,
+      content: content,
+      deleteButtonVisible: false,
+    })
+  }
+  
+
   return JSON.stringify(hostList)
 }
 
@@ -73,15 +78,16 @@ function writeHostFileHandler(event, hostListString) {
       console.log('host文件夹已经存在')
     }
     hostList.forEach(host => {
-      writeFile(
-        `./host/${host.name}${host.switch ? '.active' : ''}`, 
-        host.content, 
-        {flag: 'w+'}, 
-        (err) => {
+      if (host.switch) {
+        writeFile('./host/.active', host.name, {flag: 'w+'}, (err) => {
           if (err) throw err
-          console.log('The file has been saved!')
-        }
-      )
+          console.log('当前激活host写入成功!')
+        })
+      }
+      writeFile(`./host/${host.name}`, host.content, {flag: 'w+'}, (err) => {
+        if (err) throw err
+        console.log(`${host.name}文件写入成功`)
+      })
     })
   })
 }
