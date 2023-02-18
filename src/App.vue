@@ -187,4 +187,12 @@ export default {
 .el-dialog__header {
   text-align: left !important;
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: larger;
+}
 </style>

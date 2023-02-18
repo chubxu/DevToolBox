@@ -118,6 +118,23 @@ const sideBarMenus = [
         darkImageName: 'host-dark.png',
         title: 'Host',
         content: 'Host Switch.',
+      },
+    ],
+  },
+  {
+    name: 'RegMatch',
+    icon: 'House',
+    index: 'RegMatch',
+    children: [
+      {
+        name: 'RegMatch',
+        icon: 'House',
+        index: '/RegMatch',
+        toolName: 'RegMatch',
+        imageName: 'host.png',
+        darkImageName: 'host-dark.png',
+        title: 'RegMatch',
+        content: 'Regular match word.',
         badgeName: 'dev',
       },
     ],

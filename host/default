@@ -1,0 +1,96 @@
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+
+# hadoop cloud
+192.168.28.101	hadoop101
+
+
+
+127.0.0.1	eureka7001.com
+127.0.0.1	eureka7002.com
+127.0.0.1	eureka7003.com
+127.0.0.1	myzull.com
+
+218.197.194.82 www.test.com
+218.197.194.82 www.test-1.com
+218.197.194.82 www.test-2.com
+218.197.194.82 www.xinlang.com
+218.197.194.82 www.sohu.com
+192.168.28.1 windows10.microdone.cn182.61.167.113 www.ccleaner.com
+182.61.167.113 ccleaner.com
+182.61.167.113 www.majorgeeks.com
+182.61.167.113 majorgeeks.com
+182.61.167.113 www.lifewire.com
+182.61.167.113 lifewire.com
+182.61.167.113 www.techspot.com
+182.61.167.113 techspot.com
+182.61.167.113 www.softpedia.com
+182.61.167.113 softpedia.com
+182.61.167.113 www.pccleaner.com
+182.61.167.113 pccleaner.com
+182.61.167.113 www.snapfiles.com
+182.61.167.113 snapfiles.com
+182.61.167.113 www.downloadcrew.com
+182.61.167.113 downloadcrew.com
+182.61.167.113 www.bleepingcomputer.com
+182.61.167.113 bleepingcomputer.com
+182.61.167.113 www.scanwith.com
+182.61.167.113 scanwith.com
+182.61.167.113 www.filehippo.com
+182.61.167.113 filehippo.com
+182.61.167.113 ccleaner.en.softonic.com
+182.61.167.113 ccleanerfreedownload.net
+182.61.167.113 en.wikipedia.org
+182.61.167.113 ccleaner-professional.en.softonic.com
+182.61.167.113 ccleaner-portable.en.softonic.com
+182.61.167.113 ccleaner.it.softonic.com
+182.61.167.113 ccleaner.softonic.com.br
+182.61.167.113 alternativeto.net
+182.61.167.113 ccleaner.en.downloadastro.com
+182.61.167.113	secure.ccleaner.com
+
+192.168.3.8 raspberry.pi.com
+
+# Added by Docker Desktop
+192.168.2.105 host.docker.internal
+192.168.2.105 gateway.docker.internal
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+
+
+104.16.58.5 discordapp.com
+104.16.59.5 discordapp.com
+104.16.250.144 dl.discordapp.net
+104.16.251.144 dl.discordapp.net
+104.16.249.144 dl.discordapp.net
+104.16.247.144 dl.discordapp.net
+104.16.248.144 dl.discordapp.net
+104.16.12.231 status.discordapp.com
+104.16.13.231 status.discordapp.com
+104.16.60.37 gateway.discord.gg
+104.16.251.144 media.discordapp.net
+104.16.249.144 images-ext-1.discordapp.net
+104.16.247.144 images-ext-2.discordapp.net
+104.16.12.231 cdn.disordapp.com
+104.16.13.231 cdn.disordapp.com
+104.16.12.231 support.discordapp.com
+# End of section
