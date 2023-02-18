@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   readHostFile: () => ipcRenderer.invoke('read-host-file'),
   writeHostFile: (hostList) => ipcRenderer.invoke('write-host-file', hostList),
+  writeSystemHostFile: (content) => ipcRenderer.invoke('write-system-host-file', content),
   deleteHostFile: (filename) => ipcRenderer.invoke('delete-host-file', filename),
 })

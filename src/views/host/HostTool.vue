@@ -35,7 +35,7 @@
               @change="switchHandler(host.name)"
             />
             <el-button 
-              v-if="host.deleteButtonVisible" 
+              v-if="host.deleteButtonVisible && host.name !== 'default'" 
               @click="deleteHostHandler(host.name)"
               type="danger" 
               icon="Delete" 
@@ -149,6 +149,7 @@ export default {
       this.hostList.forEach(host => {
         if (host.name === hostName) {
           this.currentHostContent = host.content
+          window.electronAPI.writeSystemHostFile(host.content)
         }
       })
 

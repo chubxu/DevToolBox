@@ -118,6 +118,7 @@ const sideBarMenus = [
         darkImageName: 'host-dark.png',
         title: 'Host',
         content: 'Host Switch.',
+        badgeName: 'dev',
       },
     ],
   },

@@ -4,7 +4,7 @@ import { app, protocol, BrowserWindow, Menu, ipcMain, clipboard, nativeTheme } f
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 
-import { readFileSync, writeFile, mkdirSync, rmSync, readdirSync } from 'fs';
+import { readFileSync, writeFile, mkdir, mkdirSync, rmSync, readdirSync } from 'fs';
 const path = require('path')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -45,12 +45,22 @@ function readHostFileHandler(event) {
   let fileArray = readdirSync('./host')
   fileArray.forEach(file => {
     let fileContent = readFileSync(`./host/${file}`, 'utf8')
-    hostList.push({
-      name: file, 
-      switch: false,
-      content: fileContent,
-      deleteButtonVisible: false,
-    })
+    if (file.indexOf('.') !== -1) {
+      let fileNameAnsSwitchFlag = file.split('.')
+      hostList.push({
+        name: fileNameAnsSwitchFlag[0], 
+        switch: true,
+        content: fileContent,
+        deleteButtonVisible: false,
+      })
+    } else {
+      hostList.push({
+        name: file, 
+        switch: false,
+        content: fileContent,
+        deleteButtonVisible: false,
+      })
+    }
   })
   return JSON.stringify(hostList)
 }
@@ -63,12 +73,15 @@ function writeHostFileHandler(event, hostListString) {
       console.log('host文件夹已经存在')
     }
     hostList.forEach(host => {
-      if (host.name != 'default') {
-        writeFile(`./host/${host.name}`, host.content, {flag: 'w+'}, (err) => {
+      writeFile(
+        `./host/${host.name}${host.switch ? '.active' : ''}`, 
+        host.content, 
+        {flag: 'w+'}, 
+        (err) => {
           if (err) throw err
           console.log('The file has been saved!')
-        })
-      }
+        }
+      )
     })
   })
 }
@@ -80,12 +93,21 @@ function deleteHostFileHandler(event, hostName) {
   })
 }
 
+// 处理写入系统host文件
+function writeSystemHostFileHandler(event, content) {
+  writeFile('C:/Windows/System32/drivers/etc/hosts', content, {flag: 'w+'}, (err) => {
+    if (err) throw err
+    console.log('The file has been saved!')
+  })
+}
+
 function registerIpcHandler() {
   ipcMain.on('copy', handleCopyAction)
   ipcMain.handle('dark-mode:toggle', handleDarkModeToggle)
   ipcMain.handle('read-host-file', readHostFileHandler)
   ipcMain.handle('write-host-file', writeHostFileHandler)
   ipcMain.handle('delete-host-file', deleteHostFileHandler)
+  ipcMain.handle('write-system-host-file', writeSystemHostFileHandler)
 }
 
 protocol.registerSchemesAsPrivileged([
