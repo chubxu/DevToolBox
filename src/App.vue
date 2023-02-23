@@ -60,6 +60,11 @@
 
 
       <el-main class="main-window">
+        <el-input placeholder="Type to Search Tools" size="small">
+          <template #suffix>
+            <el-icon><icon-search /></el-icon>
+          </template>
+        </el-input>
         <el-card shadow="never" class="main-window-card">
           <router-view></router-view>
         </el-card>
