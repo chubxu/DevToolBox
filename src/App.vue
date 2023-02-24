@@ -2,14 +2,10 @@
   <div>
     <el-container class="container">
       <el-aside class="side-bar">
-        <!-- 搜索框 -->
+        <!-- logo -->
         <el-row class="search-input" :gutter="10">
           <el-col :span="19"> 
-            <el-input placeholder="Type to Search Tools">
-              <template #suffix>
-                <el-icon><icon-search /></el-icon>
-              </template>
-            </el-input>
+            <el-image style="width: 125px; height: 32px" :src="globalStore.darkFlag ? require('@/assets/images/logo-dark.png') : require('@/assets/images/logo.png')" />
           </el-col>
           <el-col :span="5">
             <el-switch 
@@ -181,7 +177,8 @@ export default {
 }
 
 .search-input {
-  margin-bottom: 10px;
+  margin: 5px 0 5px 0;
+  text-align: left;
 }
 
 .el-sub-menu__title {
@@ -211,7 +208,7 @@ export default {
 }
 
 .global-search-input {
-  margin-bottom: 18px;
+  margin: 7px 0 12px 0;
   width: 25% !important;
 }
 
