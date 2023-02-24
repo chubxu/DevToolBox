@@ -132,7 +132,7 @@ async function createWindow() {
     titleBarStyle: 'hidden',
 
     // 添加icon
-    icon: path.join(__dirname, '/icon.png'),
+    icon: path.join(__dirname, '/logo.ico'),
 
     webPreferences: {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
