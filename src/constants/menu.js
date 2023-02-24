@@ -30,6 +30,16 @@ const sideBarMenus = [
         darkImageName: 'json-dark.png',
         title: 'JsonFormatter',
         content: 'Pretty formatter json string and copy it.',
+      },
+      {
+        name: 'JsonCompression',
+        icon: 'Crop',
+        index: '/JsonCompression',
+        toolName: 'Json压缩',
+        imageName: 'json.png',
+        darkImageName: 'json-dark.png',
+        title: 'Json压缩',
+        content: '将格式化json数据压缩成一行.',
       }
     ],
   },
