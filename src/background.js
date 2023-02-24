@@ -120,14 +120,16 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-// 隐藏菜单栏
-// Menu.setApplicationMenu(null)
 async function createWindow() {
   const win = new BrowserWindow({
     // 最小窗口尺寸
     // minWidth: 900,
     // minHeight: 600,
     resizable: false,
+
+    // 隐藏导航栏
+    frame: false,
+    titleBarStyle: 'hidden',
 
     // 添加icon
     icon: path.join(__dirname, '/icon.png'),
@@ -174,6 +176,12 @@ app.on('ready', async () => {
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
+  }
+  // 隐藏菜单栏
+  // Menu.setApplicationMenu(null);
+  // hide menu for Mac 
+  if (process.platform === 'darwin') {
+    app.dock.hide();
   }
   registerIpcHandler()
   createWindow()
