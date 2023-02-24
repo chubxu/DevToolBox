@@ -60,9 +60,14 @@
 
 
       <el-main class="main-window">
-        <el-input placeholder="Type to Search Tools" size="small">
-          <template #suffix>
+        <el-input placeholder="输入关键字搜索..." size="small" class="global-search-input" @focus="globalSearchFocusHandler">
+          <template #prefix>
             <el-icon><icon-search /></el-icon>
+          </template>
+          <template #suffix>
+            <el-tag type="info" class="global-search-input-tag">Ctrl</el-tag>
+            <span>+</span>
+            <el-tag type="info" class="global-search-input-tag">P</el-tag>
           </template>
         </el-input>
         <el-card shadow="never" class="main-window-card">
@@ -105,7 +110,7 @@ export default {
   data() {
     return {
       sideBarMenus: [],
-      isDarkFlag: false
+      isDarkFlag: false,
     }
   },
 
@@ -125,6 +130,10 @@ export default {
 
       // 设置 electron 为黑暗模式
       window.electronAPI.toggle()
+    },
+
+    globalSearchFocusHandler() {
+      console.log('.')
     }
   },
 
@@ -185,7 +194,7 @@ export default {
 }
 
 .main-window-card {
-  height: 99%;
+  height: 92%;
   overflow-y: scroll !important;
 }
 
@@ -199,5 +208,15 @@ export default {
   align-items: center;
   font-weight: 600;
   font-size: larger;
+}
+
+.global-search-input {
+  margin-bottom: 18px;
+  width: 25% !important;
+}
+
+.global-search-input-tag {
+  height: 16px !important;
+  margin: 0 5px;
 }
 </style>
