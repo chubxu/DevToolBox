@@ -56,16 +56,7 @@
 
 
       <el-main class="main-window">
-        <el-input placeholder="输入关键字搜索..." size="small" class="global-search-input" @focus="globalSearchFocusHandler">
-          <template #prefix>
-            <el-icon><icon-search /></el-icon>
-          </template>
-          <template #suffix>
-            <el-tag type="info" class="global-search-input-tag">Ctrl</el-tag>
-            <span>+</span>
-            <el-tag type="info" class="global-search-input-tag">P</el-tag>
-          </template>
-        </el-input>
+        <GlobalSearch :options="childrenMenus" />
         <el-card shadow="never" class="main-window-card">
           <router-view></router-view>
         </el-card>
@@ -85,6 +76,7 @@ import {
 import { menu } from './constants'
 import { useDark, useToggle } from '@vueuse/core'
 import { useGlobalStore } from '@/store/GlobalStore.js'
+import GlobalSearch from '@/components/GlobalSearch.vue'
 
 const isDark = useDark()
 
@@ -95,7 +87,8 @@ export default {
     IconRefresh,
     IconSearch,
     IconHomeFilled,
-    IconSunny
+    IconSunny,
+    GlobalSearch,
   },
 
   setup() {
@@ -106,6 +99,7 @@ export default {
   data() {
     return {
       sideBarMenus: [],
+      childrenMenus: [],
       isDarkFlag: false,
     }
   },
@@ -138,7 +132,10 @@ export default {
   },
 
   created() {
-    this.sideBarMenus = menu.sideBarMenus
+    this.sideBarMenus = menu.sideBarMenus,
+    this.sideBarMenus.forEach(sideBarMenu => {
+      this.childrenMenus.push(...sideBarMenu.children)
+    })
   },
 }
 </script>
