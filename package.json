@@ -1,69 +1,53 @@
 {
-  "name": "dev-tool-box",
-  "version": "0.1.0",
-  "private": true,
-  "build": {
-    "appId": "dev.tool.box",
-    "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "zip"
-      ]
-    }
-  },
+  "name": "create",
+  "version": "1.0.0",
+  "description": "An Electron application with Vue",
+  "main": "./out/main/index.js",
+  "author": "example.com",
+  "homepage": "https://www.electronjs.org",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "eb": "vue-cli-service electron:build",
-    "es": "vue-cli-service electron:serve",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps",
-    "dist": "electron-builder --win --x64"
+    "bw": "npm run build && electron-builder --win --config",
+    "build:mac": "npm run build && electron-builder --mac --config",
+    "build:linux": "npm run build && electron-builder --linux --config"
   },
-  "main": "./src/background.js",
   "dependencies": {
+    "@electron-toolkit/preload": "^1.0.3",
+    "@electron-toolkit/utils": "^1.0.2"
+  },
+  "devDependencies": {
+    "@electron/notarize": "^1.2.3",
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
     "@vueuse/core": "^9.12.0",
     "ace-diff": "^3.0.3",
     "axios": "^1.3.3",
     "core-js": "^3.8.3",
-    "daisyui": "^2.46.1",
-    "electron-windows-titlebar": "^1.0.7",
+    "electron": "^21.3.3",
+    "electron-builder": "^23.6.0",
+    "electron-vite": "^1.0.17",
     "element-plus": "^2.2.28",
+    "eslint": "^8.31.0",
+    "eslint-plugin-vue": "^9.8.0",
     "js-yaml": "^4.1.0",
+    "less": "^4.1.3",
     "md5": "^2.3.0",
     "moment": "^2.29.4",
     "openai": "^3.1.0",
     "pinia": "^2.0.30",
-    "vue": "^3.2.13",
+    "prettier": "^2.8.2",
+    "vite": "^4.0.4",
+    "vue": "^3.2.45",
     "vue-diff": "^1.2.4",
     "vue-json-pretty": "^2.2.3",
     "vue-router": "^4.1.6",
     "vue-word-highlighter": "^1.2.3",
     "yaml": "^2.2.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "autoprefixer": "^10.4.13",
-    "electron": "^13.0.0",
-    "electron-builder": "^23.6.0",
-    "electron-devtools-installer": "^3.1.0",
-    "electron-windows-titlebar": "^1.0.7",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.4",
-    "vue-cli-plugin-electron-builder": "~2.1.1"
-  },
-  "__npminstall_done": false
+  }
 }
