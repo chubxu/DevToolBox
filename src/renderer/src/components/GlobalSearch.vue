@@ -138,6 +138,10 @@ export default {
     width: 100%;
     margin: auto;
 
+    &:hover {
+      color: #409EFF;
+    }
+
     .filtered-option-card-button-content {
       margin: 4px 0 0 15px;
       font-size: xx-small;
