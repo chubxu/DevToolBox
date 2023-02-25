@@ -12,17 +12,24 @@
       </template>
     </el-input>
 
-    <el-card class="filtered-option-card" v-show="isOptionsShown">
+    <el-card class="filtered-option-card" v-show="isOptionsShown" :body-style="cardStyle">
       <el-button class="filtered-option-card-button" 
                  v-for="(filteredOption, index) in filteredOptions" :key="index" 
-                 @click="filteredOptionSelectedHandler"
+                 @mousedown.native="filteredOptionSelectedHandler(filteredOption)"
                  text>
         <template #icon>
           <el-icon :size="14">
             <component :is="filteredOption.icon"></component>
           </el-icon>
         </template>
-        <template #default>{{ filteredOption.name || filteredOption.id || '-' }}</template>
+        <template #default>
+          <span>
+            {{ filteredOption.name || filteredOption.id || '-' }}
+          </span>
+          <span class="filtered-option-card-button-content">
+            {{ filteredOption.content || '' }}
+          </span>
+        </template>
       </el-button>
     </el-card>
   </div>
@@ -63,6 +70,10 @@ export default {
     return {
       searchFilter: '',
       isOptionsShown: false,
+
+      cardStyle: {
+        padding: '5px',
+      }
     }
   },
 
@@ -81,10 +92,9 @@ export default {
       }
     },
 
-    filteredOptionSelectedHandler() {
-      console.log('aaa')
+    filteredOptionSelectedHandler(filteredOption) {
       this.$router.push({
-        name: option.name
+        name: filteredOption.name
       })
     },
   },
@@ -110,7 +120,7 @@ export default {
 
 .global-search {
   margin: 7px auto 12px auto;
-  width: 25% !important;
+  width: 30% !important;
 }
 
 .global-search-input-tag {
@@ -121,16 +131,21 @@ export default {
 .filtered-option-card {
   position: fixed;
   margin-top: 12px;
-
-  width: 309px;
+  width: 371px;
   z-index: 10;
 
   .filtered-option-card-button {
     width: 100%;
     margin: auto;
 
-    text-align: left !important;
+    .filtered-option-card-button-content {
+      margin: 4px 0 0 15px;
+      font-size: xx-small;
+    }
   }
 }
 
+.el-button {
+  justify-content: flex-start !important;
+}
 </style>
