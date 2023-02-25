@@ -13,9 +13,17 @@
     </el-input>
 
     <el-card class="filtered-option-card" v-show="isOptionsShown">
-      <div class="text item" @mousedown="selectOption(option)" v-for="(filteredOption, index) in filteredOptions" :key="index">
-        {{ filteredOption.name || filteredOption.id || '-' }}
-      </div>
+      <el-button class="filtered-option-card-button" 
+                 v-for="(filteredOption, index) in filteredOptions" :key="index" 
+                 @click="filteredOptionSelectedHandler"
+                 text>
+        <template #icon>
+          <el-icon :size="14">
+            <component :is="filteredOption.icon"></component>
+          </el-icon>
+        </template>
+        <template #default>{{ filteredOption.name || filteredOption.id || '-' }}</template>
+      </el-button>
     </el-card>
   </div>
 </template>
@@ -69,13 +77,16 @@ export default {
 
     globalSearchChangeHandler() {
       if(this.filteredOptions[0]) {
-        this.selectOption(this.filteredOptions[0])
+        this.filteredOptionSelectedHandler(this.filteredOptions[0])
       }
     },
 
-    selectOption(option) {
-      console.log('aaaa', option)
-    }
+    filteredOptionSelectedHandler() {
+      console.log('aaa')
+      this.$router.push({
+        name: option.name
+      })
+    },
   },
 
   computed: {
@@ -108,19 +119,18 @@ export default {
 }
 
 .filtered-option-card {
-    position: fixed;
-    margin-top: 12px;
+  position: fixed;
+  margin-top: 12px;
 
-    width: 309px;
-    z-index: 999;
+  width: 309px;
+  z-index: 10;
+
+  .filtered-option-card-button {
+    width: 100%;
+    margin: auto;
+
+    text-align: left !important;
   }
-
-.text {
-  font-size: 14px;
-}
-
-.item {
-  padding: 18px 0;
 }
 
 </style>
