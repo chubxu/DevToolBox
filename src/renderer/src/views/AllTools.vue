@@ -93,8 +93,9 @@ export default {
 }
 
 .all-tools-cards-img {
-  width: 64px;
-  height: 64px;
+  margin-top: 16px;
+  width: 32px;
+  height: 32px;
 }
 
 .all-tools-cards-desc-title {
