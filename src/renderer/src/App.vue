@@ -1,47 +1,58 @@
 <template>
   <div>
     <TitleBar />
-    <el-container class="container">
-      <el-aside class="side-bar">
-        <!-- all tools button -->
-        <el-row>
-          <el-button @click="toAllToolsPage" text style="height: 40px; width: 250px; justify-content: left;">
-            <template #icon>
-              <el-icon><icon-home-filled /></el-icon>
-            </template>
-            <span style="margin-left:5px">
-              All Tools
-            </span>
-          </el-button>
-        </el-row>
 
+    <el-container class="container">
+      <el-aside :style="isCollapse ? sideBarCollapseStyle : sideBarStyle">
+        <!-- all tools button -->
+        <el-button @click="toAllToolsPage" text :style="isCollapse ? allToolsButtonCollapseStyle : allToolsButtonStyle">
+          <template #icon>
+            <el-icon><icon-home-filled /></el-icon>
+          </template>
+          <span style="margin-left:5px">
+            {{ isCollapse ? '' : 'All Tools' }}
+          </span>
+        </el-button>
         <el-divider style="margin: 0"/>
 
         <!-- side bar menu -->
-        <el-menu :router="true">
-          <el-sub-menu v-for="menu in sideBarMenus" :index="menu.index" :key="menu.index">
-            <template #title>
-              <el-icon :size="14">
-                <component :is="menu.icon"></component>
-              </el-icon>
-              <span>{{ menu.name }}</span>
-            </template>
-            <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index">
-              <el-icon :size="14">
-                <component :is="child.icon"></component>
-              </el-icon>
-              <span>{{ child.name }}</span>
-              <el-badge v-if="child.badgeName" :value="child.badgeName" style="margin-bottom: 30px; margin-left: 10px" type="warning">
-              </el-badge>
-            </el-menu-item>
-          </el-sub-menu>
-        </el-menu>
+        <div style="height: 89%; overflow-y: scroll; overflow-x: hidden;">
+          <el-menu class="el-menu-vertical" :router="true" :collapse="isCollapse" :collapse-transition="false">
+            <el-sub-menu v-for="menu in sideBarMenus" :index="menu.index" :key="menu.index">
+              <template #title>
+                <el-icon :size="14">
+                  <component :is="menu.icon"></component>
+                </el-icon>
+                <span>{{ menu.name }}</span>
+              </template>
+              <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index">
+                <el-icon :size="14">
+                  <component :is="child.icon"></component>
+                </el-icon>
+                <span>{{ child.name }}</span>
+                <el-badge v-if="child.badgeName" :value="child.badgeName" style="margin-bottom: 30px; margin-left: 10px" type="warning">
+                </el-badge>
+              </el-menu-item>
+            </el-sub-menu>
+          </el-menu>
+        </div>
+        
 
+        <!-- collapse button-->
+        <el-divider style="margin: 0"/>
+        <el-row>
+          <el-button @click="collapse" text :style="isCollapse ? collapseButtonCollapseStyle : collapseButtonStyle">
+            <template #icon>
+              <el-icon v-if="isCollapse"><icon-expand /></el-icon>
+              <el-icon v-else><icon-fold /></el-icon>
+            </template>
+          </el-button>
+        </el-row>
+        <el-divider style="margin: 0"/>
       </el-aside>
 
 
       <el-main class="main-window">
-        
         <el-card shadow="never" class="main-window-card">
           <router-view></router-view>
         </el-card>
@@ -57,6 +68,8 @@ import {
   Search as IconSearch,
   HomeFilled as IconHomeFilled,
   Sunny as IconSunny,
+  Fold as IconFold,
+  Expand as IconExpand,
 } from '@element-plus/icons-vue'
 import { menu } from './constants'
 import { useGlobalStore } from '@/store/GlobalStore.js'
@@ -71,6 +84,8 @@ export default {
     IconSearch,
     IconHomeFilled,
     IconSunny,
+    IconFold,
+    IconExpand,
     GlobalSearch,
     TitleBar,
   },
@@ -85,6 +100,37 @@ export default {
       sideBarMenus: [],
       childrenMenus: [],
       isDarkFlag: false,
+
+      isCollapse: false,
+      sideBarStyle: {
+        'width': '250px !important',
+        'overflow-x': 'hidden !important'
+      },
+      sideBarCollapseStyle: {
+        'width': '64px !important',
+        'overflow-x': 'hidden !important'
+      },
+      allToolsButtonStyle: {
+        'height': '40px', 
+        'width': '250px',
+        'justify-content': 'left'
+      },
+      allToolsButtonCollapseStyle: {
+        'height': '40px', 
+        'width': '64px',
+        'align-item': 'flex-start'
+      },
+      collapseButtonStyle: {
+        'height': '40px', 
+        'width': '250px',
+        'justify-content': 'center'
+
+      },
+      collapseButtonCollapseStyle: {
+        'height': '40px', 
+        'width': '64px',
+        'justify-content': 'left'
+      }
     }
   },
 
@@ -99,6 +145,10 @@ export default {
     getAssets(url) {
       return new URL(url, import.meta.url).href;
     },
+
+    collapse() {
+      this.isCollapse = !this.isCollapse
+    }
   },
 
   created() {
@@ -167,8 +217,9 @@ body {
 }
 
 .main-window-card {
-  height: 99%;
+  height: 99.5%;
   overflow-y: scroll !important;
+  border-radius: 0 !important;
 }
 
 .el-dialog__header {
