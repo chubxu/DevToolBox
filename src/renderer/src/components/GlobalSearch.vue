@@ -124,20 +124,20 @@ export default {
 <style lang="less" scoped>
 
 .global-search {
-  margin: 7px auto 12px auto;
-  width: 30% !important;
+  margin: 0 auto 12px auto;
+  width: 370px !important;
 }
 
 .global-search-input-tag {
-  height: 16px !important;
+  height: 14px !important;
   margin: 0 5px;
 }
 
 .filtered-option-card {
   position: fixed;
   margin-top: 12px;
-  width: 371px;
-  z-index: 10;
+  width: 370px;
+  z-index: 999 !important;
 
   .filtered-option-card-button {
     width: 100%;
@@ -156,5 +156,9 @@ export default {
 
 .el-button {
   justify-content: flex-start !important;
+}
+
+.el-input--small {
+  --el-input-height: 20px;
 }
 </style>

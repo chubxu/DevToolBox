@@ -1,25 +1,8 @@
 <template>
   <div>
+    <TitleBar />
     <el-container class="container">
       <el-aside class="side-bar">
-        <!-- logo -->
-        <el-row class="search-input" :gutter="10">
-          <el-col :span="19"> 
-            <el-image style="width: 125px; height: 32px" :src="globalStore.darkFlag ? getAssets('./assets/images/logo-dark.png') : getAssets('./assets/images/logo.png')" />
-          </el-col>
-          <el-col :span="5">
-            <el-switch 
-              v-model="isDarkFlag" 
-              inline-prompt 
-              active-icon="Moon" 
-              inactive-icon="Sunny" 
-              active-color="#2c2c2c"
-              inactive-color="#d0d0d0"
-              @change="toggleDarkHandler"/>
-          </el-col>
-        </el-row>
-        <el-divider style="margin: 0"/>
-
         <!-- all tools button -->
         <el-row>
           <el-button @click="toAllToolsPage" text style="height: 40px; width: 250px; justify-content: left;">
@@ -31,6 +14,8 @@
             </span>
           </el-button>
         </el-row>
+
+        <el-divider style="margin: 0"/>
 
         <!-- side bar menu -->
         <el-menu :router="true">
@@ -56,7 +41,7 @@
 
 
       <el-main class="main-window">
-        <GlobalSearch ref="globalSearch" :options="childrenMenus" />
+        
         <el-card shadow="never" class="main-window-card">
           <router-view></router-view>
         </el-card>
@@ -74,11 +59,9 @@ import {
   Sunny as IconSunny,
 } from '@element-plus/icons-vue'
 import { menu } from './constants'
-import { useDark, useToggle } from '@vueuse/core'
 import { useGlobalStore } from '@/store/GlobalStore.js'
 import GlobalSearch from '@/components/GlobalSearch.vue'
-
-const isDark = useDark()
+import TitleBar from '@/components/TitleBar.vue'
 
 export default {
   name: 'App',
@@ -89,6 +72,7 @@ export default {
     IconHomeFilled,
     IconSunny,
     GlobalSearch,
+    TitleBar,
   },
 
   setup() {
@@ -112,20 +96,6 @@ export default {
       })
     },
 
-    toggleDarkHandler() {
-      // 设置element plus页面为黑暗模式
-      this.globalStore.darkFlag = !this.globalStore.darkFlag
-      const toggleDark = useToggle(isDark)
-      toggleDark()
-
-      // 设置 electron 为黑暗模式
-      window.electronAPI.toggle()
-    },
-
-    globalSearchFocusHandler() {
-      console.log('.')
-    },
-
     getAssets(url) {
       return new URL(url, import.meta.url).href;
     },
@@ -136,16 +106,15 @@ export default {
     this.sideBarMenus.forEach(sideBarMenu => {
       this.childrenMenus.push(...sideBarMenu.children)
     })
-
-
-    window.electronAPI.showGlobalSearch((_event, value) => {
-      this.$refs.globalSearch.showGlobalSearch()
-    })
   },
 }
 </script>
 
 <style>
+body {
+  margin: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -170,6 +139,7 @@ export default {
 }
 
 .container {
+  padding-top: 32px;
   height: 98vh !important;
 }
 
@@ -193,11 +163,11 @@ export default {
 }
 
 .main-window {
-  padding: 0 0px 0px 20px !important;
+  padding: 0 !important;
 }
 
 .main-window-card {
-  height: 92%;
+  height: 99%;
   overflow-y: scroll !important;
 }
 

@@ -125,6 +125,8 @@ function registerIpcHandler() {
 function createWindow() {
   const mainWindow = new BrowserWindow({
     title: 'DevToolBox',
+    frame: false,
+
     autoHideMenuBar: true,
 
     // 最小窗口尺寸
