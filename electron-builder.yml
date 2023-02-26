@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: create
+appId: org.dev.tool.box
+productName: DevToolBox
 directories:
   buildResources: build
 files:
@@ -31,11 +31,11 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: chubxu
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
   provider: generic
-  url: https://example.com/auto-updates
+  url: https://github.com/chubxu/DevToolBox

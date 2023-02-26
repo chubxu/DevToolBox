@@ -12,7 +12,7 @@ import {
 import { join } from 'path'
 import { readFileSync, writeFile, mkdir, mkdirSync, rmSync, readdirSync } from 'fs';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/icon.png?assets'
 
 // 处理复制到粘贴板操作
 function handleCopyAction(event, text) {
@@ -124,19 +124,18 @@ function registerIpcHandler() {
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
+    title: 'DevToolBox',
     autoHideMenuBar: true,
-    // 最小窗口尺寸
-    // minWidth: 900,
-    // minHeight: 600,
-    resizable: false,
 
-    // 隐藏导航栏
-    frame: false,
-    titleBarStyle: 'hidden',
+    // 最小窗口尺寸
+    minWidth: 900,
+    minHeight: 600,
+
+    
 
     // 添加icon
-    // icon: path.join(__dirname, '/logo.ico'),
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: join(__dirname, "../../resources/icon.png"),
+    // ...(process.platform === 'linux' ? { icon } : { icon }),
 
     webPreferences: {
       nodeIntegration: true,

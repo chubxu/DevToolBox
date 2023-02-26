@@ -1,10 +1,10 @@
 {
-  "name": "create",
+  "name": "devtoolbox",
   "version": "1.0.0",
-  "description": "An Electron application with Vue",
+  "description": "基于electron-vite的开发工具箱",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://www.electronjs.org",
+  "author": "chubxu",
+  "homepage": "https://github.com/chubxu/DevToolBox",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
