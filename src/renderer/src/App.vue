@@ -118,7 +118,7 @@ export default {
       allToolsButtonCollapseStyle: {
         'height': '40px', 
         'width': '64px',
-        'align-item': 'flex-start'
+        'justify-content': 'left'
       },
       collapseButtonStyle: {
         'height': '40px', 
