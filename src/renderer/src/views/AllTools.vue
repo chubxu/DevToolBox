@@ -7,15 +7,29 @@
       <el-card v-for="(tool, index) in toolList" :index="index" :key="index" 
                @click="clickCardToRoute(tool.name)"
                class="all-tools-cards"
-               :body-style="{ padding: '0px', width: '160px', height: '220px' }" shadow="hover">
-        <img class="all-tools-cards-img" :src="globalStore.darkFlag ? getAssets('../assets/images/' + tool.darkImageName) : getAssets('../assets/images/' + tool.imageName)"/>
-        <div class="all-tools-cards-desc-title">
-          <span>{{ tool.title }}</span>
-          <div class="all-tools-cards-desc-content">
-            <span>{{ tool.content }}</span>
-          </div>
-        </div>
+               :body-style="{ padding: '0px', width: '210px', height: '64px' }" shadow="hover">
+        <el-row :gutter="10">
+          <el-col :span="8">
+            <!-- <img class="all-tools-cards-img" :src="getAssets('../assets/images/Logo-chat.png')"/> -->
+            <img class="all-tools-cards-img" :src="globalStore.darkFlag ? getAssets('../assets/images/' + tool.darkImageName) : getAssets('../assets/images/' + tool.imageName)"/>
+          </el-col>
+          <el-col :span="16">
+            <div class="all-tools-cards-desc-title">
+              <span>{{ tool.title }}</span>
+              <div class="all-tools-cards-desc-content">
+                <span>{{ tool.content }}</span>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
       </el-card>
+
+      <!-- <el-card v-for="(tool, index) in toolList" :index="index" :key="index" 
+               @click="clickCardToRoute(tool.name)"
+               class="all-tools-cards"
+               :body-style="{ padding: '0px', width: '160px', height: '220px' }" shadow="hover">
+        
+      </el-card> -->
     </el-row>
   </div>
 </template>
@@ -79,19 +93,20 @@ export default {
 }
 
 .all-tools-cards-img {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  width: 64px;
+  height: 64px;
 }
 
 .all-tools-cards-desc-title {
-  padding: 14px; 
+  margin: 10px; 
+  height: 100%;
   font-size: smaller; 
   font-weight: 600; 
   text-align: left
 }
 
 .all-tools-cards-desc-content {
-  margin-top: 10px;
+  margin-top: 5px;
   font-size: xx-small; 
   text-align: left
 }
