@@ -56,7 +56,7 @@
 
 
       <el-main class="main-window">
-        <GlobalSearch :options="childrenMenus" />
+        <GlobalSearch ref="globalSearch" :options="childrenMenus" />
         <el-card shadow="never" class="main-window-card">
           <router-view></router-view>
         </el-card>
@@ -128,13 +128,18 @@ export default {
 
     getAssets(url) {
       return new URL(url, import.meta.url).href;
-    }
+    },
   },
 
   created() {
     this.sideBarMenus = menu.sideBarMenus,
     this.sideBarMenus.forEach(sideBarMenu => {
       this.childrenMenus.push(...sideBarMenu.children)
+    })
+
+
+    window.electronAPI.showGlobalSearch((_event, value) => {
+      this.$refs.globalSearch.showGlobalSearch()
     })
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="global-search" v-if="options">
-    <el-input size="small"  v-model="searchFilter" :placeholder="placeholder" 
+    <el-input ref="globalSearchInput" size="small"  v-model="searchFilter" :placeholder="placeholder" 
               @focus="globalSearchFocusHandler" @blur="globalSearchBlurHandler" @change="globalSearchChangeHandler">
       <template #prefix>
         <el-icon><icon-search /></el-icon>
@@ -97,6 +97,11 @@ export default {
         name: filteredOption.name
       })
     },
+
+    showGlobalSearch() {
+      this.isOptionsShown = true
+      this.$refs.globalSearchInput.focus()
+    }
   },
 
   computed: {

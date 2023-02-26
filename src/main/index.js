@@ -1,4 +1,14 @@
-import { app, shell, BrowserWindow, protocol, Menu, ipcMain, clipboard, nativeTheme } from 'electron'
+import { 
+  app, 
+  BrowserWindow, 
+  clipboard, 
+  globalShortcut, 
+  ipcMain, 
+  Menu, 
+  nativeTheme,
+  protocol, 
+  shell, 
+} from 'electron'
 import { join } from 'path'
 import { readFileSync, writeFile, mkdir, mkdirSync, rmSync, readdirSync } from 'fs';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -144,6 +154,11 @@ function createWindow() {
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
+  })
+
+  // 注册全局快捷键
+  globalShortcut.register('CommandOrControl+K', () => {
+    mainWindow.webContents.send('show-global-search', true)
   })
 
   // HMR for renderer base on electron-vite cli.
