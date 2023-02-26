@@ -16,7 +16,12 @@ const electronAPI = {
   writeSystemHostFile: (content) => ipcRenderer.invoke('write-system-host-file', content),
   deleteHostFile: (filename) => ipcRenderer.invoke('delete-host-file', filename),
 
-  showGlobalSearch: (show) => ipcRenderer.on('show-global-search', show)
+  showGlobalSearch: (show) => ipcRenderer.on('show-global-search', show),
+
+  minimizeWindow: () => ipcRenderer.invoke('minimize-window'),
+  unmaximizeWindow: () => ipcRenderer.invoke('unmaximize-window'),
+  maximizeWindow: () => ipcRenderer.invoke('maximize-window'),
+  closeWindow: () => ipcRenderer.invoke('close-window'),
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

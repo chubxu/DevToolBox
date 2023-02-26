@@ -14,6 +14,56 @@ import { readFileSync, writeFile, mkdir, mkdirSync, rmSync, readdirSync } from '
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?assets'
 
+let mainWindow
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    title: 'DevToolBox',
+    frame: false,
+
+    autoHideMenuBar: true,
+
+    // 最小窗口尺寸
+    minWidth: 900,
+    minHeight: 600,
+
+    
+
+    // 添加icon
+    icon: join(__dirname, "../../resources/icon.png"),
+    // ...(process.platform === 'linux' ? { icon } : { icon }),
+
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      preload: join(__dirname, '../preload/index.js'),
+      sandbox: false
+    }
+  })
+
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.maximize()
+    mainWindow.show()
+  })
+
+  mainWindow.webContents.setWindowOpenHandler((details) => {
+    shell.openExternal(details.url)
+    return { action: 'deny' }
+  })
+
+  // 注册全局快捷键
+  globalShortcut.register('CommandOrControl+K', () => {
+    mainWindow.webContents.send('show-global-search', true)
+  })
+
+  // HMR for renderer base on electron-vite cli.
+  // Load the remote URL for development or the local html file for production.
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  } else {
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+  }
+}
+
 // 处理复制到粘贴板操作
 function handleCopyAction(event, text) {
   clipboard.writeText(text)
@@ -120,55 +170,10 @@ function registerIpcHandler() {
   ipcMain.handle('write-host-file', writeHostFileHandler)
   ipcMain.handle('delete-host-file', deleteHostFileHandler)
   ipcMain.handle('write-system-host-file', writeSystemHostFileHandler)
-}
-
-function createWindow() {
-  const mainWindow = new BrowserWindow({
-    title: 'DevToolBox',
-    frame: false,
-
-    autoHideMenuBar: true,
-
-    // 最小窗口尺寸
-    minWidth: 900,
-    minHeight: 600,
-
-    
-
-    // 添加icon
-    icon: join(__dirname, "../../resources/icon.png"),
-    // ...(process.platform === 'linux' ? { icon } : { icon }),
-
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
-  })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.maximize()
-    mainWindow.show()
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // 注册全局快捷键
-  globalShortcut.register('CommandOrControl+K', () => {
-    mainWindow.webContents.send('show-global-search', true)
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
+  ipcMain.handle('minimize-window', () => { mainWindow.minimize() })
+  ipcMain.handle('unmaximize-window', () => { mainWindow.unmaximize() })
+  ipcMain.handle('maximize-window', () => { mainWindow.maximize() })
+  ipcMain.handle('close-window', () => { mainWindow.close() })
 }
 
 // This method will be called when Electron has finished
