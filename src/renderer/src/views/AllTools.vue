@@ -8,17 +8,16 @@
                @click="clickCardToRoute(tool.name)"
                class="all-tools-cards"
                :body-style="{ padding: '0px', width: '210px', height: '64px' }" shadow="hover">
-        <el-row :gutter="10">
-          <el-col :span="8">
-            <!-- <img class="all-tools-cards-img" :src="getAssets('../assets/images/Logo-chat.png')"/> -->
+        <el-row>
+          <el-col :span="6">
             <img class="all-tools-cards-img" :src="globalStore.darkFlag ? getAssets('../assets/images/' + tool.darkImageName) : getAssets('../assets/images/' + tool.imageName)"/>
           </el-col>
-          <el-col :span="16">
+          <el-col :span="18">
             <div class="all-tools-cards-desc-title">
               <span>{{ tool.title }}</span>
-              <div class="all-tools-cards-desc-content">
-                <span>{{ tool.content }}</span>
-              </div>
+            </div>
+            <div class="all-tools-cards-desc-content">
+              <span>{{ tool.content }}</span>
             </div>
           </el-col>
         </el-row>
@@ -88,8 +87,8 @@ export default {
 }
 
 .all-tools-cards {
-  margin-right: 34px;
-  margin-bottom: 34px;
+  margin-right: 25px;
+  margin-bottom: 25px;
 }
 
 .all-tools-cards-img {
@@ -99,8 +98,7 @@ export default {
 }
 
 .all-tools-cards-desc-title {
-  margin: 10px; 
-  height: 100%;
+  margin-top: 10px; 
   font-size: smaller; 
   font-weight: 600; 
   text-align: left
