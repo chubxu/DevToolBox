@@ -5,20 +5,20 @@
       ChatGPT
     </el-row>
 
-    <el-row :gutter="10" v-loading="chatLoading" element-loading-text="答案正在赶来, 请耐心等待 O(∩_∩)O ...">
-      <el-col :span="14">
+    <el-row :gutter="10" justify="start" v-loading="chatLoading" element-loading-text="答案正在赶来, 请耐心等待 O(∩_∩)O ...">
+      <el-col :span="16">
         <!-- chat -->
         <div class="chat">
-          <div class="chat__header">
-            <span class="chat__header__greetings">
+          <div :class="globalStore.darkFlag ? 'chat-header-dark' : 'chat-header-light'">
+            <span :class="globalStore.darkFlag ? 'chat-header-greetings-dark' : 'chat-header-greetings-light'">
               Chat Room
             </span>
           </div>
-          <div class="chat__body" id="chat__body">
+          <div :class="globalStore.darkFlag ? 'chat-body-dark' : 'chat-body-light'" id="chat__body">
             <ChatMessage v-for="(message, index) in messageList" :key="index" :message="message" :prev="[index == 0 ? null : messageList[index - 1]]" />
           </div>
           
-          <div class="form">
+          <div :class="globalStore.darkFlag ? 'form-dark' : 'form-light'">
             <el-input 
               class="form__input"
               :placeholder="inputPlaceholder" 
@@ -32,15 +32,36 @@
         </div>
       </el-col>
 
-      <el-col :span="10">
-        <el-row>
-          <el-input v-model="apiKey" class="api-key-input">
-            <template #prepend>ApiKey</template>
-          </el-input>
-        </el-row>
+      <el-col :span="8">
+        <el-form label-width="80px">
+          <el-form-item label="ApiKey">
+            <el-input v-model="apiKey" class="api-key-input" type="textarea" rows="3" resize="none"/>
+          </el-form-item>
+          <el-form-item label="Temperature">
+            <el-slider v-model="temperature" size="small" :step="0.1" :min="0" :max="2"/>
+          </el-form-item>
+          <el-form-item label="Top_P">
+            <el-slider v-model="topP" size="small" :step="0.1" :min="0" :max="1"/>
+          </el-form-item>
+          <el-form-item label="Model">
+            <el-select v-model="model" placeholder="Select model">
+              <el-option
+                v-for="item in modelOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="FrequencyPenalty">
+            <el-slider v-model="frequencyPenalty" size="small" :step="0.1" :min="-2" :max="2"/>
+          </el-form-item>
+          <el-form-item label="PresencePenalty">
+            <el-slider v-model="presencePenalty" size="small" :step="0.1" :min="-2" :max="2"/>
+          </el-form-item>
+        </el-form>
       </el-col>
     </el-row>
-    
   </div>
 </template>
 
@@ -50,6 +71,7 @@ import axios from 'axios'
 import {
   Promotion as IconPromotion,
 } from '@element-plus/icons-vue'
+import { useGlobalStore } from '@/store/GlobalStore.js'
 export default {
   name: 'ChatGPT',
   
@@ -58,13 +80,30 @@ export default {
     IconPromotion,
   },
 
+  setup() {
+    const globalStore = useGlobalStore()
+    return { globalStore }
+  },
+
   data() {
     return {
       chatLoading: false,
       messageList: [],
       prompt: "",
       inputPlaceholder: '请输入您的问题...',
+      
       apiKey: '',
+      temperature: 1,
+      topP: 1,
+      model: 'text-davinci-003',
+      modelOptions: [
+        {
+          lable: 'text-davinci-003',
+          value: 'text-davinci-003',
+        }
+      ],
+      frequencyPenalty: 0,
+      presencePenalty: 0,
     };
   },
 
@@ -95,12 +134,12 @@ export default {
     async chapGptOpenApi(prompt) {
       let data = {
         prompt: prompt,
-        temperature: 1,
-        top_p: 1,
-        model: 'text-davinci-003',
+        temperature: this.temperature,
+        top_p: this.topP,
+        model: this.model,
         max_tokens: 1024,
-        frequency_penalty: 0,
-        presence_penalty: 0,
+        frequency_penalty: this.frequencyPenalty,
+        presence_penalty: this.presencePenalty,
         stop: ["Human", "AI:"],
       }
       axios.post('https://api.openai.com/v1/completions', data, {
@@ -137,7 +176,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+@chat-width: 700px;
+
 .title {
   font-size: var(--el-font-size-extra-large); 
   font-weight: bold;
@@ -149,48 +190,80 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  align-items: center;
+  align-items: left;
 }
 
-.chat__header {
-  background: #ffffff;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px 8px 0px 0px;
+.chat-header {
+  border-radius: 5px 5px 0px 0px;
   padding: 10px 15px 10px 15px;
-  width: 600px;
+  width: @chat-width;
   z-index: 2;
 }
-
-.chat__header__greetings {
-  font-size: 18px;
-  font-weight: 600;
-  color: #292929;
+.chat-header-light {
+  background: #ffffff;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  .chat-header();
+}
+.chat-header-dark {
+  background: #1d1e1f;
+  box-shadow: 0px 3px 10px rgba(167, 163, 163, 0.1);
+  .chat-header();
 }
 
-.chat__body {
-  background: #ffffff;
-  width: 600px;
-  height: 500px;
+.chat-header-greetings {
+  font-size: 18px;
+  font-weight: 600;
+}
+.chat-header-greetings-light {
+  color: #292929;
+  .chat-header-greetings();
+}
+.chat-header-greetings-dark {
+  color: #e5eaf3;
+  .chat-header-greetings();
+}
+
+.chat-body {
+  width: @chat-width;
+  height: 550px;
   padding: 15px;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  
   overflow: scroll;
   scroll-behavior: smooth;
 }
-
-.chat__body::-webkit-scrollbar {
+.chat-body::-webkit-scrollbar {
   display: none;
 }
+.chat-body-light {
+  background: #ffffff;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  .chat-body();
+}
+.chat-body-dark {
+  background: #1d1e1f;
+  box-shadow: 0px 3px 10px rgba(167, 163, 163, 0.1);
+  .chat-body();
+}
+
 
 .form {
   display: flex;
   justify-content: space-between;
   padding: 5px 15px 5px 15px;
-  width: 600px;
-  background: #ffffff;
-  border-radius: 0px 0px 8px 8px;
-  box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.1);
+  width: @chat-width;
+  border-radius: 0px 0px 5px 5px;
+  
   z-index: 2;
-
+}
+.form-light {
+  background: #ffffff;
+  box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.1);
+  .form();
+}
+.form-dark {
+  background: #1d1e1f;
+  box-shadow: 0px -5px 30px rgba(167, 163, 163, 0.1);
+  .form();
 }
 
 .form__input {

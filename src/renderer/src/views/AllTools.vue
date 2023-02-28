@@ -22,13 +22,6 @@
           </el-col>
         </el-row>
       </el-card>
-
-      <!-- <el-card v-for="(tool, index) in toolList" :index="index" :key="index" 
-               @click="clickCardToRoute(tool.name)"
-               class="all-tools-cards"
-               :body-style="{ padding: '0px', width: '160px', height: '220px' }" shadow="hover">
-        
-      </el-card> -->
     </el-row>
   </div>
 </template>
