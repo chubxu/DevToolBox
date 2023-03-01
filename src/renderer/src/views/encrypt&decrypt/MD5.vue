@@ -22,14 +22,14 @@
     <el-row style="margin-top: 36px">
       <el-col :span="24">
         <el-row class="label">
-          <el-col :span="2">
+          <div>
             text-digest
-          </el-col>
-          <el-col :span="2" :offset="20">
+          </div>
+          <div>
             <el-button @click="copyMd5TextDigest" size="small" style="margin-top: -6px">
               <el-icon :size="14"><IconCopyDocument /></el-icon> &nbsp;Copy
             </el-button>
-          </el-col>
+          </div>
         </el-row>
         <el-row>
           <el-input v-model="md5Text" readonly/>
@@ -88,7 +88,11 @@ export default {
 }
 
 .label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   font-size: var(--el-font-size-base);
-  margin-bottom: 5px;
+  margin: -6px 0 5px 0;
 }
 </style>
