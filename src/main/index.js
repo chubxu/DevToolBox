@@ -26,8 +26,6 @@ function createWindow() {
     minWidth: 900,
     minHeight: 600,
 
-    
-
     // 添加icon
     icon: join(__dirname, "../../resources/icon.png"),
     // ...(process.platform === 'linux' ? { icon } : { icon }),
@@ -43,6 +41,11 @@ function createWindow() {
   mainWindow.on('ready-to-show', () => {
     mainWindow.maximize()
     mainWindow.show()
+  })
+
+  // 监听非最大化事件，通知titlebar切换icon
+  mainWindow.on('unmaximize', () => {
+    mainWindow.webContents.send('drag-to-unmaximize')
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

@@ -111,6 +111,9 @@ export default {
     window.electronAPI.showGlobalSearch((_event, value) => {
       this.$refs.globalSearch.showGlobalSearch()
     })
+    window.electronAPI.dragToUnmaximize((_event, value) => {
+      this.isMaximized = false
+    })
   },
 }
 </script>
