@@ -71,7 +71,7 @@
             Result
           </el-row>
           <el-row>
-            <div class="result">
+            <div :class="globalStore.darkFlag ? 'result-dark' : 'result-light'">
               <WordHighlighter 
                 :query="sarchWord"
                 :caseSensitive="caseSensitive"
@@ -91,11 +91,17 @@
 
 <script>
 import WordHighlighter from "vue-word-highlighter";
+import { useGlobalStore } from '@/store/GlobalStore.js'
 export default {
   name: 'RegMatch',
 
   components: {
     WordHighlighter
+  },
+
+  setup() {
+    const globalStore = useGlobalStore()
+    return { globalStore }
   },
 
   data() {
@@ -161,7 +167,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less"  scoped>
 .title {
   font-size: var(--el-font-size-extra-large); 
   font-weight: bold;
@@ -178,8 +184,14 @@ export default {
 
 .result {
   padding: 10px 15px 10px 15px;
-
-  background-color: #ecf5ff;
   text-align: left;
+}
+.result-light {
+  background-color: #ecf5ff;
+  .result();
+}
+.result-dark {
+  background-color: #3d3e3e;
+  .result();
 }
 </style>
