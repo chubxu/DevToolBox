@@ -11,11 +11,11 @@
       <el-row :gutter="25" class="timestamp-to-time">
         <el-col :span="6">
           <span style="font-size: small;">
-            Unix时间戳(Unix timestamp)
+            Unix时间戳 > 时间
           </span>
         </el-col>
         <el-col :span="6">
-          <el-input v-model="inputTimeStamp" @input="inputTimeStampHandler" />
+          <el-input v-model="inputTimeStamp" @input="inputTimeStampHandler" placeholder="Unix timestamp"/>
           <div class="validate-font" v-if="timestampToTimeValidatedText">{{ timestampToTimeValidatedText }}</div>
         </el-col>
         <el-col :span="3">
@@ -41,11 +41,11 @@
       <el-row :gutter="25" class="time-to-timestamp">
         <el-col :span="6">
           <span style="font-size: small;">
-            时间(yyyy-MM-DD hh:mm:ss)
+            时间 > 时间戳
           </span>
         </el-col>
         <el-col :span="6">
-          <el-input v-model="inputTime" @input="inputTimeHandler" />
+          <el-input v-model="inputTime" @input="inputTimeHandler" placeholder="yyyy-MM-DD hh:mm:ss"/>
           <div class="validate-font" v-if="timesToTimeStampValidatedText">{{ timesToTimeStampValidatedText }}</div>
         </el-col>
         <el-col :span="3">
