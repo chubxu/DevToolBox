@@ -5,24 +5,24 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="7">
-        <el-row class="label">
+        <el-row style="margin-bottom: 5px">
           Input
         </el-row>
         <el-row>
-          <el-input v-model="inputData" :rows="22"
+          <el-input v-model="inputData" :rows="31"
                     resize="none" type="textarea" placeholder="Please input"/>
         </el-row>
       </el-col>
 
       <el-col :span="17">
-        <el-row class="label">
-          <el-col :span="1">Output</el-col>
-          <el-col :span="2" :offset="20">
-            <el-button @click="copyJson" size="small" style="margin-top: -6px">
+        <div class="label">
+          <div>Output</div>
+          <div>
+            <el-button @click="copyJson" size="small">
               <el-icon :size="14"><IconCopyDocument /></el-icon> &nbsp;Copy
             </el-button>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
 
         <div class="vue-json-pretty">
           <el-scrollbar>
@@ -89,13 +89,17 @@ export default {
   margin-bottom: 24px;
 }
 .label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   font-size: var(--el-font-size-base);
-  margin-bottom: 5px;
+  margin: -6px 0 5px 0;
 }
 .vue-json-pretty {
   border: 1px solid #dcdfe6;
   border-radius: 4px;
-  height: 470px;
+  height: 659px;
   overflow-y: auto;
 }
 
