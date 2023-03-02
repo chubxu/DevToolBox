@@ -17,9 +17,9 @@ const sideBarMenus = [
     ],
   },
   {
-    name: 'Formatter',
+    name: 'Json',
     icon: 'Crop',
-    index: 'Formatter',
+    index: 'Json',
     children: [
       {
         name: 'JsonFormatter',
@@ -40,6 +40,16 @@ const sideBarMenus = [
         darkImageName: 'json-dark.png',
         title: 'Json压缩',
         content: '将格式化json数据压缩成一行.',
+      },
+      {
+        name: 'Json2Xml',
+        icon: 'Crop',
+        index: '/Json2Xml',
+        toolName: 'Json2Xml',
+        imageName: 'json.png',
+        darkImageName: 'json-dark.png',
+        title: 'Json<>Xml',
+        content: 'Json和Xml相互转换.',
       }
     ],
   },
