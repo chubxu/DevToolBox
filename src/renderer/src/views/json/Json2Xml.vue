@@ -15,8 +15,9 @@
           </div>
         </div>
         <el-row>
-          <el-input v-model="inputJsonData" :rows="30"
-                    resize="none" type="textarea" placeholder="Please input"/>
+          <!-- <el-input v-model="inputJsonData" :rows="30"
+                    resize="none" type="textarea" placeholder="Please input"/> -->
+          <CodeMirror :code="inputJsonData" :readonly="false" @change="dataChangeHandler"/>
         </el-row>
       </el-col>
 
@@ -37,12 +38,17 @@
 
 <script>
 const convert = require('xml-js')
+import CodeMirror from '@/components/Vue3CodeMirror.vue'
 export default {
   name: '',
 
+  components: {
+    CodeMirror,
+  },
+
   data() {
     return {
-      inputJsonData: '',
+      inputJsonData: '{"a": "b"}',
     }
   },
 
@@ -65,6 +71,10 @@ export default {
         showClose: true,
         message: 'Copy Success',
       })
+    },
+
+    dataChangeHandler(data) {
+      console.log(data)
     }
   },
 
