@@ -25,6 +25,7 @@ import "codemirror/addon/fold/brace-fold"
 import "codemirror/addon/fold/indent-fold.js"
 import "codemirror/addon/fold/markdown-fold.js"
 import "codemirror/addon/fold/comment-fold.js"
+
 function dynamicImport (props) {
   if (props.mode === 'javascript') {
       import('codemirror/mode/javascript/javascript')
@@ -32,6 +33,8 @@ function dynamicImport (props) {
       import('codemirror/mode/xml/xml')
     } else if (props.mode === 'yaml') {
       import('codemirror/mode/yaml/yaml')
+    } else if (props.mode === 'properties') {
+      import('codemirror/mode/properties/properties')
     }
 }
 export default {

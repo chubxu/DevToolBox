@@ -61,6 +61,16 @@ const sideBarMenus = [
         title: 'Json > Yaml',
         content: 'Json转Yaml.',
       },
+      {
+        name: 'Json2Properties',
+        icon: 'CirclePlus',
+        index: '/Json2Properties',
+        toolName: 'Json2Properties',
+        imageName: 'json.png',
+        darkImageName: 'json-dark.png',
+        title: 'Json > Properties',
+        content: 'Json转Properties.',
+      },
     ],
   },
   {

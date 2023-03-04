@@ -20,6 +20,11 @@ const routes = [
     path: '/Json2Yaml',
     component: () => import('@/views/json/Json2Yaml.vue')
   },
+  {
+    name: 'Json2Properties',
+    path: '/Json2Properties',
+    component: () => import('@/views/json/Json2Properties.vue')
+  },
 ]
 
 export { routes }
