@@ -35,6 +35,8 @@ function dynamicImport (props) {
       import('codemirror/mode/yaml/yaml')
     } else if (props.mode === 'properties') {
       import('codemirror/mode/properties/properties')
+    } else if (props.mode === 'go') {
+      import('codemirror/mode/go/go')
     }
 }
 export default {

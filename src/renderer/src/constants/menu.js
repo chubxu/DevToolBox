@@ -71,6 +71,16 @@ const sideBarMenus = [
         title: 'Json > Properties',
         content: 'Json转Properties.',
       },
+      {
+        name: 'Json2GoStruct',
+        icon: 'CirclePlus',
+        index: '/Json2GoStruct',
+        toolName: 'Json2GoStruct',
+        imageName: 'json.png',
+        darkImageName: 'json-dark.png',
+        title: 'Json > Go Struct',
+        content: 'Json转Go Struct.',
+      },
     ],
   },
   {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="title">
-      Json &gt; Properties
+      Json &gt; Go Struct
     </el-row>
 
     <el-row :gutter="20">
@@ -29,16 +29,16 @@
 
       <el-col :span="12">
         <div class="label">
-          <div>Properties输出</div>
+          <div>Go Struct输出</div>
           <div>
-            <el-button size="small" icon="CopyDocument" @click="copyPropertiesDataHandler">复制</el-button>
-            <el-button size="small" icon="Download" @click="downloadPropertiesFile">导出文件</el-button>
+            <el-button size="small" icon="CopyDocument" @click="copyGoStructDataHandler">复制</el-button>
+            <el-button size="small" icon="Download" @click="downloadGoStructFile">导出文件</el-button>
           </div>
         </div>
         <CodeMirror 
-          ref="propertiesCodeMirror"
-          :code="outputPropertiesData"
-          mode="properties"
+          ref="goStructCodeMirror"
+          :code="outputGoStructData"
+          mode="go"
           :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
           :readonly="true"
           :refreshRealTime="true" 
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { jsonToGo } from "@/utils/JsonToGoUtil.js"
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
 import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
 import { useGlobalStore } from '@/store/GlobalStore.js'
@@ -85,8 +86,8 @@ export default {
       })
     },
 
-    copyPropertiesDataHandler() {
-      window.electronAPI.copy(this.outputPropertiesData)
+    copyGoStructDataHandler() {
+      window.electronAPI.copy(this.outputGoStructData)
       this.$message.success({
         showClose: true,
         message: 'Copy Success',
@@ -112,10 +113,10 @@ export default {
       })
     },
 
-    downloadPropertiesFile() {
+    downloadGoStructFile() {
       let data = {
-        suffix: 'properties',
-        data: this.outputPropertiesData
+        suffix: 'go',
+        data: this.outputGoStructData
       }
       window.electronAPI.downloadFile(JSON.stringify(data))
       this.$message.success({
@@ -123,46 +124,31 @@ export default {
         showClose: true
       })
     },
-
-    json2Properties(json, prefix) {
-      let result = ''
-      let keys = Object.keys(json);
-      keys.forEach(key => {
-        let _prefix
-        if (json[key] && typeof json[ key ] === 'object') {
-            let _currPrefix = key.concat('.')
-            _prefix = prefix ? prefix.concat(_currPrefix) : _currPrefix
-            result = result.concat(this.json2Properties(json[ key ], _prefix))
-        } else {
-            _prefix = prefix ? prefix.concat(key) : key
-            result = result.concat(_prefix.concat('=').concat(json[ key ] || ''))
-        }
-        result = result.concat('\n')
-      })
-      return result.trim();
-    },
   },
 
   computed: {
-    outputPropertiesData() {
+    outputGoStructData() {
       if (typeof this.inputJsonData === 'string') {
         try {
           let obj = JSON.parse(this.inputJsonData)
           if (typeof obj == 'object' && obj) {
             this.parseError = false
-            return this.json2Properties(obj)
+            let goStruct = jsonToGo(this.inputJsonData)
+            if (goStruct) {
+              return goStruct.go
+            }
           } else {
             this.parseError = true
-            return this.outputPropertiesData
+            return this.outputGoStructData
           }
         } catch (e) {
           console.error(e)
           this.parseError = true
-          return this.outputPropertiesData
+          return this.outputGoStructData
         }
       }
       this.parseError = true
-      return this.outputPropertiesData
+      return this.outputGoStructData
     }
   },
 

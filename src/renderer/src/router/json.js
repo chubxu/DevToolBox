@@ -25,6 +25,11 @@ const routes = [
     path: '/Json2Properties',
     component: () => import('@/views/json/Json2Properties.vue')
   },
+  {
+    name: 'Json2GoStruct',
+    path: '/Json2GoStruct',
+    component: () => import('@/views/json/Json2GoStruct.vue')
+  },
 ]
 
 export { routes }
