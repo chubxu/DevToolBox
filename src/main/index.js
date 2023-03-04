@@ -195,7 +195,7 @@ function downloadFile(event, data) {
             {flag: 'w+'},  
             (err) => {
               if (err) throw err
-              console.log(`xml文件写入成功`)
+              console.log(`${specifiedFileData.suffix}文件写入成功`)
             }
   )
 }
