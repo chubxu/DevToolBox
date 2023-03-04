@@ -1,7 +1,8 @@
 import { 
   app, 
   BrowserWindow, 
-  clipboard, 
+  clipboard,
+  dialog, 
   globalShortcut, 
   ipcMain, 
   Menu, 
@@ -166,6 +167,39 @@ function writeSystemHostFileHandler(event, content) {
   })
 }
 
+function uploadJsonFile() {
+  let uploadResult = {
+    hasRead: false,
+    jsonData: '',
+  }
+  let result = dialog.showOpenDialogSync({
+    filters: [{
+      name: 'json文件',
+      extensions: ['json']
+    }],
+    properties: ['openFile'],
+    message: '选择要导入的json文件',
+    buttonLabel: '导入'
+  })
+  if (result) {
+    uploadResult.hasRead = true
+    uploadResult.jsonData =  readFileSync(result[0], 'utf8')
+  }
+  return JSON.stringify(uploadResult)
+}
+
+function downloadFile(event, data) {
+  let specifiedFileData = JSON.parse(data)
+  writeFile(process.env.HOME + `/Desktop/${specifiedFileData.suffix}Data-${Date.now()}.${specifiedFileData.suffix}`, 
+            specifiedFileData.data, 
+            {flag: 'w+'},  
+            (err) => {
+              if (err) throw err
+              console.log(`${specifiedFileData.suffix}文件写入成功`)
+            }
+  )
+}
+
 function registerIpcHandler() {
   ipcMain.on('copy', handleCopyAction)
   ipcMain.handle('dark-mode:toggle', handleDarkModeToggle)
@@ -177,6 +211,8 @@ function registerIpcHandler() {
   ipcMain.handle('unmaximize-window', () => { mainWindow.unmaximize() })
   ipcMain.handle('maximize-window', () => { mainWindow.maximize() })
   ipcMain.handle('close-window', () => { mainWindow.close() })
+  ipcMain.handle('upload-json-file', uploadJsonFile)
+  ipcMain.handle('download-file', downloadFile)
 }
 
 // This method will be called when Electron has finished
