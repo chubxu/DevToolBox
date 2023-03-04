@@ -10,6 +10,7 @@ import "codemirror/lib/codemirror.css"
 
 
 import "codemirror/theme/idea.css"
+import "codemirror/theme/darcula.css"
 
 import "codemirror/addon/edit/matchbrackets"
 import "codemirror/addon/selection/active-line"
@@ -37,14 +38,23 @@ export default {
       type: String,
       default: "javascript"
     },
+    theme: {
+      type: String,
+      default: ""
+    },
     readonly: {
       type: Boolean,
       default: false,
     },
+    refreshRealTime: {
+      type: Boolean,
+      default: false
+    }
   },
 
   setup(props, context) {
     console.log(props.mode)
+    console.log(props.theme)
     if (props.mode === 'javascript') {
       import('codemirror/mode/javascript/javascript')
     } else if (props.mode === 'xml') {
@@ -56,7 +66,7 @@ export default {
         // 语言模式
         mode: props.mode,
         // 主题样式
-        theme: "idea",
+        theme: props.theme,
         // tab字符的大小
         tabSize: 2,
         // 缩进值
@@ -84,41 +94,76 @@ export default {
         readOnly: props.readonly,
         foldGutter: true,
         showCursorWhenSelecting: true,
-        autofocus: true,
+        // autofocus: true,
       })
     }
-    const getValue = (value) => {
+
+    const getValue = () => {
       if (codeMirrorEditor) {
         codeMirrorEditor.getValue()
       }
     }
+
     const setValue = (value) => {
       if (codeMirrorEditor) {
         codeMirrorEditor.setValue(value)
       }
     }
-    const refresh = () => {
-      codeMirrorEditor && codeMirrorEditor.refresh();
-    }
+    
     const onChange = () => {
-      codeMirrorEditor.on("change", cm => {
-        context.emit("change", cm.getValue())
-      })
+      if (codeMirrorEditor) {
+        codeMirrorEditor.on("change", cm => {
+          context.emit("change", cm.getValue())
+        })
+      }
     }
+
+    const getTheme = () => {
+      if (codeMirrorEditor) {
+        codeMirrorEditor.getOption("theme")
+      }
+    }
+
+    const setTheme = (theme) => {
+      if (codeMirrorEditor) {
+        codeMirrorEditor.setOption("theme", theme)
+      }
+    }
+
+    const refresh = () => {
+      if (codeMirrorEditor) {
+        codeMirrorEditor && codeMirrorEditor.refresh();
+      }
+    }
+
     return {
       init,
-      refresh,
       getValue,
       setValue,
       onChange,
+      getTheme,
+      setTheme,
+      refresh,
     }
   },
 
   watch: {
     code(newValue, oldValue) {
-      const editorValue = this.getValue()
-      if (newValue != editorValue) {
-        this.setValue(newValue)
+      if (this.refreshRealTime) {
+        const editorValue = this.getValue()
+        if (newValue !== editorValue) {
+          this.setValue(newValue)
+          setTimeout(() => {
+            this.refresh();
+          }, 1);
+        }
+      }
+    },
+
+    theme(newValue, oldValue) {
+      const theme = this.getTheme()
+      if (newValue !== theme) {
+        this.setTheme(newValue)
         setTimeout(() => {
           this.refresh();
         }, 1);

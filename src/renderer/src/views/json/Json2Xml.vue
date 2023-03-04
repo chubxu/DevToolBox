@@ -16,7 +16,8 @@
         </div>
         <CodeMirror 
           :code="inputJsonData"
-          :mode="javascript" 
+          mode="javascript" 
+          :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
           :readonly="false" 
           @change="dataChangeHandler"
         />
@@ -32,8 +33,10 @@
         </div>
         <CodeMirror 
           :code="outputXmlData"
-          :mode="xml" 
-          :readonly="true" 
+          mode="xml"
+          :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
+          :readonly="true"
+          :refreshRealTime="true" 
         />
       </el-col>
     </el-row>
@@ -44,11 +47,17 @@
 const convert = require('xml-js')
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
 import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
+import { useGlobalStore } from '@/store/GlobalStore.js'
 export default {
   name: '',
 
   components: {
     CodeMirror,
+  },
+
+  setup() {
+    const globalStore = useGlobalStore()
+    return { globalStore }
   },
 
   data() {
