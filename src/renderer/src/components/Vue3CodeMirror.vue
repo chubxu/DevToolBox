@@ -9,17 +9,13 @@ import CodeMirror from "codemirror/lib/codemirror"
 import "codemirror/lib/codemirror.css"
 import "codemirror/mode/javascript/javascript"
 
-// 主题样式（我直接用了纯白色的，看着比较舒服）
-import "codemirror/theme/twilight.css"
+import "codemirror/theme/idea.css"
 
-// 括号显示匹配
 import "codemirror/addon/edit/matchbrackets"
 import "codemirror/addon/selection/active-line"
 
-// 括号、引号编辑和删除时成对出现
 import "codemirror/addon/edit/closebrackets"
 
-// 折叠代码要用到一些玩意
 import "codemirror/addon/fold/foldgutter"
 import "codemirror/addon/fold/foldgutter.css"
 import "codemirror/addon/fold/xml-fold"
@@ -28,8 +24,6 @@ import "codemirror/addon/fold/brace-fold"
 import "codemirror/addon/fold/indent-fold.js"
 import "codemirror/addon/fold/markdown-fold.js"
 import "codemirror/addon/fold/comment-fold.js"
-
-import { ref } from 'vue'
 
 export default {
   name: "Vue3CodeMirror",
@@ -52,11 +46,11 @@ export default {
         // 语言模式
         mode: "javascript",
         // 主题样式
-        theme: "twilight",
+        theme: "idea",
         // tab字符的大小
-        tabSize: 4,
+        tabSize: 2,
         // 缩进值
-        indentUnit: 4,
+        indentUnit: 2,
         // 是否智能缩进，使用后换行根据上下文自动缩进
         smartIndent: true,
         // 当前行高亮
@@ -83,13 +77,18 @@ export default {
         autofocus: true,
       })
     }
+    const getValue = (value) => {
+      if (codeMirrorEditor) {
+        codeMirrorEditor.getValue()
+      }
+    }
     const setValue = (value) => {
       if (codeMirrorEditor) {
         codeMirrorEditor.setValue(value)
       }
     }
     const refresh = () => {
-      this.codeMirrorEditor && this.codeMirrorEditor.refresh();
+      codeMirrorEditor && codeMirrorEditor.refresh();
     }
     const onChange = () => {
       codeMirrorEditor.on("change", cm => {
@@ -99,6 +98,7 @@ export default {
     return {
       init,
       refresh,
+      getValue,
       setValue,
       onChange,
     }
@@ -106,7 +106,7 @@ export default {
 
   watch: {
     code(newValue, oldValue) {
-      const editorValue = this.codeMirrorEditor.getValue()
+      const editorValue = this.getValue()
       if (newValue != editorValue) {
         this.setValue(newValue)
         setTimeout(() => {
@@ -130,7 +130,6 @@ export default {
 
 <style scoped>
 .code-editor {
-    height: 700px;
     width: 100%;
 }
 </style>

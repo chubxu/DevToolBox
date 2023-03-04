@@ -1,0 +1,18 @@
+{
+  "tool": "DevToolBox",
+  "version": "1.0.0",
+  "description": "基于electron-vite的开发工具箱",
+  "author": "chubxu",
+  "homepage": "https://github.com/chubxu/DevToolBox",
+  "text": {
+    "text-name": "text-name",
+    "array": [
+      "array1",
+      "array2"
+    ],
+    "boolean": true,
+    "java": "",
+    "cpp": "",
+    "javascript": ""
+  }
+}

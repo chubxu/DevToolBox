@@ -160,7 +160,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+
+@import url("./style/less/CodeMirror.less");
+
 body {
   margin: 0;
 }

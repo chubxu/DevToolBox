@@ -39,6 +39,7 @@
 <script>
 const convert = require('xml-js')
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
+import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
 export default {
   name: '',
 
@@ -48,13 +49,13 @@ export default {
 
   data() {
     return {
-      inputJsonData: '{\n\t"a": 1\n}',
+      inputJsonData: '',
     }
   },
 
   methods: {
     formatInputJsonDataHandler() {
-      this.inputJsonData = JSON.stringify(JSON.parse(this.inputJsonData), null, 4)
+      this.inputJsonData = JSON.stringify(JSON.parse(this.inputJsonData), null, 2)
     },
 
     copyJsonDataHandler() {
@@ -74,7 +75,7 @@ export default {
     },
 
     dataChangeHandler(data) {
-      console.log(data)
+      this.inputJsonData = data
     }
   },
 
@@ -94,7 +95,11 @@ export default {
       }
       return '不符合json格式';
     }
-  }
+  },
+
+  created() {
+    this.inputJsonData = JSON.stringify(placeholderJsonData, null, 2)
+  },
 }
 </script>
 
