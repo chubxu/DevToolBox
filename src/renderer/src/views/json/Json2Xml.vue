@@ -14,6 +14,9 @@
             <el-button size="small" icon="Upload">选择文件</el-button>
           </div>
         </div>
+        <div v-if="parseError" class="error-msg">
+          输入数据不符合json格式
+        </div>
         <CodeMirror 
           :code="inputJsonData"
           mode="javascript" 
@@ -63,6 +66,7 @@ export default {
   data() {
     return {
       inputJsonData: '',
+      parseError: false,
     }
   },
 
@@ -88,7 +92,9 @@ export default {
     },
 
     dataChangeHandler(data) {
-      this.inputJsonData = data
+      if (typeof data === 'string') {
+        this.inputJsonData = data
+      }
     }
   },
 
@@ -98,15 +104,19 @@ export default {
         try {
           let obj = JSON.parse(this.inputJsonData)
           if (typeof obj == 'object' && obj) {
+            this.parseError = false
             return convert.js2xml(obj, {compact: true, ignoreComment: true, spaces: 4})
           } else {
-            return '不符合json格式';
+            this.parseError = true
+            return this.outputXmlData
           }
         } catch (e) {
-          return '不符合json格式';
+          this.parseError = true
+          return this.outputXmlData
         }
       }
-      return '不符合json格式';
+      this.parseError = true
+      return this.outputXmlData
     }
   },
 
@@ -130,5 +140,11 @@ export default {
   font-size: var(--el-font-size-base);
   font-weight: 600;
   margin: -6px 0 5px 0;
+}
+
+.error-msg {
+  color: rgb(160, 0, 0);
+  font-size: var(--el-font-size-extra-small);
+  text-align: left;
 }
 </style>
