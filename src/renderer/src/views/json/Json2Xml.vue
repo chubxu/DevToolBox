@@ -48,7 +48,7 @@ export default {
 
   data() {
     return {
-      inputJsonData: '{"a": "b"}',
+      inputJsonData: '{\n\t"a": 1\n}',
     }
   },
 
