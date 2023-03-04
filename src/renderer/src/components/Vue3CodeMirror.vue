@@ -7,7 +7,7 @@
 <script>
 import CodeMirror from "codemirror/lib/codemirror"
 import "codemirror/lib/codemirror.css"
-import "codemirror/mode/javascript/javascript"
+
 
 import "codemirror/theme/idea.css"
 
@@ -33,6 +33,10 @@ export default {
       type: String,
       default: "",
     },
+    mode: {
+      type: String,
+      default: "javascript"
+    },
     readonly: {
       type: Boolean,
       default: false,
@@ -40,11 +44,17 @@ export default {
   },
 
   setup(props, context) {
+    console.log(props.mode)
+    if (props.mode === 'javascript') {
+      import('codemirror/mode/javascript/javascript')
+    } else if (props.mode === 'xml') {
+      import('codemirror/mode/xml/xml')
+    }
     let codeMirrorEditor = null
     const init = el => {
       codeMirrorEditor = CodeMirror.fromTextArea(el, {
         // 语言模式
-        mode: "javascript",
+        mode: props.mode,
         // 主题样式
         theme: "idea",
         // tab字符的大小

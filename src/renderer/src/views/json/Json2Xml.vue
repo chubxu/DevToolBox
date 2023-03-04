@@ -14,11 +14,12 @@
             <el-button size="small" icon="Upload">选择文件</el-button>
           </div>
         </div>
-        <el-row>
-          <!-- <el-input v-model="inputJsonData" :rows="30"
-                    resize="none" type="textarea" placeholder="Please input"/> -->
-          <CodeMirror :code="inputJsonData" :readonly="false" @change="dataChangeHandler"/>
-        </el-row>
+        <CodeMirror 
+          :code="inputJsonData"
+          :mode="javascript" 
+          :readonly="false" 
+          @change="dataChangeHandler"
+        />
       </el-col>
 
       <el-col :span="12">
@@ -29,8 +30,11 @@
             <el-button size="small" icon="Download">导出文件</el-button>
           </div>
         </div>
-        <el-input v-model="outputXmlData" :rows="30"
-                    resize="none" type="textarea" readonly/>
+        <CodeMirror 
+          :code="outputXmlData"
+          :mode="xml" 
+          :readonly="true" 
+        />
       </el-col>
     </el-row>
   </div>
@@ -115,6 +119,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-size: var(--el-font-size-base);
+  font-weight: 600;
   margin: -6px 0 5px 0;
 }
 </style>
