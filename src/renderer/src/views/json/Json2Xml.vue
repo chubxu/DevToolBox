@@ -11,13 +11,14 @@
           <div>
             <el-button size="small" icon="CopyDocument" @click="copyJsonDataHandler">复制</el-button>
             <el-button size="small" icon="FullScreen" @click="formatInputJsonDataHandler">格式化</el-button>
-            <el-button size="small" icon="Upload">选择文件</el-button>
+            <el-button size="small" icon="Upload" @click="uploadJsonFile">选择文件</el-button>
           </div>
         </div>
         <div v-if="parseError" class="error-msg">
           输入数据不符合json格式
         </div>
-        <CodeMirror 
+        <CodeMirror
+          ref="jsonCodeMirror"
           :code="inputJsonData"
           mode="javascript" 
           :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
@@ -31,10 +32,11 @@
           <div>Xml输出</div>
           <div>
             <el-button size="small" icon="CopyDocument" @click="copyXmlDataHandler">复制</el-button>
-            <el-button size="small" icon="Download">导出文件</el-button>
+            <el-button size="small" icon="Download" @click="downloadXmlFile">导出文件</el-button>
           </div>
         </div>
         <CodeMirror 
+          ref="xmlCodeMirror"
           :code="outputXmlData"
           mode="xml"
           :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
@@ -95,6 +97,27 @@ export default {
       if (typeof data === 'string') {
         this.inputJsonData = data
       }
+    },
+
+    uploadJsonFile() {
+      let jsonDataPromise = window.electronAPI.uploadJsonFile()
+      jsonDataPromise.then(res => {
+        let uploadResult = JSON.parse(res)
+        if (uploadResult.hasRead) {
+          this.inputJsonData = uploadResult.jsonData
+        }
+        this.$refs.jsonCodeMirror.setValue(this.inputJsonData)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    downloadXmlFile() {
+      window.electronAPI.downloadXmlFile(this.outputXmlData)
+      this.$message.success({
+        message: '文件已下载至桌面',
+        showClose: true
+      })
     }
   },
 

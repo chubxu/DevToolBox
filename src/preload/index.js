@@ -21,6 +21,9 @@ const electronAPI = {
   maximizeWindow: () => ipcRenderer.invoke('maximize-window'),
   closeWindow: () => ipcRenderer.invoke('close-window'),
 
+  uploadJsonFile: () => ipcRenderer.invoke('upload-json-file'),
+  downloadXmlFile: (xmlData) => ipcRenderer.invoke('download-xml-file', xmlData),
+
   showGlobalSearch: (show) => ipcRenderer.on('show-global-search', show),
   dragToUnmaximize: (value) => ipcRenderer.on('drag-to-unmaximize', value),
 }

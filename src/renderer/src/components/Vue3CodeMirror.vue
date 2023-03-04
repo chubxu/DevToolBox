@@ -53,8 +53,6 @@ export default {
   },
 
   setup(props, context) {
-    console.log(props.mode)
-    console.log(props.theme)
     if (props.mode === 'javascript') {
       import('codemirror/mode/javascript/javascript')
     } else if (props.mode === 'xml') {
@@ -155,7 +153,7 @@ export default {
           this.setValue(newValue)
           setTimeout(() => {
             this.refresh();
-          }, 1);
+          }, 20);
         }
       }
     },
@@ -166,7 +164,7 @@ export default {
         this.setTheme(newValue)
         setTimeout(() => {
           this.refresh();
-        }, 1);
+        }, 20);
       }
     }
   },
@@ -176,7 +174,7 @@ export default {
       this.init(this.$refs.textarea)
       this.setValue(this.code)
       this.onChange()
-    }, 10);
+    }, 20);
     
     
   }
