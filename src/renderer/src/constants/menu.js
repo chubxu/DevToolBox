@@ -81,6 +81,16 @@ const sideBarMenus = [
         title: 'Json > Go Struct',
         content: 'Json转Go Struct.',
       },
+      {
+        name: 'Json2Csv',
+        icon: 'CirclePlus',
+        index: '/Json2Csv',
+        toolName: 'Json2Csv',
+        imageName: 'json.png',
+        darkImageName: 'json-dark.png',
+        title: 'Json > Csv',
+        content: 'Json转Csv.',
+      },
     ],
   },
   {

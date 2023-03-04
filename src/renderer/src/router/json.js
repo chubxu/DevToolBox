@@ -30,6 +30,11 @@ const routes = [
     path: '/Json2GoStruct',
     component: () => import('@/views/json/Json2GoStruct.vue')
   },
+  {
+    name: 'Json2Csv',
+    path: '/Json2Csv',
+    component: () => import('@/views/json/Json2Csv.vue')
+  },
 ]
 
 export { routes }

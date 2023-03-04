@@ -37,6 +37,8 @@ function dynamicImport (props) {
       import('codemirror/mode/properties/properties')
     } else if (props.mode === 'go') {
       import('codemirror/mode/go/go')
+    } else if (props.mode === 'csv') {
+      import('codemirror/mode/textile/textile')
     }
 }
 export default {
