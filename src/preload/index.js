@@ -22,7 +22,7 @@ const electronAPI = {
   closeWindow: () => ipcRenderer.invoke('close-window'),
 
   uploadJsonFile: () => ipcRenderer.invoke('upload-json-file'),
-  downloadXmlFile: (xmlData) => ipcRenderer.invoke('download-xml-file', xmlData),
+  downloadFile: (data) => ipcRenderer.invoke('download-file', data),
 
   showGlobalSearch: (show) => ipcRenderer.on('show-global-search', show),
   dragToUnmaximize: (value) => ipcRenderer.on('drag-to-unmaximize', value),

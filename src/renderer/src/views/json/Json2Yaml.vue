@@ -1,7 +1,7 @@
 <template>
   <!-- title -->
   <el-row class="title">
-    JSON &lt;&gt; YAML
+    JSON &gt; YAML
   </el-row>
 
   <el-row :gutter="10">
@@ -114,7 +114,11 @@ export default {
     },
 
     downloadYamlFile() {
-      window.electronAPI.downloadYamlFile(this.outputYamlData)
+      let data = {
+        suffix: 'yaml',
+        data: this.outputYamlData
+      }
+      window.electronAPI.downloadFile(JSON.stringify(data))
       this.$message.success({
         message: '文件已下载至桌面',
         showClose: true

@@ -188,11 +188,16 @@ function uploadJsonFile() {
   return JSON.stringify(uploadResult)
 }
 
-function downloadXmlFile(event, xmlData) {
-  writeFile(process.env.HOME + `/Desktop/XmlData-${Date.now()}.xml`, xmlData, {flag: 'w+'},  (err) => {
-    if (err) throw err
-    console.log(`xml文件写入成功`)
-  })
+function downloadFile(event, data) {
+  let specifiedFileData = JSON.parse(data)
+  writeFile(process.env.HOME + `/Desktop/${specifiedFileData.suffix}Data-${Date.now()}.${specifiedFileData.suffix}`, 
+            specifiedFileData.data, 
+            {flag: 'w+'},  
+            (err) => {
+              if (err) throw err
+              console.log(`xml文件写入成功`)
+            }
+  )
 }
 
 function registerIpcHandler() {
@@ -207,7 +212,7 @@ function registerIpcHandler() {
   ipcMain.handle('maximize-window', () => { mainWindow.maximize() })
   ipcMain.handle('close-window', () => { mainWindow.close() })
   ipcMain.handle('upload-json-file', uploadJsonFile)
-  ipcMain.handle('download-xml-file', downloadXmlFile)
+  ipcMain.handle('download-file', downloadFile)
 }
 
 // This method will be called when Electron has finished

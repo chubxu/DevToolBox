@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="title">
-      Json &lt;&gt; Xml
+      Json &gt; Xml
     </el-row>
 
     <el-row :gutter="20">
@@ -114,7 +114,11 @@ export default {
     },
 
     downloadXmlFile() {
-      window.electronAPI.downloadXmlFile(this.outputXmlData)
+      let data = {
+        suffix: 'xml',
+        data: this.outputXmlData
+      }
+      window.electronAPI.downloadFile(JSON.stringify(data))
       this.$message.success({
         message: '文件已下载至桌面',
         showClose: true
