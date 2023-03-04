@@ -4,106 +4,152 @@
     JSON &lt;&gt; YAML
   </el-row>
 
-  <el-row :gutter="5">
-    <el-col :span="10">
-      <div class="title-3">
-        JSON
+  <el-row :gutter="10">
+    <el-col :span="12">
+      <div class="label">
+        <div>Json输入</div>
+        <div>
+          <el-button size="small" icon="CopyDocument" @click="copyJsonDataHandler">复制</el-button>
+          <el-button size="small" icon="FullScreen" @click="formatInputJsonDataHandler">格式化</el-button>
+          <el-button size="small" icon="Upload" @click="uploadJsonFile">选择文件</el-button>
+        </div>
       </div>
-      <el-input
-        v-model="jsonText"
-        :rows="31"
-        resize="none"
-        type="textarea"
-        placeholder="Please input json"
+      <div v-if="parseError" class="error-msg">
+        输入数据不符合json格式
+      </div>
+      
+      <CodeMirror
+        ref="jsonCodeMirror"
+        :code="inputJsonData"
+        mode="javascript" 
+        :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
+        :readonly="false" 
+        @change="dataChangeHandler"
       />
     </el-col>
-
-    <el-col :span="4" class="transform-button-col">
-      <div>
-        <el-button color="#626aef" @click="json2yamlHandler">
-          &nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;
-        </el-button>
+    <el-col :span="12">
+      <div class="label">
+        <div>Yaml输出</div>
+        <div>
+          <el-button size="small" icon="CopyDocument" @click="copyYamlDataHandler">复制</el-button>
+          <el-button size="small" icon="Download" @click="downloadYamlFile">导出文件</el-button>
+        </div>
       </div>
-      <br/>
-      <div>
-        <el-button color="#626aef" @click="yaml2jsonHandler">
-          &nbsp;&nbsp;&nbsp;&lt;&nbsp;&nbsp;&nbsp;
-        </el-button>
-      </div>
-    </el-col>
-
-    <el-col :span="10">
-      <div class="title-3">
-        YAML
-      </div>
-      <el-input
-        v-model="yamlText"
-        :rows="31"
-        resize="none"
-        type="textarea"
-        placeholder="Please input yaml"
+      <CodeMirror 
+        ref="yamlCodeMirror"
+        :code="outputYamlData"
+        mode="yaml"
+        :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
+        :readonly="true"
+        :refreshRealTime="true" 
       />
     </el-col>
   </el-row>
 </template>
 
 <script>
-import yaml from 'yaml'
+// import yaml from 'yaml'
 import jsYaml from 'js-yaml'
+import CodeMirror from '@/components/Vue3CodeMirror.vue'
+import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
+import { useGlobalStore } from '@/store/GlobalStore.js'
 export default {
   name: 'Json2Yaml',
 
+  components: {
+    CodeMirror,
+  },
+
+  setup() {
+    const globalStore = useGlobalStore()
+    return { globalStore }
+  },
+
   data() {
     return {
-      jsonText: '',
-      yamlText: '',
+      inputJsonData: '',
+      parseError: false,
     }
   },
 
   methods: {
-    json2yamlHandler() {
-      try {
-        this.yamlText = jsYaml.dump(JSON.parse(this.jsonText))
-      } catch (err) {
-        this.yamlText = '请输入正确的json格式数据...'
+    formatInputJsonDataHandler() {
+      this.inputJsonData = JSON.stringify(JSON.parse(this.inputJsonData), null, 2)
+      this.$refs.jsonCodeMirror.setValue(this.inputJsonData)
+    },
+
+    copyJsonDataHandler() {
+      window.electronAPI.copy(this.inputJsonData)
+      this.$message.success({
+        showClose: true,
+        message: '复制成功',
+      })
+    },
+
+    copyYamlDataHandler() {
+      window.electronAPI.copy(this.outputYamlData)
+      this.$message.success({
+        showClose: true,
+        message: '复制成功',
+      })
+    },
+
+    dataChangeHandler(data) {
+      if (typeof data === 'string') {
+        this.inputJsonData = data
       }
     },
 
-    yaml2jsonHandler() {
-      try {
-        this.jsonText = JSON.stringify(yaml.parse(this.yamlText), null, 2)
-      } catch (err) {
-        this.jsonText = '请输入正确的yaml格式数据...'
-      }
+    uploadJsonFile() {
+      let jsonDataPromise = window.electronAPI.uploadJsonFile()
+      jsonDataPromise.then(res => {
+        let uploadResult = JSON.parse(res)
+        if (uploadResult.hasRead) {
+          this.inputJsonData = uploadResult.jsonData
+        }
+        this.$refs.jsonCodeMirror.setValue(this.inputJsonData)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    downloadYamlFile() {
+      window.electronAPI.downloadYamlFile(this.outputYamlData)
+      this.$message.success({
+        message: '文件已下载至桌面',
+        showClose: true
+      })
     }
-  }
+  },
+
+  computed: {
+    outputYamlData() {
+      if (typeof this.inputJsonData === 'string') {
+        try {
+          let obj = JSON.parse(this.inputJsonData)
+          if (typeof obj == 'object' && obj) {
+            this.parseError = false
+            return jsYaml.dump(JSON.parse(this.inputJsonData))
+          } else {
+            this.parseError = true
+            return this.outputYamlData
+          }
+        } catch (e) {
+          this.parseError = true
+          return this.outputYamlData
+        }
+      }
+      this.parseError = true
+      return this.outputYamlData
+    }
+  },
+
+  created() {
+    this.inputJsonData = JSON.stringify(placeholderJsonData, null, 2)
+  },
 }
 </script>
 
-<style scoped>
-.title {
-  font-size: var(--el-font-size-extra-large);
-  font-weight: bold;
-  margin-bottom: 24px;
-}
-
-.title-3 {
-  font-size: var(--el-font-size-medium); 
-  font-weight: bold;
-  margin-bottom: 6px;
-  text-align: left;
-}
-
-.transform-button-col {
-  display: -webkit-flex;
-  /* Safari */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.transform-button {
-  width: 40px;
-}
+<style lang="less" scroped>
+@import url('../../style/less/Common.less');
 </style>

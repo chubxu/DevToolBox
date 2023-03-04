@@ -75,6 +75,7 @@ export default {
   methods: {
     formatInputJsonDataHandler() {
       this.inputJsonData = JSON.stringify(JSON.parse(this.inputJsonData), null, 2)
+      this.$refs.jsonCodeMirror.setValue(this.inputJsonData)
     },
 
     copyJsonDataHandler() {
@@ -150,24 +151,5 @@ export default {
 </script>
 
 <style lang="less" scroped>
-.title {
-  font-size: var(--el-font-size-extra-large); 
-  font-weight: bold;
-  margin-bottom: 24px;
-}
-.label {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: var(--el-font-size-base);
-  font-weight: 600;
-  margin: -6px 0 5px 0;
-}
-
-.error-msg {
-  color: rgb(160, 0, 0);
-  font-size: var(--el-font-size-extra-small);
-  text-align: left;
-}
+@import url('../../style/less/Common.less');
 </style>

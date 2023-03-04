@@ -25,7 +25,15 @@ import "codemirror/addon/fold/brace-fold"
 import "codemirror/addon/fold/indent-fold.js"
 import "codemirror/addon/fold/markdown-fold.js"
 import "codemirror/addon/fold/comment-fold.js"
-
+function dynamicImport (props) {
+  if (props.mode === 'javascript') {
+      import('codemirror/mode/javascript/javascript')
+    } else if (props.mode === 'xml') {
+      import('codemirror/mode/xml/xml')
+    } else if (props.mode === 'yaml') {
+      import('codemirror/mode/yaml/yaml')
+    }
+}
 export default {
   name: "Vue3CodeMirror",
 
@@ -53,11 +61,7 @@ export default {
   },
 
   setup(props, context) {
-    if (props.mode === 'javascript') {
-      import('codemirror/mode/javascript/javascript')
-    } else if (props.mode === 'xml') {
-      import('codemirror/mode/xml/xml')
-    }
+    dynamicImport(props)
     let codeMirrorEditor = null
     const init = el => {
       codeMirrorEditor = CodeMirror.fromTextArea(el, {
