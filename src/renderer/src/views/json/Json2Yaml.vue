@@ -48,11 +48,11 @@
 </template>
 
 <script>
-// import yaml from 'yaml'
 import jsYaml from 'js-yaml'
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
 import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
 import { useGlobalStore } from '@/store/GlobalStore.js'
+
 export default {
   name: 'Json2Yaml',
 
