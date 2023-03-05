@@ -2,7 +2,7 @@
   <header class="title-bar">
     <!-- logo -->
     <div class="window-title">
-      <el-image style="width: 125px; height: 28px" :src="globalStore.darkFlag ? getAssets('../assets/images/logo-dark.png') : getAssets('../assets/images/logo.png')" />
+      <el-image style="width: 125px; height: 28px" :src="globalStore.darkFlag ? getAssets('../images/logo-dark.png') : getAssets('../images/logo.png')" />
     </div>
 
     <!-- global search -->
@@ -71,6 +71,10 @@ export default {
 
   methods: {
     getAssets(url) {
+      if (process.env.NODE_ENV === 'development') {
+        let index = url.indexOf('/')
+        url = url.slice(0, index) + '/public' + url.slice(index)
+      }
       return new URL(url, import.meta.url).href;
     },
 

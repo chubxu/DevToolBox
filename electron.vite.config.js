@@ -16,6 +16,8 @@ export default defineConfig({
         '@': resolve('src/renderer/src')
       }
     },
-    plugins: [vue()]
-  }
+    plugins: [vue()],
+    publicDir: 'src/public'
+  },
+  publicDir: 'src/public'
 })
