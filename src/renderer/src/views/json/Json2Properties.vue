@@ -49,11 +49,13 @@
 </template>
 
 <script>
+
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
 import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
 import { useGlobalStore } from '@/store/GlobalStore.js'
+
 export default {
-  name: '',
+  name: 'Json2Properties',
 
   components: {
     CodeMirror,

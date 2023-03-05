@@ -10,7 +10,7 @@
                :body-style="{ padding: '0px', width: '210px', height: '64px' }" shadow="hover">
         <el-row>
           <el-col :span="6">
-            <img class="all-tools-cards-img" :src="globalStore.darkFlag ? getAssets('../assets/images/' + tool.darkImageName) : getAssets('../assets/images/' + tool.imageName)"/>
+            <img class="all-tools-cards-img" :src="globalStore.darkFlag ? getAssets('../images/' + tool.darkImageName) : getAssets('../images/' + tool.imageName)"/>
           </el-col>
           <el-col :span="18">
             <div class="all-tools-cards-desc-title">
@@ -54,6 +54,10 @@ export default {
     },
 
     getAssets(url) {
+      if (process.env.NODE_ENV === 'development') {
+        let index = url.indexOf('/')
+        url = url.slice(0, index) + '/public' + url.slice(index)
+      }
       return new URL(url, import.meta.url).href;
     }
   },

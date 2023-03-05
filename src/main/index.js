@@ -13,7 +13,7 @@ import {
 import { join } from 'path'
 import { readFileSync, writeFile, mkdir, mkdirSync, rmSync, readdirSync } from 'fs';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?assets'
+// import icon from '../../resources/icon.png?assets'
 
 let mainWindow
 function createWindow() {
@@ -28,7 +28,7 @@ function createWindow() {
     minHeight: 600,
 
     // 添加icon
-    icon: join(__dirname, "../../resources/icon.png"),
+    // icon: join(__dirname, "../../resources/icon.png"),
     // ...(process.platform === 'linux' ? { icon } : { icon }),
 
     webPreferences: {

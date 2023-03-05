@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="title">
-      Json &gt; Xml
+      Json &gt; Csv
     </el-row>
 
     <el-row :gutter="20">
@@ -29,16 +29,16 @@
 
       <el-col :span="12">
         <div class="label">
-          <div>Xml输出</div>
+          <div>Csv输出</div>
           <div>
-            <el-button size="small" icon="CopyDocument" @click="copyXmlDataHandler">复制</el-button>
-            <el-button size="small" icon="Download" @click="downloadXmlFile">导出文件</el-button>
+            <el-button size="small" icon="CopyDocument" @click="copyCsvDataHandler">复制</el-button>
+            <el-button size="small" icon="Download" @click="downloadCsvFile">导出文件</el-button>
           </div>
         </div>
         <CodeMirror 
-          ref="xmlCodeMirror"
-          :code="outputXmlData"
-          mode="xml"
+          ref="csvCodeMirror"
+          :code="outputCsvData"
+          mode="csv"
           :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
           :readonly="true"
           :refreshRealTime="true" 
@@ -49,13 +49,14 @@
 </template>
 
 <script>
-import { js2xml } from '@/utils/js2xml.js'
+
+import * as csvjson from 'csvjson'
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
 import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
 import { useGlobalStore } from '@/store/GlobalStore.js'
 
 export default {
-  name: 'Json2Xml',
+  name: 'Json2Csv',
 
   components: {
     CodeMirror,
@@ -83,15 +84,15 @@ export default {
       window.electronAPI.copy(this.inputJsonData)
       this.$message.success({
         showClose: true,
-        message: 'Copy Success',
+        message: '复制成功',
       })
     },
 
-    copyXmlDataHandler() {
-      window.electronAPI.copy(this.outputXmlData)
+    copyCsvDataHandler() {
+      window.electronAPI.copy(this.outputCsvData)
       this.$message.success({
         showClose: true,
-        message: 'Copy Success',
+        message: '复制成功',
       })
     },
 
@@ -114,39 +115,43 @@ export default {
       })
     },
 
-    downloadXmlFile() {
+    downloadCsvFile() {
       let data = {
-        suffix: 'xml',
-        data: this.outputXmlData
+        suffix: 'csv',
+        data: this.outputCsvData
       }
       window.electronAPI.downloadFile(JSON.stringify(data))
       this.$message.success({
         message: '文件已下载至桌面',
         showClose: true
       })
-    }
+    },
   },
 
   computed: {
-    outputXmlData() {
+    outputCsvData() {
       if (typeof this.inputJsonData === 'string') {
         try {
           let obj = JSON.parse(this.inputJsonData)
           if (typeof obj == 'object' && obj) {
             this.parseError = false
-            return js2xml(obj, {compact: true, ignoreComment: true, spaces: 4})
+            return csvjson.toCSV(obj, {
+              delimiter: ',',
+              wrap: false,
+              objectDenote: ' '
+            })
           } else {
             this.parseError = true
-            return this.outputXmlData
+            return this.outputCsvData
           }
         } catch (e) {
-          console.log(e)
+          console.error(e)
           this.parseError = true
-          return this.outputXmlData
+          return this.outputCsvData
         }
       }
       this.parseError = true
-      return this.outputXmlData
+      return this.outputCsvData
     }
   },
 
