@@ -19,5 +19,4 @@ export default defineConfig({
     plugins: [vue()],
     publicDir: 'src/public'
   },
-  publicDir: 'src/public'
 })

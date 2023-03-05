@@ -49,12 +49,13 @@
 </template>
 
 <script>
-const convert = require('xml-js')
+import { js2xml } from '@/utils/js2xml.js'
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
 import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
 import { useGlobalStore } from '@/store/GlobalStore.js'
+
 export default {
-  name: '',
+  name: 'Json2Xml',
 
   components: {
     CodeMirror,
@@ -133,12 +134,13 @@ export default {
           let obj = JSON.parse(this.inputJsonData)
           if (typeof obj == 'object' && obj) {
             this.parseError = false
-            return convert.js2xml(obj, {compact: true, ignoreComment: true, spaces: 4})
+            return js2xml(obj, {compact: true, ignoreComment: true, spaces: 4})
           } else {
             this.parseError = true
             return this.outputXmlData
           }
         } catch (e) {
+          console.log(e)
           this.parseError = true
           return this.outputXmlData
         }
