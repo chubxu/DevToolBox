@@ -33,7 +33,7 @@
       </el-col>
 
       <el-col :span="8">
-        <el-form label-width="80px">
+        <el-form label-width="80px" label-position="top">
           <el-form-item label="ApiKey">
             <el-input v-model="apiKey" class="api-key-input" type="textarea" rows="3" resize="none"/>
           </el-form-item>
