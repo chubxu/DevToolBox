@@ -1,106 +1,156 @@
 <template>
   <div>
     <el-row class="title">
-      JsonFormatter
+      Json格式化
     </el-row>
-    <el-row :gutter="20">
-      <el-col :span="7">
-        <el-row style="margin-bottom: 5px">
-          Input
-        </el-row>
-        <el-row>
-          <el-input v-model="inputData" :rows="31"
-                    resize="none" type="textarea" placeholder="Please input"/>
-        </el-row>
-      </el-col>
 
-      <el-col :span="17">
+    <el-row :gutter="20">
+      <el-col :span="12">
         <div class="label">
-          <div>Output</div>
+          <div>输入</div>
           <div>
-            <el-button @click="copyJson" size="small">
-              <el-icon :size="14"><IconCopyDocument /></el-icon> &nbsp;Copy
-            </el-button>
+            <el-button size="small" icon="CopyDocument" @click="copyJsonDataHandler">复制</el-button>
+            <el-button size="small" icon="Upload" @click="uploadJsonFile">选择文件</el-button>
           </div>
         </div>
-
-        <div class="vue-json-pretty">
-          <el-scrollbar>
-            <vue-json-pretty :data="inputJsonData" :show-line-number="true" :show-icon="true" />
-          </el-scrollbar>
+        <div v-if="parseError" class="error-msg">
+          输入数据不符合json格式
         </div>
+        <CodeMirror
+          ref="jsonCodeMirror"
+          :code="inputJsonData"
+          mode="javascript" 
+          :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
+          :readonly="false" 
+          @change="dataChangeHandler"
+        />
+      </el-col>
+
+      <el-col :span="12">
+        <div class="label">
+          <div>格式化Json输出</div>
+          <div>
+            <el-button size="small" icon="CopyDocument" @click="copyFormatterJsonDataHandler">复制</el-button>
+            <el-button size="small" icon="Download" @click="downloadFormatterJsonFile">导出文件</el-button>
+          </div>
+        </div>
+        <CodeMirror 
+          ref="formatterJsonCodeMirror"
+          :code="outputFormatterJsonData"
+          mode="javascript"
+          :theme="globalStore.darkFlag ? 'darcula' : 'idea'"
+          :readonly="true"
+          :refreshRealTime="true" 
+        />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import VueJsonPretty from 'vue-json-pretty';
-import 'vue-json-pretty/lib/styles.css';
-import {
-  CopyDocument as IconCopyDocument,
-} from '@element-plus/icons-vue'
+
+import CodeMirror from '@/components/Vue3CodeMirror.vue'
+import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
+import { useGlobalStore } from '@/store/GlobalStore.js'
+
 export default {
+  name: 'JsonFormatter',
+
   components: {
-    VueJsonPretty,
-    IconCopyDocument,
+    CodeMirror,
+  },
+
+  setup() {
+    const globalStore = useGlobalStore()
+    return { globalStore }
   },
 
   data() {
     return {
-      inputData: '',
+      inputJsonData: '',
+      parseError: false,
     }
   },
 
   methods: {
-    copyJson() {
-      window.electronAPI.copy(this.inputData)
+
+    copyJsonDataHandler() {
+      window.electronAPI.copy(this.inputJsonData)
       this.$message.success({
         showClose: true,
-        message: 'Copy Success',
+        message: '拷贝成功',
+      })
+    },
+
+    copyFormatterJsonDataHandler() {
+      window.electronAPI.copy(this.outputFormatterJsonData)
+      this.$message.success({
+        showClose: true,
+        message: '拷贝成功',
+      })
+    },
+
+    dataChangeHandler(data) {
+      if (typeof data === 'string') {
+        this.inputJsonData = data
+      }
+    },
+
+    uploadJsonFile() {
+      let jsonDataPromise = window.electronAPI.uploadJsonFile()
+      jsonDataPromise.then(res => {
+        let uploadResult = JSON.parse(res)
+        if (uploadResult.hasRead) {
+          this.inputJsonData = uploadResult.jsonData
+        }
+        this.$refs.jsonCodeMirror.setValue(this.inputJsonData)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    downloadFormatterJsonFile() {
+      let data = {
+        suffix: 'json',
+        data: this.outputFormatterJsonData
+      }
+      window.electronAPI.downloadFile(JSON.stringify(data))
+      this.$message.success({
+        message: '文件已下载至桌面',
+        showClose: true
       })
     }
   },
 
   computed: {
-    inputJsonData() {
-      if (typeof this.inputData === 'string') {
+    outputFormatterJsonData() {
+      if (typeof this.inputJsonData === 'string') {
         try {
-          let obj = JSON.parse(this.inputData)
+          let obj = JSON.parse(this.inputJsonData)
           if (typeof obj == 'object' && obj) {
-            return obj;
+            this.parseError = false
+            return JSON.stringify(obj, null, 2)
           } else {
-            return '不符合json格式';
+            this.parseError = true
+            return this.outputFormatterJsonData
           }
         } catch (e) {
-          return '不符合json格式';
+          console.log(e)
+          this.parseError = true
+          return this.outputFormatterJsonData
         }
       }
-      return '不符合json格式';
+      this.parseError = true
+      return this.outputFormatterJsonData
     }
-  }
+  },
+
+  created() {
+    this.inputJsonData = JSON.stringify(placeholderJsonData)
+  },
 }
 </script>
 
-<style scoped>
-.title {
-  font-size: var(--el-font-size-extra-large); 
-  font-weight: bold;
-  margin-bottom: 24px;
-}
-.label {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: var(--el-font-size-base);
-  margin: -6px 0 5px 0;
-}
-.vue-json-pretty {
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  height: 659px;
-  overflow-y: auto;
-}
-
+<style lang="less" scroped>
+@import url('../../style/less/Common.less');
 </style>
