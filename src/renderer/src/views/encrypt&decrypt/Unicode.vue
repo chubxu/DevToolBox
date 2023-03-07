@@ -26,8 +26,8 @@
             text-digest
           </div>
           <div>
-            <el-button @click="copyUnicodeTextDigest" size="small" style="margin-top: -6px">
-              <el-icon :size="14"><IconCopyDocument /></el-icon> &nbsp;Copy
+            <el-button :icon="CopyDocument" @click="copyUnicodeTextDigest" size="small" style="margin-top: -6px">
+              &nbsp;Copy
             </el-button>
           </div>
         </el-row>
@@ -39,58 +39,39 @@
   </div>
 </template>
 
-<script>
-import {
-  CopyDocument as IconCopyDocument,
-} from '@element-plus/icons-vue'
-export default {
-  name: "Unicode",
+<script setup>
+import { CopyDocument, } from '@element-plus/icons-vue'
+import { ref, watch } from 'vue'
+const text = ref('')
+const unicodeText = ref('')
 
-  components: {
-    IconCopyDocument,
-  },
-
-  data() {
-    return {
-      text: '',
-      unicodeText: '',
-    }
-  },
-
-  methods: {
-    copyUnicodeTextDigest() {
-      window.electronAPI.copy(this.unicodeText)
-      this.$message.success({
-        showClose: true,
-        message: '复制成功',
-      })
-    },
-
-    parseToChinese(unicode) {
-      if (unicode == '') {
-        return '';
-      }
-      unicode = unicode.split('\\u');
-      console.log(unicode)
-      let chinese = '';
-      for (let i = 1, len = unicode.length; i < len; i++) {
-        chinese += String.fromCharCode(parseInt(unicode[i], 16));
-      }
-      return chinese;
-    }
-  },
-
-  watch: {
-    text(newText) {
-      if (newText) {
-        console.log(newText)
-        this.unicodeText = this.parseToChinese(newText)
-      } else {
-        this.unicodeText = ''
-      }
-    }
-  }
+const copyUnicodeTextDigest = () => {
+  window.electronAPI.copy(unicodeText.value)
+  this.$message.success({
+    showClose: true,
+    message: '复制成功',
+  })
 }
+
+const parseToChinese = (unicode) => {
+  if (unicode == '') {
+    return '';
+  }
+  unicode = unicode.split('\\u');
+  let chinese = '';
+  for (let i = 1, len = unicode.length; i < len; i++) {
+    chinese += String.fromCharCode(parseInt(unicode[i], 16));
+  }
+  return chinese;
+}
+
+watch(text, (newText, oldText) => {
+  if (newText) {
+    unicodeText.value = parseToChinese(newText)
+  } else {
+    unicodeText.value = ''
+  }
+})
 </script>
 
 <style scoped>
