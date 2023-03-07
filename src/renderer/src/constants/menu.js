@@ -125,6 +125,16 @@ const sideBarMenus = [
         title: 'MD5',
         content: 'MD5摘要计算工具',
       },
+      {
+        name: 'Unicode',
+        icon: 'Lock',
+        index: '/Unicode',
+        toolName: 'Unicode',
+        imageName: 'unicode.png',
+        darkImageName: 'unicode-dark.png',
+        title: 'Unicode',
+        content: 'Unicode解码工具',
+      },
     ],
   },
   {
