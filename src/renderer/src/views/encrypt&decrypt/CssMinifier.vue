@@ -48,107 +48,90 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { minify } from 'csso';
 import * as cssbeautify from 'cssbeautify'
 import CodeMirror from '@/components/Vue3CodeMirror.vue'
-import placeholderJsonData from '@/assets/json/placeholderJsonData.json'
 import { useGlobalStore } from '@/store/GlobalStore.js'
+import { ElMessage } from 'element-plus'
 
-export default {
-  name: 'CssMinifier',
+import { ref, computed, onMounted, defineExpose } from 'vue'
 
-  components: {
-    CodeMirror,
-  },
+const globalStore = useGlobalStore()
+const inputCssData = ref('')
+const parseError = ref(false)
+const cssCodeMirror = ref(null)
+const unFormatterCssCodeMirror = ref(null)
 
-  setup() {
-    const globalStore = useGlobalStore()
-    return { globalStore }
-  },
-
-  data() {
-    return {
-      inputCssData: '',
-      parseError: false,
-    }
-  },
-
-  methods: {
-    formatInputCssDataHandler() {
-      this.inputCssData = cssbeautify(this.inputCssData)
-      this.$refs.cssCodeMirror.setValue(this.inputCssData)
-    },
-
-    copyInputCssDataHandler() {
-      window.electronAPI.copy(this.inputCssData)
-      this.$message.success({
-        showClose: true,
-        message: '复制成功',
-      })
-    },
-
-    copyUnFormatterCssDataHandler() {
-      window.electronAPI.copy(this.outputCssData)
-      this.$message.success({
-        showClose: true,
-        message: '复制成功',
-      })
-    },
-
-    dataChangeHandler(data) {
-      if (typeof data === 'string') {
-        this.inputCssData = data
-      }
-    },
-
-    uploadCssFile() {
-      let cssDataPromise = window.electronAPI.uploadCssFile()
-      cssDataPromise.then(res => {
-        let uploadResult = JSON.parse(res)
-        if (uploadResult.hasRead) {
-          this.inputCssData = uploadResult.cssData
-        }
-        this.$refs.cssCodeMirror.setValue(this.inputCssData)
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-
-    downloadCssFile() {
-      let data = {
-        suffix: 'css',
-        data: this.outputCssData
-      }
-      window.electronAPI.downloadFile(JSON.stringify(data))
-      this.$message.success({
-        message: '文件已下载至桌面',
-        showClose: true
-      })
-    },
-  },
-
-  computed: {
-    outputCssData() {
-      if (typeof this.inputCssData === 'string') {
-        try {
-          let unFormatter = minify(this.inputCssData)
-          return unFormatter.css
-        } catch (e) {
-          console.error(e)
-          this.parseError = true
-          return this.outputCssData
-        }
-      }
-      this.parseError = true
-      return this.outputCssData
-    }
-  },
-
-  created() {
-    this.inputJsonData = JSON.stringify(placeholderJsonData, null, 2)
-  },
+const formatInputCssDataHandler = () => {
+  inputCssData.value = cssbeautify(inputCssData.value)
+  cssCodeMirror.value.setValue(inputCssData.value)
 }
+
+const copyInputCssDataHandler = () => {
+  window.electronAPI.copy(inputCssData.value)
+  ElMessage({
+    showClose: true,
+    message: '复制成功',
+    type: 'success',
+  })
+}
+
+const copyUnFormatterCssDataHandler = () => {
+  window.electronAPI.copy(outputCssData.value)
+  ElMessage({
+    showClose: true,
+    message: '复制成功',
+    type: 'success',
+  })
+}
+
+const dataChangeHandler = (data) => {
+  if (typeof data === 'string') {
+    inputCssData.value = data
+  }
+}
+
+const uploadCssFile = () => {
+  let cssDataPromise = window.electronAPI.uploadCssFile()
+  cssDataPromise.then(res => {
+    let uploadResult = JSON.parse(res)
+    if (uploadResult.hasRead) {
+      inputCssData.value = uploadResult.cssData
+    }
+    cssCodeMirror.value.setValue(inputCssData.value)
+  }).catch(err => {
+    console.log(err)
+  })
+}
+
+const downloadCssFile = () => {
+  let data = {
+    suffix: 'css',
+    data: outputCssData.value
+  }
+  window.electronAPI.downloadFile(JSON.stringify(data))
+  ElMessage({
+    message: '文件已下载至桌面',
+    showClose: true,
+    type: 'success',
+  })
+}
+
+const outputCssData = computed(() => {
+  if (typeof inputCssData.value === 'string') {
+    try {
+      let unFormatter = minify(inputCssData.value)
+      return unFormatter.css
+    } catch (e) {
+      console.error(e)
+      parseError.value = true
+      return outputCssData.value
+    }
+  }
+  parseError.value = true
+  return outputCssData.value
+})
 </script>
 
 <style lang="less" scroped>
