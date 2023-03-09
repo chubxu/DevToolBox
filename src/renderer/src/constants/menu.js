@@ -135,6 +135,16 @@ const sideBarMenus = [
         title: 'Unicode',
         content: 'Unicode解码工具',
       },
+      {
+        name: 'CssMinifier',
+        icon: 'Lock',
+        index: '/CssMinifier',
+        toolName: 'CssMinifier',
+        imageName: 'unicode.png',
+        darkImageName: 'unicode-dark.png',
+        title: 'Css混淆工具',
+        content: '混淆、压缩CSS代码',
+      },
     ],
   },
   {

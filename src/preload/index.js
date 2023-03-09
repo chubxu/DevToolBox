@@ -22,6 +22,7 @@ const electronAPI = {
   closeWindow: () => ipcRenderer.invoke('close-window'),
 
   uploadJsonFile: () => ipcRenderer.invoke('upload-json-file'),
+  uploadCssFile: () => ipcRenderer.invoke('upload-css-file'),
   downloadFile: (data) => ipcRenderer.invoke('download-file', data),
 
   showGlobalSearch: (show) => ipcRenderer.on('show-global-search', show),

@@ -188,6 +188,27 @@ function uploadJsonFile() {
   return JSON.stringify(uploadResult)
 }
 
+function uploadCssFile() {
+  let uploadResult = {
+    hasRead: false,
+    cssData: '',
+  }
+  let result = dialog.showOpenDialogSync({
+    filters: [{
+      name: 'css文件',
+      extensions: ['css']
+    }],
+    properties: ['openFile'],
+    message: '选择要导入的css文件',
+    buttonLabel: '导入'
+  })
+  if (result) {
+    uploadResult.hasRead = true
+    uploadResult.cssData =  readFileSync(result[0], 'utf8')
+  }
+  return JSON.stringify(uploadResult)
+}
+
 function downloadFile(event, data) {
   let specifiedFileData = JSON.parse(data)
   writeFile(process.env.HOME + `/Desktop/${specifiedFileData.suffix}Data-${Date.now()}.${specifiedFileData.suffix}`, 
@@ -212,6 +233,7 @@ function registerIpcHandler() {
   ipcMain.handle('maximize-window', () => { mainWindow.maximize() })
   ipcMain.handle('close-window', () => { mainWindow.close() })
   ipcMain.handle('upload-json-file', uploadJsonFile)
+  ipcMain.handle('upload-css-file', uploadCssFile)
   ipcMain.handle('download-file', downloadFile)
 }
 

@@ -10,6 +10,11 @@ const routes = [
     path: '/Unicode',
     component: () => import('@/views/encrypt&decrypt/Unicode.vue')
   },
+  {
+    name: 'CssMinifier',
+    path: '/CssMinifier',
+    component: () => import('@/views/encrypt&decrypt/CssMinifier.vue')
+  },
 ]
 
 export { routes }
