@@ -21,7 +21,7 @@
             <el-sub-menu v-for="menu in sideBarMenus" :index="menu.index" :key="menu.index">
               <template #title>
                 <el-icon :size="14" v-if="menu.thirdIcon">
-                  <img src="./public/icon/github-icon.svg" />
+                  <img :src="globalStore.darkFlag ? getAssets('./icon/github-icon-dark.svg') : getAssets('./icon/github-icon.svg')" />
                 </el-icon>
                 <el-icon :size="14" v-else>
                   <component :is="menu.icon"></component>
@@ -30,7 +30,7 @@
               </template>
               <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index">
                 <el-icon :size="14" v-if="menu.thirdIcon">
-                  <img src="./public/icon/github-icon.svg" />
+                  <img :src="globalStore.darkFlag ? getAssets('./icon/github-icon-dark.svg') : getAssets('./icon/github-icon.svg')" />
                 </el-icon>
                 <el-icon :size="14" v-else>
                   <component :is="child.icon"></component>
@@ -42,7 +42,6 @@
             </el-sub-menu>
           </el-menu>
         </div>
-        
 
         <!-- collapse button-->
         <el-divider style="margin: 0"/>
@@ -149,6 +148,10 @@ export default {
     },
 
     getAssets(url) {
+      if (process.env.NODE_ENV === 'development') {
+        let index = url.indexOf('/')
+        url = url.slice(0, index) + '/public' + url.slice(index)
+      }
       return new URL(url, import.meta.url).href;
     },
 
