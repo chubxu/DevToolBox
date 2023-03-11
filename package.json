@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@electron/notarize": "^1.2.3",
+    "@octokit/rest": "^19.0.7",
     "@rushstack/eslint-patch": "^1.2.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
@@ -33,6 +34,7 @@
     "cssbeautify": "^0.3.1",
     "csso": "^5.0.5",
     "csvjson": "^5.1.0",
+    "echarts": "^5.4.1",
     "electron": "^21.3.3",
     "electron-builder": "^23.6.0",
     "electron-vite": "^1.0.17",

@@ -13,7 +13,8 @@ import {
 import { join } from 'path'
 import { readFileSync, writeFile, mkdir, mkdirSync, rmSync, readdirSync } from 'fs';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-// import icon from '../../resources/icon.png?assets'
+const { Octokit } = require("@octokit/rest")
+const moment = require('moment')
 
 let mainWindow
 function createWindow() {
@@ -221,6 +222,58 @@ function downloadFile(event, data) {
   )
 }
 
+async function listCommits(event, params) {
+  const octokit = new Octokit()
+  let maxCount = 0
+  let minCount = 0
+  let paramsObj = JSON.parse(params)
+  let scatterDataArray = []
+  let scatterDataObject = {}
+  await octokit.rest.repos.listCommits({
+    owner: paramsObj.owner,
+    repo: paramsObj.repo,
+    since: paramsObj.since,
+    until: paramsObj.until,
+    per_page: paramsObj.perPage,
+  }).then(({ data }) => {
+    if (data && data.length > 0) { 
+      data.forEach(({ commit: { committer: {  date } } }) => {
+        if (date) {
+          let day = moment.utc(date, "YYYY-MM-DD").format('YYYY-MM-DD')
+          let hour = moment.utc(date, "YYYY-MM-DDTHH:mm:ss").hour() + 8
+
+          if (scatterDataObject[day] === undefined) {
+            scatterDataObject[day] = {}
+          }
+          
+          if (scatterDataObject[day][hour] !== undefined) {
+            scatterDataObject[day][hour]++
+          } else {
+            scatterDataObject[day][hour] = 1
+          }
+
+          maxCount = Math.max(maxCount, scatterDataObject[day][hour])
+          minCount = Math.min(minCount, scatterDataObject[day][hour])
+        }
+      })
+      Object.keys(scatterDataObject).forEach(day => {
+        Object.keys(scatterDataObject[day]).forEach(hour => {
+          let scatterData = [day, Number.parseInt(hour), scatterDataObject[day][hour]]
+          scatterDataArray.push(scatterData)
+        })
+      })
+    }
+  }).catch(err => {
+    console.error(err)
+  })
+  let retObj = {
+    scatterDataArray,
+    minCount,
+    maxCount
+  }
+  return JSON.stringify(retObj)
+}
+
 function registerIpcHandler() {
   ipcMain.on('copy', handleCopyAction)
   ipcMain.handle('dark-mode:toggle', handleDarkModeToggle)
@@ -235,6 +288,7 @@ function registerIpcHandler() {
   ipcMain.handle('upload-json-file', uploadJsonFile)
   ipcMain.handle('upload-css-file', uploadCssFile)
   ipcMain.handle('download-file', downloadFile)
+  ipcMain.handle('fetch-list-commits', listCommits)
 }
 
 // This method will be called when Electron has finished

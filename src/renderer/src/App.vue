@@ -20,13 +20,19 @@
           <el-menu class="el-menu-vertical" :router="true" :collapse="isCollapse" :collapse-transition="false">
             <el-sub-menu v-for="menu in sideBarMenus" :index="menu.index" :key="menu.index">
               <template #title>
-                <el-icon :size="14">
+                <el-icon :size="14" v-if="menu.thirdIcon">
+                  <img src="./public/icon/github-icon.svg" />
+                </el-icon>
+                <el-icon :size="14" v-else>
                   <component :is="menu.icon"></component>
                 </el-icon>
                 <span>{{ menu.name }}</span>
               </template>
               <el-menu-item v-for="child in menu.children" :index="child.index" :key="child.index">
-                <el-icon :size="14">
+                <el-icon :size="14" v-if="menu.thirdIcon">
+                  <img src="./public/icon/github-icon.svg" />
+                </el-icon>
+                <el-icon :size="14" v-else>
                   <component :is="child.icon"></component>
                 </el-icon>
                 <span>{{ child.title }}</span>

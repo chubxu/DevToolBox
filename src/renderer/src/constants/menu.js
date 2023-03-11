@@ -17,6 +17,27 @@ const sideBarMenus = [
     ],
   },
   {
+    name: 'Github',
+    thirdIcon: true,
+    icon: 'Cpu',
+    darkIcon: 'github-icon-dark.svg',
+    index: 'Github',
+    children: [
+      {
+        name: 'CommitViewer',
+        thirdIcon: true,
+        icon: 'github-icon.svg',
+        darkIcon: 'github-icon-dark.svg',
+        index: '/CommitViewer',
+        toolName: 'CommitViewer',
+        imageName: 'github.png',
+        darkImageName: 'github-dark.png',
+        title: 'CommitViewer',
+        content: '按照时间维度观察Github repo的Commit分布',
+      },
+    ],
+  },
+  {
     name: 'Json',
     icon: 'Crop',
     index: 'Json',
