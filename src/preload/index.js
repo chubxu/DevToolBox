@@ -22,10 +22,14 @@ const electronAPI = {
   closeWindow: () => ipcRenderer.invoke('close-window'),
 
   uploadJsonFile: () => ipcRenderer.invoke('upload-json-file'),
+  uploadCssFile: () => ipcRenderer.invoke('upload-css-file'),
   downloadFile: (data) => ipcRenderer.invoke('download-file', data),
+
+  listCommits: (params) => ipcRenderer.invoke('fetch-list-commits', params),
 
   showGlobalSearch: (show) => ipcRenderer.on('show-global-search', show),
   dragToUnmaximize: (value) => ipcRenderer.on('drag-to-unmaximize', value),
+  
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
